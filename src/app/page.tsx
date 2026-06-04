@@ -9,10 +9,10 @@ import FloatingTelegram from "@/components/FloatingTelegram";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#0A0A0B] text-white">
+    <main className="min-h-screen bg-ivory text-emerald">
       <Navbar />
       
-      {/* High-Impact Digital Storytelling Flow */}
+      {/* Editorial Content Flow (Light Mode Default) */}
       <div className="space-y-0">
         <HeroSection />
         <InteractiveHub />
