@@ -58,10 +58,16 @@ export default function Footer() {
               <li><a href="#" className="hover:text-white transition-colors">Living Room Sets</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Luxury Bedroom</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Executive Office</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Modern Dining</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Custom Projects</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Project Portfolio</a></li>
+              <li className="pt-4 border-t border-white/5">
+                <a href="/admin" className="text-[10px] font-bold text-[#C9A227] uppercase tracking-[0.2em] hover:text-white flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-[#C9A227] rounded-full" />
+                  Partner Portal
+                </a>
+              </li>
             </ul>
           </div>
+
 
           {/* Contact */}
           <div>
