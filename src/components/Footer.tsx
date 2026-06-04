@@ -1,6 +1,7 @@
 "use client";
 
-import { Send, Instagram, Facebook, Twitter } from "lucide-react";
+import { Send, Share2, Globe, MessageSquare } from "lucide-react";
+
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -24,12 +25,13 @@ export default function Footer() {
                  Defining the pinnacle of Ethiopian craftsmanship. We craft high-end, bespoke furniture for the most discerning clients.
               </p>
               <div className="flex gap-4">
-                 {[Instagram, Facebook, Twitter].map((Icon, i) => (
+                 {[Share2, Globe, MessageSquare].map((Icon, i) => (
                    <a key={i} href="#" className="w-10 h-10 rounded-full border border-emerald/10 flex items-center justify-center hover:bg-emerald hover:text-white transition-all duration-500">
                       <Icon size={18} />
                    </a>
                  ))}
               </div>
+
            </div>
 
            {/* Navigation */}
