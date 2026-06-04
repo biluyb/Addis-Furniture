@@ -118,6 +118,7 @@ export default function InteractiveHub() {
         </div>
 
       </div>
-    </nav>
+    </section>
+
   );
 }
