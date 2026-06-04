@@ -33,8 +33,8 @@ const testimonials = [
 function StarRow({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
-      {Array.from({ length: count }).map((_, i) => (
-        <Star key={i} size={14} fill="#C9A227" color="#C9A227" />
+      {Array.from({ length: 5 }).map((_, _i) => (
+        <Star key={_i} size={14} fill="#C9A227" color="#C9A227" />
       ))}
     </div>
   );

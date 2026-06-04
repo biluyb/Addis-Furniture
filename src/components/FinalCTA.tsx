@@ -1,6 +1,7 @@
 "use client";
 
-import { Phone, MessageCircle, Send } from "lucide-react";
+import { Phone, Send } from "lucide-react";
+
 
 export default function FinalCTA() {
   return (

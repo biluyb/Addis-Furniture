@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+
+
 import { Scale, Users, Send, Check, ArrowRight } from "lucide-react";
 
 export default function CompareAndConsul() {
