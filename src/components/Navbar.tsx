@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { useState, useEffect } from "react";
-import { Menu, X, ShoppingBag, Phone } from "lucide-react";
+import { Menu, X, ShoppingBag, Send } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,79 +20,73 @@ export default function Navbar() {
   return (
     <nav 
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        scrolled ? "py-4 bg-charcoal/90 backdrop-blur-xl border-b border-white/10" : "py-8 bg-transparent"
+        scrolled ? "py-4 bg-white/80 backdrop-blur-xl border-b border-emerald/5" : "py-8 bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center text-white">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center text-emerald">
         
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-3">
-
-          <div className="w-10 h-10 bg-gold rounded-xl flex items-center justify-center text-charcoal font-black text-xl transition-transform group-hover:rotate-12">
+          <div className="w-10 h-10 bg-emerald rounded-full flex items-center justify-center text-ivory font-serif font-black text-xl transition-transform group-hover:scale-110">
             A
           </div>
           <div className="flex flex-col">
-             <span className="font-bold text-xl tracking-tighter leading-none">ADDIS</span>
-             <span className="text-[10px] font-bold text-gold uppercase tracking-[0.3em] leading-none mt-1">Furniture</span>
+             <span className="font-serif font-bold text-xl tracking-tight leading-none group-hover:text-gold transition-colors">ADDIS</span>
+             <span className="text-[10px] font-bold text-emerald/40 uppercase tracking-[0.3em] leading-none mt-1">Furniture</span>
           </div>
         </Link>
-
+        
 
         {/* Desktop Links */}
-        <div className="hidden lg:flex items-center gap-10">
-          {["Collections", "Experience", "Process", "About"].map((link) => (
+        <div className="hidden lg:flex items-center gap-12">
+          {["Collection", "Visualizer", "Portfolio", "Heritage"].map((link) => (
             <a 
-              key={link}
-              href={`#${link.toLowerCase() === 'experience' ? 'experience-hub' : link.toLowerCase()}`}
-              className="text-xs font-bold uppercase tracking-[0.2em] hover:text-gold transition-colors"
+              key={link} 
+              href={`#${link.toLowerCase()}`} 
+              className="text-[10px] font-bold uppercase tracking-[0.2em] hover:text-gold transition-colors relative group"
             >
               {link}
+              <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gold transition-all group-hover:w-full" />
             </a>
           ))}
-          <div className="h-4 w-px bg-white/20 mx-2" />
-          <a href="tel:+251911000000" className="flex items-center gap-2 text-gold hover:text-white transition-colors">
-             <Phone size={16} />
-             <span className="text-xs font-bold">+251 911 000 000</span>
-          </a>
         </div>
 
-        {/* CTA */}
-        <div className="hidden md:flex items-center gap-4">
-           <a 
-             href="#contact" 
-             className="bg-white text-charcoal px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-gold hover:text-white transition-all shadow-xl"
-           >
-              Request Quote
+        {/* Desktop Actions */}
+        <div className="hidden lg:flex items-center gap-6">
+           <button className="p-3 hover:bg-emerald/5 rounded-full transition-colors relative">
+              <ShoppingBag size={20} />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-gold rounded-full" />
+           </button>
+           <a href="https://t.me/taologos" className="px-6 py-2.5 bg-emerald text-white rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-gold transition-all flex items-center gap-2">
+              <Send size={14} /> Contact
            </a>
         </div>
 
         {/* Mobile Toggle */}
-        <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-white">
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        <button 
+          className="lg:hidden p-3 bg-emerald/5 rounded-full text-emerald"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <div className="lg:hidden fixed inset-0 bg-charcoal z-40 p-10 flex flex-col justify-center animate-fade-in">
-           <div className="space-y-8 text-center">
-              {["Collections", "Experience", "Process", "About", "Contact"].map((link) => (
-                <a 
-                  key={link}
-                  href={`#${link.toLowerCase() === 'experience' ? 'experience-hub' : link.toLowerCase()}`}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-4xl font-bold text-white hover:text-gold transition-colors"
-                >
-                  {link}
-                </a>
-              ))}
-              <div className="pt-10 flex justify-center gap-6">
-                 <a href="https://wa.me/251911000000" className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-gold"><Phone size={20} /></a>
-                 <a href="#" className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><ShoppingBag size={20} /></a>
-              </div>
-           </div>
-        </div>
-      )}
+      <div className={`fixed inset-0 bg-ivory z-40 transition-all duration-700 ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+         <div className="flex flex-col items-center justify-center h-full gap-12">
+            {["Collection", "Visualizer", "Portfolio", "Heritage", "Contact"].map((link, i) => (
+              <a 
+                key={link} 
+                href={link === "Contact" ? "https://t.me/taologos" : `#${link.toLowerCase()}`}
+                onClick={() => setIsOpen(false)}
+                className="text-4xl font-serif text-emerald hover:text-gold transition-colors"
+                style={{ transitionDelay: `${i * 100}ms` }}
+              >
+                {link}
+              </a>
+            ))}
+         </div>
+      </div>
     </nav>
   );
 }

@@ -1,98 +1,117 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, Palette, Calculator, Box, Hexagon, ChevronRight } from "lucide-react";
-import RoomVisualizer from "./RoomVisualizer";
-import ProductConfigurator from "./ProductConfigurator";
-import SmartTools from "./SmartTools";
-import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Dna, 
+  Sparkles, 
+  Compass, 
+  Layers, 
+  ArrowUpRight 
+} from "lucide-react";
 
-const tabs = [
-  { id: "visualizer", label: "Visualizer", icon: Box, desc: "See your room transform" },
-  { id: "configurator", label: "Customizer", icon: Palette, desc: "Design your piece" },
-  { id: "tools", label: "Smart Tools", icon: Calculator, desc: "Plan your budget & space" },
+const features = [
+  {
+    id: "visualizer",
+    title: "Room Visualizer",
+    subtitle: "Architect your space",
+    desc: "Drag and place signature pieces into curated living environments.",
+    icon: Compass,
+    image: "/images/hero.png",
+    color: "bg-emerald",
+    size: "lg:col-span-2 lg:row-span-2"
+  },
+  {
+    id: "configurator",
+    title: "Configurator",
+    subtitle: "Bespoke Details",
+    desc: "Choose from 50+ Italian fabrics and local wood finishes.",
+    icon: Dna,
+    image: "/images/sofa.png",
+    color: "bg-gold",
+    size: "lg:col-span-1 lg:row-span-1"
+  },
+  {
+    id: "ai",
+    title: "AI Designer",
+    subtitle: "Style Intelligence",
+    desc: "Get curated collections based on your room's dimensions.",
+    icon: Sparkles,
+    image: "/images/office.png",
+    color: "bg-sand",
+    size: "lg:col-span-1 lg:row-span-1"
+  },
+  {
+    id: "ar",
+    title: "AR Portal",
+    subtitle: "Virtual Reality",
+    desc: "See it in your room before it's even built.",
+    icon: Layers,
+    image: "/images/bedroom.png",
+    color: "bg-emerald",
+    size: "lg:col-span-2 lg:row-span-1"
+  }
 ];
 
 export default function ExperienceHub() {
-  const [activeTab, setActiveTab] = useState("visualizer");
+  const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <section id="experience-hub" className="section-padding bg-cream relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-[50%] h-full bg-[#1A1A1A]/[0.02] -skew-x-12 translate-x-20" />
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-20 animate-slide-up">
+    <section id="experience" className="section-padding bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 bg-gold/10 text-gold px-4 py-2 rounded-full mb-6">
-                 <Sparkles size={16} />
-                 <span className="text-[10px] font-bold uppercase tracking-widest">Interactive Studio</span>
-              </div>
-              <h2 className="text-4xl md:text-6xl font-bold text-charcoal leading-[1.1]" style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}>
-                 Design Your <br />
-                 <span className="text-gradient-gold">Dream Lifestyle.</span>
+              <span className="text-gold text-xs font-bold uppercase tracking-[0.3em] mb-4 block">Interactive Design</span>
+              <h2 className="text-4xl md:text-7xl font-serif text-emerald leading-tight">
+                 Experience Your <br />
+                 <span className="italic">Future Interior.</span>
               </h2>
            </div>
-           <p className="text-charcoal/50 text-base md:text-lg lg:max-w-xs leading-relaxed">
-              We&apos;ve combined our most powerful digital tools into one seamless experience.
+           <p className="text-emerald/50 max-w-sm mb-4 leading-relaxed">
+              We've digitized the craftsmanship of Addis. Play with layouts, materials, and styles in a workspace designed for your creativity.
            </p>
         </div>
 
-        {/* High-End Tab Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16 p-2 bg-white rounded-[2.5rem] shadow-2xl shadow-charcoal/5 border border-charcoal/5">
-           {tabs.map((tab) => (
-             <button
-               key={tab.id}
-               onClick={() => setActiveTab(tab.id)}
-               className={`group flex items-start gap-4 p-6 rounded-[2rem] transition-all duration-500 text-left ${activeTab === tab.id ? 'bg-charcoal text-white shadow-xl translate-y-[-4px]' : 'hover:bg-cream'}`}
-             >
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${activeTab === tab.id ? 'bg-gold text-charcoal' : 'bg-charcoal/5 text-charcoal group-hover:bg-gold/20'}`}>
-                   <tab.icon size={24} />
-                </div>
-                <div>
-                   <div className="text-sm font-bold uppercase tracking-widest mb-1">{tab.label}</div>
-                   <div className={`text-[10px] font-medium transition-colors ${activeTab === tab.id ? 'text-white/50' : 'text-charcoal/40'}`}>
-                      {tab.desc}
-                   </div>
-                </div>
-             </button>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
+           {features.map((feat) => (
+              <div 
+                key={feat.id}
+                onMouseEnter={() => setHovered(feat.id)}
+                onMouseLeave={() => setHovered(null)}
+                className={`relative rounded-[3rem] overflow-hidden group cursor-pointer border border-emerald/5 transition-all duration-700 ${feat.size} ${hovered === feat.id ? 'shadow-2xl shadow-emerald/10' : ''}`}
+              >
+                 <div className="absolute inset-0 bg-emerald/20 transition-opacity duration-700 opacity-0 group-hover:opacity-100 mix-blend-overlay z-10" />
+                 
+                 <div className="h-full w-full relative">
+                    <img 
+                      src={feat.image} 
+                      alt={feat.title} 
+                      className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-emerald/90 via-emerald/20 to-transparent p-10 flex flex-col justify-end">
+                       <div className="flex items-center gap-4 mb-4">
+                          <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white border border-white/20 group-hover:bg-gold group-hover:text-white transition-all duration-500">
+                             <feat.icon size={22} />
+                          </div>
+                          <div>
+                             <div className="text-[10px] font-bold text-gold uppercase tracking-[0.2em] mb-0.5">{feat.subtitle}</div>
+                             <h4 className="text-2xl font-serif text-white">{feat.title}</h4>
+                          </div>
+                       </div>
+                       
+                       <p className="text-white/60 text-sm leading-relaxed max-w-xs overflow-hidden h-0 group-hover:h-auto transition-all duration-500 opacity-0 group-hover:opacity-100">
+                          {feat.desc}
+                       </p>
+
+                       <button className="mt-8 flex items-center gap-2 text-gold text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">
+                          Launch Tool <ArrowUpRight size={14} />
+                       </button>
+                    </div>
+                 </div>
+              </div>
            ))}
         </div>
 
-        {/* Content Area */}
-        <div className="bg-white rounded-[4rem] shadow-inner-xl border border-charcoal/5 overflow-hidden min-h-[600px]">
-           <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="w-full h-full"
-              >
-                 {activeTab === "visualizer" && <RoomVisualizer />}
-                 {activeTab === "configurator" && <ProductConfigurator />}
-                 {activeTab === "tools" && <SmartTools />}
-              </motion.div>
-           </AnimatePresence>
-        </div>
-
-        {/* Quick Link to Showroom */}
-        <div className="mt-16 flex flex-col md:flex-row items-center justify-between gap-8 p-10 bg-charcoal rounded-[3rem] text-white overflow-hidden relative">
-           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-           <div className="relative z-10 flex items-center gap-6">
-              <div className="w-16 h-16 bg-gold rounded-3xl flex items-center justify-center text-charcoal shadow-2xl">
-                 <Hexagon size={32} />
-              </div>
-              <div>
-                 <h4 className="text-xl font-bold">Ready to see these pieces in person?</h4>
-                 <p className="text-white/50 text-sm">Join us for an exclusive showroom walkthrough in Bole.</p>
-              </div>
-           </div>
-           <a href="#booking" className="relative z-10 bg-white text-charcoal px-10 py-5 rounded-2xl font-bold text-sm uppercase tracking-widest hover:bg-gold hover:text-white transition-all flex items-center gap-3">
-              Book a Visit <ChevronRight size={18} />
-           </a>
-        </div>
       </div>
     </section>
   );
