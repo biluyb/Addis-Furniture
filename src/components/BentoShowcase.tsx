@@ -7,8 +7,10 @@ import {
   ShieldCheck, 
   Truck, 
   Settings2, 
-  MessageSquare 
+  MessageSquare,
+  Box
 } from "lucide-react";
+
 
 export default function BentoShowcase() {
   return (
