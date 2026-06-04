@@ -26,7 +26,8 @@ export default function ContactSection() {
     }
 
     const waMessage = `Hello Addis Furniture! My name is ${formState.name}. I'm interested in a ${formState.requestType} inquiry. My phone number is ${formState.phone}. Message: ${formState.message}`;
-    window.open(`https://wa.me/251911000000?text=${encodeURIComponent(waMessage)}`, '_blank');
+    const tgMessage = `Hello Addis Furniture! My name is ${formState.name}. I'm interested in a ${formState.requestType} inquiry. Message: ${formState.message}`;
+    window.open(`https://t.me/taologos`, '_blank');
   };
 
 
@@ -67,9 +68,9 @@ export default function ContactSection() {
                   <MessageSquare size={24} className="text-[#C9A227] group-hover:text-white transition-colors" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#1A1A1A] uppercase tracking-wider mb-1">WhatsApp Inquiry</h4>
+                  <h4 className="text-sm font-bold text-[#1A1A1A] uppercase tracking-wider mb-1">Telegram Inquiry</h4>
                   <p className="text-[#8B5A2B] font-bold text-lg">Instant Response</p>
-                  <a href="https://wa.me/251911000000" target="_blank" className="text-xs text-[#C9A227] font-bold hover:underline">Chat with a designer now</a>
+                  <a href="https://t.me/taologos" target="_blank" className="text-xs text-[#C9A227] font-bold hover:underline">Chat with a designer now</a>
                 </div>
               </div>
 
@@ -170,7 +171,7 @@ export default function ContactSection() {
                 type="submit" 
                 className="w-full bg-[#C9A227] hover:bg-[#1A1A1A] text-white py-4 rounded-xl font-bold transition-all duration-500 flex items-center justify-center gap-3 shadow-lg shadow-[#c9a22720]"
               >
-                Send Request via WhatsApp
+                Send Request via Telegram
                 <Send size={18} />
               </button>
 

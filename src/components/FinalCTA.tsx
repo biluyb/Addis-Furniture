@@ -1,6 +1,6 @@
 "use client";
 
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone, MessageCircle, Send } from "lucide-react";
 
 export default function FinalCTA() {
   return (
@@ -25,12 +25,13 @@ export default function FinalCTA() {
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <a 
-            href="https://wa.me/251911000000" 
+            href="https://t.me/taologos" 
             target="_blank"
-            className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#C9A227] hover:bg-white hover:text-[#1A1A1A] text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all duration-500 shadow-2xl shadow-[#c9a22720] group"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#0088cc] hover:bg-white hover:text-[#0088cc] text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all duration-500 shadow-2xl shadow-[#0088cc20] group"
           >
-            <MessageCircle className="group-hover:scale-110 transition-transform" />
-            WhatsApp Us
+            <Send className="group-hover:scale-110 transition-transform" />
+            Telegram Us
           </a>
           
           <a 

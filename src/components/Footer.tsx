@@ -1,4 +1,5 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
+
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -81,10 +82,15 @@ export default function Footer() {
                 <Phone size={18} className="text-[#C9A227] flex-shrink-0" />
                 <span>+251 911 000 000</span>
               </li>
+              <li className="flex items-center gap-3 text-[#0088cc]">
+                <Send size={18} className="flex-shrink-0" />
+                <a href="https://t.me/taologos" className="font-bold hover:underline">@taologos (Telegram)</a>
+              </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="text-[#C9A227] flex-shrink-0" />
                 <span>info@addisfurniture.et</span>
               </li>
+
             </ul>
           </div>
 

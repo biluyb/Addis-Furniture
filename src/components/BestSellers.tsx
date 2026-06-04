@@ -151,12 +151,10 @@ export default function BestSellers() {
                 <div className="flex items-center justify-between">
                   <span className="text-[#C9A227] font-bold text-sm tracking-tight">{product.price}</span>
                   <a
-                    href={`https://wa.me/251911000000?text=Hello%2C%20I%20am%20interested%20in%20${encodeURIComponent(product.name)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[10px] font-bold text-white bg-[#1A1A1A] hover:bg-[#C9A227] px-4 py-2 rounded-full transition-all duration-200 uppercase tracking-widest"
+                    href={`https://t.me/taologos`}
+                    className="flex-1 bg-[#1A1A1A] text-white py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-center hover:bg-[#C9A227] transition-colors"
                   >
-                    Inquire
+                    Inquire on Telegram
                   </a>
                 </div>
               </div>

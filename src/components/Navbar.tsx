@@ -1,133 +1,94 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
-
-const navLinks = [
-  { label: "Collections", href: "#collections" },
-  { label: "Products", href: "#best-sellers" },
-  { label: "Inspiration", href: "#inspiration" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
+import { Menu, X, ShoppingBag, Phone } from "lucide-react";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "nav-glass shadow-lg" : "bg-transparent"
+    <nav 
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        scrolled ? "py-4 bg-charcoal/90 backdrop-blur-xl border-b border-white/10" : "py-8 bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group" id="nav-logo">
-            <div className="w-9 h-9 bg-gradient-to-br from-[#C9A227] to-[#8B5A2B] rounded-lg flex items-center justify-center shadow-md">
-              <span className="text-white font-bold text-base leading-none">A</span>
-            </div>
-            <div>
-              <span
-                className="text-white font-bold text-lg tracking-wide"
-                style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}
-              >
-                Addis
-              </span>
-              <span
-                className="text-[#C9A227] font-bold text-lg tracking-wide ml-1"
-                style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}
-              >
-                Furniture
-              </span>
-            </div>
-          </a>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-white/80 hover:text-[#C9A227] text-sm font-medium tracking-wide transition-colors duration-200"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center gap-3">
-            <a
-              href="tel:+251911000000"
-              id="nav-call-btn"
-              className="text-white/80 hover:text-[#C9A227] text-sm font-medium transition-colors duration-200 flex items-center gap-1"
-            >
-              📞 Call
-            </a>
-            <a
-              href="https://wa.me/251911000000?text=Hello%2C%20I%20am%20interested%20in%20your%20furniture"
-              target="_blank"
-              rel="noopener noreferrer"
-              id="nav-whatsapp-btn"
-              className="bg-[#C9A227] hover:bg-[#D4B340] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-[#c9a22740]"
-            >
-              WhatsApp Us
-            </a>
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center text-white">
+        
+        {/* Logo */}
+        <a href="/" className="group flex items-center gap-3">
+          <div className="w-10 h-10 bg-gold rounded-xl flex items-center justify-center text-charcoal font-black text-xl transition-transform group-hover:rotate-12">
+            A
           </div>
+          <div className="flex flex-col">
+             <span className="font-bold text-xl tracking-tighter leading-none">ADDIS</span>
+             <span className="text-[10px] font-bold text-gold uppercase tracking-[0.3em] leading-none mt-1">Furniture</span>
+          </div>
+        </a>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-white p-2"
-            aria-label="Toggle menu"
-            id="nav-mobile-toggle"
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+        {/* Desktop Links */}
+        <div className="hidden lg:flex items-center gap-10">
+          {["Collections", "Experience", "Process", "About"].map((link) => (
+            <a 
+              key={link}
+              href={`#${link.toLowerCase() === 'experience' ? 'experience-hub' : link.toLowerCase()}`}
+              className="text-xs font-bold uppercase tracking-[0.2em] hover:text-gold transition-colors"
+            >
+              {link}
+            </a>
+          ))}
+          <div className="h-4 w-px bg-white/20 mx-2" />
+          <a href="tel:+251911000000" className="flex items-center gap-2 text-gold hover:text-white transition-colors">
+             <Phone size={16} />
+             <span className="text-xs font-bold">+251 911 000 000</span>
+          </a>
         </div>
+
+        {/* CTA */}
+        <div className="hidden md:flex items-center gap-4">
+           <a 
+             href="#contact" 
+             className="bg-white text-charcoal px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-gold hover:text-white transition-all shadow-xl"
+           >
+              Request Quote
+           </a>
+        </div>
+
+        {/* Mobile Toggle */}
+        <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-white">
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="md:hidden nav-glass border-t border-white/10">
-          <nav className="flex flex-col px-4 py-4 gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-white/80 hover:text-[#C9A227] py-3 text-base font-medium border-b border-white/10 last:border-0 transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
-            <div className="flex gap-3 mt-4">
-              <a
-                href="tel:+251911000000"
-                className="flex-1 text-center border border-[#C9A227] text-[#C9A227] py-3 rounded-full font-semibold text-sm"
-              >
-                Call Now
-              </a>
-              <a
-                href="https://wa.me/251911000000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 text-center bg-[#C9A227] text-white py-3 rounded-full font-semibold text-sm"
-              >
-                WhatsApp
-              </a>
-            </div>
-          </nav>
+      {isOpen && (
+        <div className="lg:hidden fixed inset-0 bg-charcoal z-40 p-10 flex flex-col justify-center animate-fade-in">
+           <div className="space-y-8 text-center">
+              {["Collections", "Experience", "Process", "About", "Contact"].map((link) => (
+                <a 
+                  key={link}
+                  href={`#${link.toLowerCase() === 'experience' ? 'experience-hub' : link.toLowerCase()}`}
+                  onClick={() => setIsOpen(false)}
+                  className="block text-4xl font-bold text-white hover:text-gold transition-colors"
+                >
+                  {link}
+                </a>
+              ))}
+              <div className="pt-10 flex justify-center gap-6">
+                 <a href="https://wa.me/251911000000" className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-gold"><Phone size={20} /></a>
+                 <a href="#" className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"><ShoppingBag size={20} /></a>
+              </div>
+           </div>
         </div>
       )}
-    </header>
+    </nav>
   );
 }
