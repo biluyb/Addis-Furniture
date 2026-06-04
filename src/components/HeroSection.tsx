@@ -32,10 +32,10 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero.png"
-          alt="Luxury living room by Addis Furniture"
+          alt="Luxury living room featuring premium Addis Furniture sofas and modern interior design"
           fill
+          priority={true}
           className="object-cover object-center"
-          priority
           sizes="100vw"
         />
         <div className="absolute inset-0 hero-overlay" />

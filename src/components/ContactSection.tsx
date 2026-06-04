@@ -13,10 +13,22 @@ export default function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would send data to a backend or format a WhatsApp message
+    
+    // Basic validation
+    if (!formState.name.trim() || !formState.phone.trim()) {
+      alert("Please fill in your name and phone number.");
+      return;
+    }
+
+    if (!/^\+?[\d\s-]{9,15}$/.test(formState.phone)) {
+      alert("Please enter a valid phone number.");
+      return;
+    }
+
     const waMessage = `Hello Addis Furniture! My name is ${formState.name}. I'm interested in a ${formState.requestType} inquiry. My phone number is ${formState.phone}. Message: ${formState.message}`;
     window.open(`https://wa.me/251911000000?text=${encodeURIComponent(waMessage)}`, '_blank');
   };
+
 
   return (
     <section id="contact" className="section-padding bg-white overflow-hidden">

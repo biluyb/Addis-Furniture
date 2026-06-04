@@ -16,15 +16,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Addis Furniture | Premium Furniture for Modern Ethiopian Homes",
-  description:
-    "Discover premium furniture crafted for comfort, beauty, and durability. Transform your home with elegant living room, bedroom, office, and dining furniture. Showroom in Addis Ababa.",
-  keywords:
-    "furniture Addis Ababa, Ethiopian furniture, premium furniture, sofa, bedroom set, dining table, office furniture, luxury furniture Ethiopia",
+  title: "Addis Furniture | Premium Modern Furniture in Addis Ababa",
+  description: "Experience luxury simplified. Ethiopian-crafted sofas, bedroom sets, and executive office furniture. Custom designs with 48h delivery in Addis Ababa.",
+  keywords: ["Furniture Addis Ababa", "Modern Sofas Ethiopia", "Luxury Beds Addis", "Custom Furniture Ethiopia", "Office Furniture Addis Ababa"],
   openGraph: {
-    title: "Addis Furniture | Premium Furniture for Modern Ethiopian Homes",
-    description:
-      "Transform your home with premium furniture crafted for comfort, beauty, and durability.",
+    title: "Addis Furniture | Premium Modern Furniture",
+    description: "Handcrafted luxury for modern Ethiopian homes. Custom designs, professional delivery.",
+    images: ["/images/hero.png"],
     type: "website",
     locale: "en_ET",
   },
