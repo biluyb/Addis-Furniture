@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Scale, Users, MessageCircle, X, Check, Minus, ArrowRight } from "lucide-react";
+import { Scale, Users, Send, Check, ArrowRight } from "lucide-react";
 
 export default function CompareAndConsul() {
-  const [showCompare, setShowCompare] = useState(false);
+
 
   return (
     <section id="compare-consul" className="section-padding bg-[#FAF7F2] overflow-hidden">
@@ -73,12 +73,12 @@ export default function CompareAndConsul() {
 
              <div className="grid sm:grid-cols-2 gap-6 mb-12">
                 <div className="p-6 bg-white rounded-2xl shadow-sm border border-[#f0ebe3] flex flex-col gap-4">
-                   <div className="w-10 h-10 bg-[#25D366]/10 text-[#25D366] rounded-xl flex items-center justify-center">
-                      <MessageCircle size={22} />
+                   <div className="w-10 h-10 bg-[#0088cc]/10 text-[#0088cc] rounded-xl flex items-center justify-center">
+                      <Send size={22} />
                    </div>
-                   <h4 className="font-bold text-[#1A1A1A]">Live Chat Support</h4>
+                   <h4 className="font-bold text-[#1A1A1A]">Live Telegram Support</h4>
                    <p className="text-xs text-[#6B6560]">Instant answers during business hours.</p>
-                   <a href="https://wa.me/251911000000" className="text-xs font-bold text-[#C9A227] flex items-center gap-2 hover:underline">
+                   <a href="https://t.me/taologos" className="text-xs font-bold text-[#C9A227] flex items-center gap-2 hover:underline">
                       Start Chat <ArrowRight size={14} />
                    </a>
                 </div>

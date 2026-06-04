@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { BookOpen, Sofa, Bed, Briefcase, Utensils, Droplets, Shield, Sun, CheckCircle } from "lucide-react";
+import { Sofa, Briefcase, Droplets, Shield, CheckCircle } from "lucide-react";
+
 
 const packages = [
   {

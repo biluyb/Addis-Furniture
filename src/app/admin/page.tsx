@@ -1,5 +1,4 @@
-"use client";
-
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { 
   Users, 
@@ -17,8 +16,8 @@ import {
 
 export default function AdminDashboard() {
   const [visitorCount, setVisitorCount] = useState(7240);
-  const [inquiries, setInquiries] = useState(124);
-  const [appointments, setAppointments] = useState(18);
+  const inquiries = 124;
+  const appointments = 18;
 
   // Mock incrementing visitor count to simulate real-time traffic
   useEffect(() => {
@@ -39,9 +38,9 @@ export default function AdminDashboard() {
         </div>
 
         <nav className="flex-1 space-y-2">
-           <a href="#" className="flex items-center gap-3 p-3 rounded-xl bg-[#C9A227] text-white font-bold text-sm">
+           <Link href="/admin" className="flex items-center gap-3 p-3 rounded-xl bg-[#C9A227] text-white font-bold text-sm">
               <LayoutDashboard size={18} /> Dashboard
-           </a>
+           </Link>
            <a href="#" className="flex items-center gap-3 p-3 rounded-xl text-white/50 hover:bg-white/5 hover:text-white transition-all text-sm font-medium">
               <Package size={18} /> Inventory
            </a>
@@ -60,11 +59,12 @@ export default function AdminDashboard() {
            <a href="#" className="flex items-center gap-3 p-3 rounded-xl text-white/50 hover:bg-white/5 hover:text-white transition-all text-sm font-medium">
               <Settings size={18} /> Settings
            </a>
-           <a href="/" className="flex items-center gap-3 p-3 rounded-xl text-[#7B1113] hover:bg-red-500/10 transition-all text-sm font-bold">
+           <Link href="/" className="flex items-center gap-3 p-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-all text-sm font-bold">
               <LogOut size={18} /> Exit Admin
-           </a>
+           </Link>
         </div>
       </aside>
+
 
       {/* Main Content */}
       <main className="flex-1 lg:ml-64 p-8">

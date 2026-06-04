@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
+
 const products = [
   {
     id: "oslo-sofa",
@@ -98,7 +99,7 @@ export default function BestSellers() {
           ref={sectionRef}
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
-          {products.map((product, i) => (
+          {products.map((product) => (
             <div
               key={product.id}
               id={`product-${product.id}`}

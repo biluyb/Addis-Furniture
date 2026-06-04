@@ -1,5 +1,4 @@
-"use client";
-
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X, ShoppingBag, Phone } from "lucide-react";
 
@@ -24,7 +23,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center text-white">
         
         {/* Logo */}
-        <a href="/" className="group flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-3">
+
           <div className="w-10 h-10 bg-gold rounded-xl flex items-center justify-center text-charcoal font-black text-xl transition-transform group-hover:rotate-12">
             A
           </div>
@@ -32,7 +32,8 @@ export default function Navbar() {
              <span className="font-bold text-xl tracking-tighter leading-none">ADDIS</span>
              <span className="text-[10px] font-bold text-gold uppercase tracking-[0.3em] leading-none mt-1">Furniture</span>
           </div>
-        </a>
+        </Link>
+
 
         {/* Desktop Links */}
         <div className="hidden lg:flex items-center gap-10">

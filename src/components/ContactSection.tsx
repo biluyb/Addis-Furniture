@@ -25,10 +25,9 @@ export default function ContactSection() {
       return;
     }
 
-    const waMessage = `Hello Addis Furniture! My name is ${formState.name}. I'm interested in a ${formState.requestType} inquiry. My phone number is ${formState.phone}. Message: ${formState.message}`;
-    const tgMessage = `Hello Addis Furniture! My name is ${formState.name}. I'm interested in a ${formState.requestType} inquiry. Message: ${formState.message}`;
     window.open(`https://t.me/taologos`, '_blank');
   };
+
 
 
   return (

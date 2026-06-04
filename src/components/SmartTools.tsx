@@ -53,7 +53,7 @@ export default function SmartTools() {
              ].map((tab) => (
                <button
                  key={tab.id}
-                 onClick={() => setActiveTab(tab.id as any)}
+                 onClick={() => setActiveTab(tab.id as "delivery" | "finance" | "measure" | "recommend")}
                  className={`flex-1 flex items-center justify-center gap-3 py-4 px-4 rounded-[1.5rem] text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === tab.id ? 'bg-[#C9A227] text-white shadow-xl shadow-[#c9a22720]' : 'text-white/40 hover:text-white/70 hover:bg-white/5'}`}
                >
                  <tab.icon size={18} />
