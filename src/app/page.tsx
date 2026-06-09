@@ -1,10 +1,9 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import InteractiveHub from "@/components/InteractiveHub";
-import RoomVisualizer from "@/components/RoomVisualizer";
 import ProductMatrix from "@/components/ProductMatrix";
-import BentoShowcase from "@/components/BentoShowcase";
 import Collections from "@/components/Collections";
+import BentoShowcase from "@/components/BentoShowcase";
 import Testimonials from "@/components/Testimonials";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -15,14 +14,19 @@ export default function Home() {
     <main className="min-h-screen bg-ivory text-emerald">
       <Navbar />
       
-      <HeroSection />
-      <InteractiveHub />
-      <RoomVisualizer />
-      <ProductMatrix />
-      <Collections />
-      <BentoShowcase />
-      <Testimonials />
-      <ContactSection />
+      {/* Narrative Flow */}
+      <div className="space-y-0">
+        <HeroSection />
+        
+        {/* The Centralized Feature Studio */}
+        <InteractiveHub />
+        
+        <ProductMatrix />
+        <Collections />
+        <BentoShowcase />
+        <Testimonials />
+        <ContactSection />
+      </div>
       
       <Footer />
       <FloatingTelegram />

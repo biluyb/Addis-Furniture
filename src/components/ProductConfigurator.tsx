@@ -1,176 +1,190 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Heart, Share2, Check, Ruler, Info } from "lucide-react";
+import { 
+  Palette, 
+  Layers, 
+  Maximize2, 
+  Send, 
+  Check, 
+  ChevronRight,
+  Info
+} from "lucide-react";
 
-const colors = [
-  { name: "Dark Charcoal", hex: "#1A1A1A" },
-  { name: "Ruby Velvet", hex: "#7B1113" },
-  { name: "Forest Green", hex: "#1E3B2E" },
-  { name: "Royal Blue", hex: "#1A365D" },
+const fabrics = [
+  { id: "velvet", name: "Royal Velvet", hex: "#122620", price: 0 },
+  { id: "linen", name: "Natural Linen", hex: "#EBE3D5", price: -5000 },
+  { id: "leather", name: "Arezzo Leather", hex: "#4A2C2A", price: 15000 },
+  { id: "boucle", name: "Soft Bouclé", hex: "#FDFCF8", price: 8000 },
 ];
 
-const fabrics = ["Premium Velvet", "Italian Leather", "Linen Blend"];
-const legs = ["Gold Tapered", "Dark Walnut", "Brush Silver"];
+const woodFinishes = [
+  { id: "walnut", name: "Smoked Walnut", hex: "#2D1B14" },
+  { id: "oak", name: "White Oak", hex: "#BFA482" },
+  { id: "ebony", name: "Midnight Ebony", hex: "#111111" },
+];
+
+const sizes = [
+  { id: "2-seater", name: "2 Seater", dim: "180cm", priceMultiplier: 0.8 },
+  { id: "3-seater", name: "3 Seater", dim: "240cm", priceMultiplier: 1 },
+  { id: "l-shape", name: "Sectional L", dim: "320cm", priceMultiplier: 1.4 },
+];
 
 export default function ProductConfigurator() {
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
-  const [selectedFabric, setSelectedFabric] = useState(fabrics[0]);
-  const [selectedLeg, setSelectedLeg] = useState(legs[0]);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [fabric, setFabric] = useState(fabrics[0]);
+  const [finish, setFinish] = useState(woodFinishes[0]);
+  const [size, setSize] = useState(sizes[1]);
+  const [basePrice] = useState(145000);
+  const [totalPrice, setTotalPrice] = useState(basePrice);
+
+  useEffect(() => {
+    const calculated = (basePrice + fabric.price) * size.priceMultiplier;
+    setTotalPrice(calculated);
+  }, [fabric, size, basePrice]);
 
   return (
-    <section id="configurator" className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="text-[#C9A227] text-xs font-semibold uppercase tracking-[0.2em] mb-3 block">
-            Interactive Experience
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-[#1A1A1A]" style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}>
-            Create Your <span className="text-gradient-gold">Dream Sofa</span>
-          </h2>
-          <p className="text-[#6B6560] mt-4 max-w-xl mx-auto">
-            Real-time furniture configurator. Choose your materials, colors, and finishes to suit your unique taste.
-          </p>
+    <section id="configure" className="section-padding bg-ivory">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+           <div className="max-w-2xl">
+              <span className="text-gold text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block">Bespoke Engine</span>
+              <h2 className="text-4xl md:text-7xl font-display font-black text-emerald">
+                 The <span className="text-gradient">Configurator.</span>
+              </h2>
+           </div>
+           <div className="hidden md:flex items-center gap-10 text-[10px] font-bold text-emerald/30 uppercase tracking-widest">
+              <span>Precision: 0.05mm</span>
+              <span>Load: 450kg</span>
+           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Preview Side */}
-          <div className="relative">
-            <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden bg-[#FAF7F2] border border-[#f0ebe3] shadow-inner group">
-              {/* Product Image - In a real app, this would be multiple layered images or a 3D model */}
+        <div className="grid lg:grid-cols-12 gap-12">
+           
+           {/* High Fidelity Preview */}
+           <div className="lg:col-span-7 bg-sand rounded-[3rem] border border-emerald/5 p-8 md:p-16 relative overflow-hidden flex items-center justify-center min-h-[500px]">
+              
+              {/* Product Layers */}
               <div 
-                className="absolute inset-0 transition-all duration-700 p-8 flex items-center justify-center"
-                style={{ backgroundColor: `${selectedColor.hex}10` }}
-              >
-                <div className="relative w-full h-full">
-                  <Image
-                    src="/images/sofa.png"
-                    alt="Configurable Sofa"
-                    fill
-                    className="object-contain transition-transform duration-500 hover:scale-105"
-                  />
-                  {/* Visual indication of fabric/color changes - simple overlay for demo */}
-                  <div 
-                    className="absolute inset-0 mix-blend-overlay opacity-30 transition-all duration-500 pointer-events-none"
-                    style={{ backgroundColor: selectedColor.hex }}
-                  />
-                </div>
+                className="absolute inset-0 transition-all duration-700 mix-blend-multiply opacity-20 pointer-events-none"
+                style={{ backgroundColor: fabric.hex }}
+              />
+
+              <div className="relative w-full aspect-square md:aspect-video transition-all duration-500 scale-110">
+                 <Image 
+                   src="/images/sofa.png" 
+                   alt="Config Preview" 
+                   fill 
+                   className="object-contain drop-shadow-2xl"
+                 />
               </div>
 
-              {/* Angle Controls (Mock 360 view) */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full flex gap-4 text-[10px] font-bold uppercase tracking-wider shadow-lg border border-white/50">
-                <button className="text-[#C9A227] border-b border-[#C9A227]">Front</button>
-                <button className="text-[#6B6560] hover:text-[#1A1A1A] transition-colors">Side</button>
-                <button className="text-[#6B6560] hover:text-[#1A1A1A] transition-colors">Top</button>
-                <button className="text-[#6B6560] hover:text-[#1A1A1A] transition-colors flex items-center gap-1">
-                  <Share2 size={12} /> 3D View
-                </button>
+              {/* Material Detail Tag */}
+              <div className="absolute top-10 left-10 flex gap-4">
+                 <div className="bg-white/70 backdrop-blur-xl border border-white px-4 py-2 rounded-2xl flex items-center gap-3">
+                    <div className="w-4 h-4 rounded-full border border-emerald/10 shadow-inner" style={{ backgroundColor: fabric.hex }} />
+                    <span className="text-[10px] font-bold text-emerald uppercase tracking-widest">{fabric.name}</span>
+                 </div>
               </div>
 
-              {/* Labels */}
-              <div className="absolute top-6 left-6">
-                 <span className="bg-white px-3 py-1.5 rounded-full text-[10px] font-bold text-[#1A1A1A] shadow-sm flex items-center gap-2">
-                    <Check size={12} className="text-[#25D366]" /> Handcrafted in Addis
-                 </span>
+              {/* Dimension Tag */}
+              <div className="absolute bottom-10 right-10 flex gap-4">
+                 <div className="bg-white/70 backdrop-blur-xl border border-white px-4 py-2 rounded-2xl flex items-center gap-3">
+                    <Maximize2 size={14} className="text-gold" />
+                    <span className="text-[10px] font-bold text-emerald uppercase tracking-widest">{size.dim} Width</span>
+                 </div>
               </div>
-            </div>
+           </div>
 
-            {/* Price Detail */}
-            <div className="mt-8 flex items-center justify-between px-4">
-               <div>
-                  <h4 className="text-xl font-bold text-[#1A1A1A]">Oslo Private Edition</h4>
-                  <p className="text-sm text-[#8B5A2B] font-medium">Starting from ETB 58,000</p>
-               </div>
-               <button 
-                  onClick={() => setIsFavorite(!isFavorite)}
-                  className={`p-4 rounded-full transition-all duration-300 ${isFavorite ? 'bg-red-50 text-red-500' : 'bg-[#FAF7F2] text-[#1A1A1A] hover:bg-red-50'}`}
-               >
-                  <Heart size={24} fill={isFavorite ? "currentColor" : "none"} />
-               </button>
-            </div>
-          </div>
+           {/* Configuration Panel */}
+           <div className="lg:col-span-5 space-y-10">
+              
+              {/* Fabric Picker */}
+              <div>
+                 <div className="flex justify-between items-center mb-6">
+                    <label className="text-[10px] font-bold text-emerald/30 uppercase tracking-[0.3em] flex items-center gap-2">
+                       <Palette size={14} /> Textile Selection
+                    </label>
+                    <span className="text-[10px] font-bold text-gold">{fabric.price > 0 ? `+ETB ${fabric.price.toLocaleString()}` : 'Standard'}</span>
+                 </div>
+                 <div className="grid grid-cols-4 gap-4">
+                    {fabrics.map((f) => (
+                      <button 
+                        key={f.id}
+                        onClick={() => setFabric(f)}
+                        className={`aspect-square rounded-2xl border-2 transition-all p-1 ${fabric.id === f.id ? 'border-gold shadow-xl scale-105' : 'border-transparent hover:border-emerald/10'}`}
+                      >
+                         <div className="w-full h-full rounded-xl overflow-hidden" style={{ backgroundColor: f.hex }}>
+                            <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/fabric-plaid.png')] opacity-30" />
+                         </div>
+                      </button>
+                    ))}
+                 </div>
+              </div>
 
-          {/* Configuration Side */}
-          <div className="bg-[#FAF7F2] p-8 md:p-12 rounded-[2.5rem] border border-[#f0ebe3]">
-            <div className="mb-10">
-               <label className="text-xs font-bold text-[#1A1A1A] uppercase tracking-[0.2em] mb-4 block">Select Color</label>
-               <div className="flex flex-wrap gap-4">
-                  {colors.map((color) => (
-                    <button
-                      key={color.name}
-                      onClick={() => setSelectedColor(color)}
-                      className={`w-12 h-12 rounded-full border-4 transition-all duration-200 relative group ${selectedColor.name === color.name ? 'border-[#C9A227] scale-110 shadow-lg' : 'border-white hover:scale-105'}`}
-                      style={{ backgroundColor: color.hex }}
-                      title={color.name}
-                    >
-                       {selectedColor.name === color.name && (
-                         <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#1A1A1A] text-white text-[9px] px-2 py-1 rounded whitespace-nowrap opacity-100 transition-opacity">
-                           {color.name}
-                         </span>
-                       )}
-                    </button>
-                  ))}
-               </div>
-            </div>
+              {/* Wood Finish Selector */}
+              <div>
+                 <label className="text-[10px] font-bold text-emerald/30 uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
+                    <Layers size={14} /> Structural Finish
+                 </label>
+                 <div className="flex gap-4">
+                    {woodFinishes.map((w) => (
+                      <button 
+                        key={w.id}
+                        onClick={() => setFinish(w)}
+                        className={`flex-1 p-4 rounded-2xl border transition-all text-left group ${finish.id === w.id ? 'bg-emerald text-white border-emerald shadow-xl' : 'bg-sand border-emerald/5 hover:bg-white text-emerald/40'}`}
+                      >
+                         <div className="w-6 h-6 rounded-lg mb-3 shadow-inner border border-white/10" style={{ backgroundColor: w.hex }} />
+                         <div className="text-[9px] font-bold uppercase tracking-widest leading-none mb-1">{w.name}</div>
+                      </button>
+                    ))}
+                 </div>
+              </div>
 
-            <div className="mb-10">
-               <label className="text-xs font-bold text-[#1A1A1A] uppercase tracking-[0.2em] mb-4 block">Fabric Choice</label>
-               <div className="grid grid-cols-3 gap-3">
-                  {fabrics.map((fabric) => (
-                    <button
-                      key={fabric}
-                      onClick={() => setSelectedFabric(fabric)}
-                      className={`py-3 px-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all duration-200 border ${selectedFabric === fabric ? 'bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-md' : 'bg-white text-[#6B6560] border-white hover:border-[#C9A227]/30'}`}
-                    >
-                      {fabric}
-                    </button>
-                  ))}
-               </div>
-            </div>
+              {/* Dimensions Selector */}
+              <div>
+                 <label className="text-[10px] font-bold text-emerald/30 uppercase tracking-[0.3em] mb-6 block">Spatial Configuration</label>
+                 <div className="space-y-3">
+                    {sizes.map((s) => (
+                      <button 
+                        key={s.id}
+                        onClick={() => setSize(s)}
+                        className={`w-full p-6 rounded-[2rem] border flex justify-between items-center transition-all ${size.id === s.id ? 'bg-white border-gold shadow-xl scale-[1.02]' : 'bg-sand border-transparent text-emerald/30 hover:bg-white'}`}
+                      >
+                         <div className="flex items-center gap-4">
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${size.id === s.id ? 'bg-gold text-white' : 'bg-emerald/5'}`}>
+                               <Maximize2 size={16} />
+                            </div>
+                            <div className="text-left">
+                               <div className="text-xs font-bold text-emerald">{s.name}</div>
+                               <div className="text-[9px] uppercase tracking-widest opacity-50">{s.dim} Configuration</div>
+                            </div>
+                         </div>
+                         {size.id === s.id && <Check size={18} className="text-gold" />}
+                      </button>
+                    ))}
+                 </div>
+              </div>
 
-            <div className="mb-12">
-               <label className="text-xs font-bold text-[#1A1A1A] uppercase tracking-[0.2em] mb-4 block">Leg Finish</label>
-               <div className="flex gap-3">
-                  {legs.map((leg) => (
-                    <button
-                      key={leg}
-                      onClick={() => setSelectedLeg(leg)}
-                      className={`flex-1 py-3 px-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all duration-200 border ${selectedLeg === leg ? 'bg-[#8B5A2B] text-white border-[#8B5A2B] shadow-md' : 'bg-white text-[#6B6560] border-white hover:border-[#8B5A2B]/30'}`}
-                    >
-                      {leg}
-                    </button>
-                  ))}
-               </div>
-            </div>
+              {/* Order Finalization */}
+              <div className="pt-10 border-t border-emerald/5 flex flex-col sm:flex-row items-center justify-between gap-8">
+                 <div>
+                    <div className="text-[10px] font-bold text-emerald/20 uppercase tracking-widest mb-1">Estimated Value</div>
+                    <div className="text-4xl font-display font-black text-emerald">ETB {totalPrice.toLocaleString()}</div>
+                 </div>
+                 <button 
+                   onClick={() => window.open(`https://t.me/taologos?text=Bespoke Configuration: ${fabric.name} ${size.name} with ${finish.name} finish.`, '_blank')}
+                   className="w-full sm:w-auto px-10 py-5 bg-emerald text-white rounded-[2rem] font-bold text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-gold transition-all shadow-2xl shadow-emerald/20"
+                 >
+                    Finalize Order <ChevronRight size={16} />
+                 </button>
+              </div>
 
-            <div className="space-y-4">
-               <div className="flex items-center gap-4 text-xs text-[#6B6560] bg-white/50 p-4 rounded-xl border border-white">
-                  <Ruler size={18} className="text-[#C9A227]" />
-                  <span>Custom sizes available upon request in Addis showroom.</span>
-               </div>
-               
-               <button className="w-full bg-[#C9A227] hover:bg-[#1A1A1A] text-white py-5 rounded-2xl font-bold transition-all duration-500 shadow-xl shadow-[#c9a22720] flex items-center justify-center gap-3 group">
-                  Confirm Configuration
-                  <div className="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/40 transition-colors">
-                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                     </svg>
-                  </div>
-               </button>
-               
-               <div className="flex items-center justify-center gap-6 pt-4">
-                  <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6B6560] hover:text-[#C9A227] flex items-center gap-2 transition-colors">
-                     <Info size={14} /> Compare specs
-                  </button>
-                  <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6B6560] hover:text-[#C9A227] flex items-center gap-2 transition-colors">
-                     <Share2 size={14} /> Share design
-                  </button>
-               </div>
-            </div>
-          </div>
+           </div>
+
         </div>
+
       </div>
     </section>
   );
