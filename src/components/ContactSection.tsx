@@ -1,13 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Send, Phone, MapPin, Clock, ArrowRight, User, Target, MessageSquare, Zap } from "lucide-react";
+import { Send, Phone, MapPin, Clock, ArrowRight, User, Target, Zap } from "lucide-react";
 import { translations } from "@/utils/translations";
 
 export default function ContactSection() {
   const [lang, setLang] = useState<"en" | "am">("en");
   const [requestType, setRequestType] = useState("Bespoke");
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("lang") as "en" | "am";
@@ -22,85 +21,79 @@ export default function ContactSection() {
   return (
     <section id="contact" className="section-padding bg-ivory relative overflow-hidden">
       
-      {/* Background Architectural Elements */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-sand/40 -skew-x-12 translate-x-1/4 pointer-events-none" />
-      <div className="absolute top-1/4 left-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-sand/60 -skew-x-12 translate-x-1/4 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-5 md:px-12 relative z-10">
         
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:items-stretch">
            
-           {/* The Studio Node (Info Panel) */}
-           <div className="lg:w-2/5 flex flex-col">
-              <div className="bg-emerald p-10 md:p-14 rounded-[3.5rem] text-white shadow-2xl shadow-emerald/20 flex-1 flex flex-col justify-between relative overflow-hidden group">
+           {/* Studio Node (Info Panel) - Fixed Mobile Vertical Padding */}
+           <div className="lg:w-2/5 flex flex-col order-2 lg:order-1">
+              <div className="bg-emerald p-8 md:p-14 rounded-[2.5rem] md:rounded-[3.5rem] text-white shadow-2xl flex-1 relative overflow-hidden">
                  
-                 {/* Decorative Pulse */}
-                 <div className="absolute top-0 right-0 p-8">
-                    <div className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/10">
+                 <div className="absolute top-6 right-6 md:top-10 md:right-10">
+                    <div className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/20">
                        <div className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse" />
-                       <span className="text-[8px] font-black uppercase tracking-widest opacity-60">System Online</span>
+                       <span className="text-[8px] font-black uppercase tracking-widest opacity-80">Online</span>
                     </div>
                  </div>
 
-                 <div>
-                    <span className="text-gold text-[10px] font-bold uppercase tracking-[0.5em] mb-6 block">Direct Access</span>
-                    <h2 className="text-4xl md:text-6xl font-display font-black mb-8 leading-[1.1]">
+                 <div className="relative z-10">
+                    <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-6 block">Direct Access</span>
+                    <h2 className="text-4xl md:text-6xl font-display font-black mb-8 leading-[1.1] tracking-tight">
                        Engage the <br />
-                       <span className="text-white/40 italic">Studio Node.</span>
+                       <span className="text-white opacity-40 italic">Studio.</span>
                     </h2>
-                    <p className="text-white/40 text-lg mb-12 max-w-sm font-light leading-relaxed">
+                    <p className="text-white/80 text-base md:text-lg mb-10 max-w-sm font-medium leading-relaxed">
                        Immediate consultation with our architectural design team in Addis Ababa. 
                     </p>
 
-                    <div className="space-y-10">
+                    <div className="space-y-6 md:space-y-8">
                        {[
                          { icon: Phone, label: "Studio Line", val: "+251 911 000 000", color: "text-gold" },
                          { icon: MapPin, label: "HQ Node", val: "Bole Road, Addis Ababa", color: "text-white" },
                          { icon: Clock, label: "Availability", val: "Mon - Sat: 9:00 - 19:00", color: "text-white" },
                        ].map((item, i) => (
-                         <div key={i} className="flex gap-6 items-start group/item">
-                            <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex flex-shrink-0 items-center justify-center text-white group-hover/item:bg-gold group-hover/item:text-emerald transition-all duration-500">
-                               <item.icon size={22} strokeWidth={1.5} />
+                         <div key={i} className="flex gap-5 items-start">
+                            <div className="w-12 h-12 rounded-xl bg-white/10 flex flex-shrink-0 items-center justify-center text-white border border-white/10">
+                               <item.icon size={20} strokeWidth={2} />
                             </div>
-                            <div className="pt-1">
-                               <div className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 mb-1">{item.label}</div>
-                               <div className={`text-lg font-bold ${item.color} leading-none tracking-tight`}>{item.val}</div>
+                            <div className="pt-0.5">
+                               <div className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mb-1">{item.label}</div>
+                               <div className={`text-base md:text-lg font-black ${item.color} leading-snug`}>{item.val}</div>
                             </div>
                          </div>
                        ))}
                     </div>
                  </div>
 
-                 {/* Bottom Visualizer Link */}
-                 <div className="mt-20 pt-10 border-t border-white/5 flex items-center justify-between">
-                    <div className="flex -space-x-3">
-                       {[1,2,3].map(i => (
-                         <div key={i} className="w-10 h-10 rounded-full border-2 border-emerald bg-sand" />
-                       ))}
-                       <div className="w-10 h-10 rounded-full border-2 border-emerald bg-gold flex items-center justify-center text-[10px] font-black text-emerald">+</div>
+                 <div className="mt-12 pt-8 border-t border-white/10 hidden md:flex items-center justify-between opacity-60">
+                    <span className="text-[9px] font-black uppercase tracking-widest leading-none">Studio Team Node 4.02</span>
+                    <div className="flex gap-1">
+                       {[1,2,3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/20" />)}
                     </div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-white/30">Studio Team Active</span>
                  </div>
               </div>
            </div>
 
-           {/* The Intake Terminal (Form) */}
-           <div className="lg:w-3/5">
-              <div className="bg-white p-10 md:p-14 lg:p-20 rounded-[4rem] border border-emerald/5 shadow-xl shadow-emerald/5 h-full flex flex-col justify-center relative">
+           {/* Intake Terminal (Form) - Improved Contrast */}
+           <div className="lg:w-3/5 order-1 lg:order-2">
+              <div className="bg-white p-8 md:p-14 lg:p-20 rounded-[2.5rem] md:rounded-[4rem] border border-emerald/10 shadow-xl relative h-full">
                  
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-                    <div className="space-y-6">
-                       <label className="flex items-center gap-2 text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em]">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-10 md:mb-12">
+                    <div className="space-y-4 md:space-y-6">
+                       <label className="flex items-center gap-2 text-[10px] font-black text-emerald uppercase tracking-[0.2em]">
                           <User size={14} className="text-gold" /> {t.nameLabel}
                        </label>
                        <input 
                          type="text" 
                          placeholder="e.g. Dawit Tadesse"
-                         className="w-full text-2xl font-display font-black text-emerald bg-transparent border-b-2 border-emerald/5 py-4 focus:border-gold outline-none transition-all placeholder:text-emerald/5"
+                         className="w-full text-xl md:text-2xl font-display font-black text-emerald bg-transparent border-b-4 border-sand py-3 focus:border-gold outline-none transition-all placeholder:text-emerald/10"
                        />
                     </div>
-                    <div className="space-y-6">
-                       <label className="flex items-center gap-2 text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em]">
+                    <div className="space-y-4 md:space-y-6">
+                       <label className="flex items-center gap-2 text-[10px] font-black text-emerald uppercase tracking-[0.2em]">
                           <Zap size={14} className="text-gold" /> {t.engagementType}
                        </label>
                        <div className="flex flex-wrap gap-2">
@@ -109,7 +102,7 @@ export default function ContactSection() {
                               key={type}
                               type="button"
                               onClick={() => setRequestType(type)}
-                              className={`px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${requestType === type ? 'bg-emerald text-white shadow-xl' : 'bg-emerald/5 text-emerald/40 hover:bg-emerald/10'}`}
+                              className={`px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${requestType === type ? 'bg-emerald text-white shadow-xl' : 'bg-sand text-emerald/60 hover:bg-emerald/10'}`}
                             >
                                {type}
                             </button>
@@ -118,41 +111,33 @@ export default function ContactSection() {
                     </div>
                  </div>
 
-                 <div className="space-y-6 mb-16">
-                    <label className="flex items-center gap-2 text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em]">
+                 <div className="space-y-4 md:space-y-6 mb-12 md:mb-16">
+                    <label className="flex items-center gap-2 text-[10px] font-black text-emerald uppercase tracking-[0.2em]">
                        <Target size={14} className="text-gold" /> {t.projectVision}
                     </label>
                     <textarea 
-                      placeholder="Describe your spatial goals..."
-                      rows={4}
-                      className="w-full text-2xl font-display font-black text-emerald bg-transparent border-b-2 border-emerald/5 py-4 focus:border-gold outline-none transition-all placeholder:text-emerald/5 resize-none"
+                      placeholder="Describe your design goals..."
+                      rows={3}
+                      className="w-full text-xl md:text-2xl font-display font-black text-emerald bg-transparent border-b-4 border-sand py-3 focus:border-gold outline-none transition-all placeholder:text-emerald/10 resize-none"
                     />
                  </div>
 
-                 <div className="flex flex-col sm:flex-row items-center justify-between gap-10">
-                    <div className="flex items-center gap-4 text-emerald/20">
-                       <div className="w-12 h-12 rounded-2xl bg-sand flex items-center justify-center">
-                          <MessageSquare size={20} />
+                 <div className="flex flex-col sm:flex-row items-center justify-between gap-8 md:gap-10">
+                    <div className="flex items-start gap-4">
+                       <div className="w-12 h-12 rounded-2xl bg-sand flex-shrink-0 flex items-center justify-center text-emerald">
+                          <Send size={20} />
                        </div>
-                       <p className="text-[10px] font-bold uppercase tracking-widest leading-loose max-w-[140px]">
+                       <p className="text-[10px] font-black uppercase tracking-widest leading-relaxed text-emerald/40 max-w-[160px]">
                           Powered by our <span className="text-emerald">Telegram Node</span> for instant relay.
                        </p>
                     </div>
 
                     <button 
-                      onMouseEnter={() => setIsHovered(true)}
-                      onMouseLeave={() => setIsHovered(false)}
-                      onClick={(e) => { e.preventDefault(); window.open(`https://t.me/taologos`, '_blank'); }}
-                      className="w-full sm:w-auto px-12 py-7 bg-emerald text-white rounded-[2.5rem] font-bold text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-5 transition-all hover:bg-gold hover:-translate-y-2 active:scale-95 shadow-2xl shadow-emerald/20 overflow-hidden relative"
+                      onClick={(e) => { e.preventDefault(); window.open('https://t.me/taologos', '_blank'); }}
+                      className="w-full sm:w-auto px-10 py-6 bg-emerald text-white rounded-[2rem] font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all hover:bg-gold hover:-translate-y-1 active:scale-95 shadow-2xl shadow-emerald/20"
                     >
-                       <div className={`absolute inset-0 bg-white/10 transition-transform duration-700 ${isHovered ? 'translate-x-full' : '-translate-x-full'}`} />
-                       Connect to Studio <ArrowRight size={20} className={`${isHovered ? 'translate-x-2' : ''} transition-transform`} />
+                       Connect to Studio <ArrowRight size={18} />
                     </button>
-                 </div>
-
-                 {/* Corner Decorative */}
-                 <div className="absolute bottom-10 left-10 lg:left-20 pointer-events-none">
-                    <span className="text-[8px] font-black text-gold uppercase tracking-[0.5em] opacity-20 rotate-90 origin-left block">Intake Node</span>
                  </div>
               </div>
            </div>

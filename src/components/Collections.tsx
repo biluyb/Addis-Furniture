@@ -2,35 +2,32 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { ArrowRight } from "lucide-react";
 
 const collections = [
   {
     id: "living-room",
     title: "Living Room",
-    subtitle: "Sofas · Coffee Tables · TV Units",
+    subtitle: "Sofas · TV Units",
     image: "/images/hero.png",
-    color: "#1A1A1A",
   },
   {
     id: "bedroom",
     title: "Bedroom",
-    subtitle: "Beds · Wardrobes · Nightstands",
+    subtitle: "Beds · Wardrobes",
     image: "/images/bedroom.png",
-    color: "#8B5A2B",
   },
   {
     id: "office",
     title: "Office",
-    subtitle: "Desks · Chairs · Bookshelves",
+    subtitle: "Desks · Chairs",
     image: "/images/office.png",
-    color: "#1A1A1A",
   },
   {
     id: "dining",
     title: "Dining",
-    subtitle: "Dining Sets · Sideboards",
+    subtitle: "Dining Sets",
     image: "/images/dining.png",
-    color: "#8B5A2B",
   },
 ];
 
@@ -47,85 +44,73 @@ export default function Collections() {
               setTimeout(() => {
                 (card as HTMLElement).style.opacity = "1";
                 (card as HTMLElement).style.transform = "translateY(0)";
-              }, i * 120);
+              }, i * 100);
             });
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="collections" className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="collections" className="section-padding bg-ivory">
+      <div className="max-w-7xl mx-auto px-5 md:px-12">
+        
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-14">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
           <div>
-            <span className="text-[#C9A227] text-xs font-semibold uppercase tracking-[0.2em] mb-3 block">
-              Our Collections
+            <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">
+              Curated Series
             </span>
-            <h2
-              className="text-3xl md:text-5xl font-bold text-[#1A1A1A]"
-              style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}
-            >
-              Curated for<br />Every Space
+            <h2 className="text-4xl md:text-7xl font-display font-black text-emerald leading-tight">
+              Spaces for<br /><span className="text-gradient">Inspired Living.</span>
             </h2>
           </div>
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 text-[#8B5A2B] font-semibold text-sm hover:text-[#C9A227] transition-colors"
+            className="inline-flex items-center gap-3 text-emerald font-black text-[10px] uppercase tracking-widest hover:text-gold transition-colors py-4 px-8 border border-emerald/10 rounded-xl"
           >
-            View All
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
+            Explore Master Library
+            <ArrowRight size={14} />
           </a>
         </div>
 
-        {/* Grid */}
-        <div ref={sectionRef} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {collections.map((col, i) => (
+        {/* Grid - Standardized Mobile Aspect Ratios */}
+        <div ref={sectionRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          {collections.map((col) => (
             <div
               key={col.id}
-              id={`collection-${col.id}`}
-              className="coll-card img-zoom relative rounded-2xl overflow-hidden cursor-pointer group"
+              className="coll-card relative rounded-[2rem] md:rounded-[3rem] overflow-hidden cursor-pointer group shadow-xl bg-sand"
               style={{
                 opacity: 0,
-                transform: "translateY(30px)",
-                transition: "opacity 0.6s ease, transform 0.6s ease",
-                aspectRatio: i === 0 || i === 3 ? "3/4" : "3/4",
+                transform: "translateY(20px)",
+                transition: "opacity 0.8s ease, transform 0.8s ease",
+                aspectRatio: "4/5",
               }}
             >
               <Image
                 src={col.image}
                 alt={col.title}
                 fill
-                className="object-cover object-center"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover transition-transform duration-1000 group-hover:scale-110"
               />
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3
-                  className="text-white text-xl font-bold mb-1"
-                  style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}
-                >
+              
+              {/* Higher contrast overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald via-emerald/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              
+              {/* Content - High Contrast Text */}
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <h3 className="text-white text-2xl font-display font-black mb-1">
                   {col.title}
                 </h3>
-                <p className="text-white/65 text-xs mb-4">{col.subtitle}</p>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-1.5 bg-[#C9A227] hover:bg-[#D4B340] text-white text-xs font-semibold px-4 py-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0"
-                >
-                  View Collection
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </a>
+                <p className="text-white/80 text-[10px] font-black uppercase tracking-widest mb-6">{col.subtitle}</p>
+                
+                <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-gold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
+                  Browse Node <ArrowRight size={10} />
+                </div>
               </div>
             </div>
           ))}
