@@ -1,60 +1,114 @@
 export const translations = {
   en: {
-    brand: "Addis",
-    brandSub: "Horizon",
-    heroTitle: "Design Your",
-    heroTitleAccent: "Dream Home.",
-    heroSub: "More than a showroom—an immersive digital studio where your vision meets Ethiopian craftsmanship.",
+    // Navbar
+    home: "Terminal",
+    portfolio: "Portfolio",
+    studio: "Studio",
+    contact: "Contact",
+    admin: "Node",
+    
+    // Hero
+    heritage: "Ethiopian Heritage",
+    heroTitle: "Luxury Defined by",
+    heroTitleAccent: "Addis Horizon.",
+    heroSub: "Experience the pinnacle of Ethiopian craftsmanship. Modern furniture engineered for the elite homes of Addis Ababa.",
     enterStudio: "Enter Studio",
     viewGallery: "View Gallery",
+    
+    // Hub
+    threeSixty: "360° View",
     visualizer: "Visualizer",
     configure: "Configure",
-    threeSixty: "360° View",
-    aiTools: "AI Tools",
-    digitalStudio: "The Digital",
-    studioExperience: "Studio Experience.",
-    portfolioTitle: "The Curated",
-    portfolioEdit: "Edit.",
+    aiTools: "AI Labs",
+    centralNode: "Central Design Node",
+    
+    // Bento / Internal Systems
+    internalSystems: "Internal Systems",
+    precision: "Precision",
+    precisionDesc: "Architectural accuracy in every joint and carving.",
+    concierge: "Concierge",
+    conciergeDesc: "White-glove white delivery across all Addis districts.",
+    logistics: "Logistics",
+    logisticsDesc: "Direct relay from workshop to your residential node.",
+    warranty: "Warranty",
+    warrantyDesc: "5-year structural integrity guarantee.",
+    
+    // Products
+    portfolioTitle: "Curated",
+    portfolioEdit: "Pieces.",
     telegramInquiry: "Telegram Inquiry",
-    heritage: "Heritage",
-    bespokeMastery: "Bespoke Mastery",
-    masteryDesc: "Combining ancestral Ethiopian joinery with state-of-the-art precision tools.",
-    warranty: "Full Warranty",
-    delivery: "Addis Delivery",
-    contactStudio: "Engage the",
-    contactNode: "Studio Node.",
+    priceOnRequest: "Price on Request",
+    
+    // Contact
+    directAccess: "Direct Access",
+    engageStudio: "Engage the Studio.",
+    studioLine: "Studio Line",
+    hqNode: "HQ Node",
+    availability: "Availability",
     nameLabel: "Client Name",
     engagementType: "Engagement Type",
     projectVision: "Project Vision",
-    connectTelegram: "Connect to Telegram",
+    connectStudio: "Connect to Studio",
+    
+    // Footer
+    systemsOnline: "Systems Online",
+    allRights: "All Rights Reserved",
+    designedBy: "Architected by Addis Node",
   },
   am: {
-    brand: "አዲስ",
-    brandSub: "ሆራይዘን",
-    heroTitle: "የህልምዎን ቤት",
-    heroTitleAccent: "ይንደፉ።",
-    heroSub: "ከመደበኛ የቤት እቃ መሸጫ ባሻገር—የእርስዎ እይታ ከኢትዮጵያ የእጅ ጥበብ ጋር የሚገናኝበት ዲጂታል ስቱዲዮ።",
-    enterStudio: "ወደ ስቱዲዮ ይግቡ",
+    // Navbar
+    home: "ዋና ገጽ",
+    portfolio: "ፖርትፎሊዮ",
+    studio: "ስቱዲዮ",
+    contact: "አድራሻ",
+    admin: "ኖድ",
+    
+    // Hero
+    heritage: "የኢትዮጵያ ቅርስ",
+    heroTitle: "ምርጥ ጥበብ በ",
+    heroTitleAccent: "አዲስ ሆራይዘን።",
+    heroSub: "የኢትዮጵያ የእጅ ጥበብን ልቀት ይለማመዱ። ለአዲስ አበባ ዘመናዊ ቤቶች የተገነቡ የቅንጦት የቤት እቃዎች።",
+    enterStudio: "ስቱዲዮ ይግቡ",
     viewGallery: "ጋለሪ ይመልከቱ",
-    visualizer: "ቪዥዋላይዘር",
-    configure: "ያዋቅሩ",
+    
+    // Hub
     threeSixty: "360° እይታ",
-    aiTools: "AI መሳሪያዎች",
-    digitalStudio: "ዲጂታል",
-    studioExperience: "የስቱዲዮ ልምድ።",
+    visualizer: "ቪዥዋላይዘር",
+    configure: "ኮንፊገሮች",
+    aiTools: "AI ላብስ",
+    centralNode: "የዲዛይን ማዕከል",
+    
+    // Bento / Internal Systems
+    internalSystems: "የውስጥ ሲስተሞች",
+    precision: "ጥንቃቄ",
+    precisionDesc: "በእያንዳንዱ መገጣጠሚያ እና ቅርጻቅርጽ ላይ ያለው ትክክለኛነት።",
+    concierge: "ኮንሲየር",
+    conciergeDesc: "በሁሉም የአዲስ አበባ ክፍለ ከተሞች ፈጣን እና ጥንቃቄ የተሞላበት አቅርቦት።",
+    logistics: "ሎጅስቲክስ",
+    logisticsDesc: "ከፋብሪካችን በቀጥታ ወደ ቤትዎ ማጓጓዝ።",
+    warranty: "ዋስትና",
+    warrantyDesc: "ለ 5 ዓመት የጥራት ዋስትና።",
+    
+    // Products
     portfolioTitle: "የተመረጡ",
     portfolioEdit: "ስራዎች።",
-    telegramInquiry: "በቴሌግራም ይጠይቁ",
-    heritage: "ውርስ",
-    bespokeMastery: "ጥበባዊ ስራ",
-    masteryDesc: "የጥንታዊ የኢትዮጵያ አናፂነት ጥበብን ከዘመናዊ ቴክኖሎጂ ጋር እናቀናጃለን።",
-    warranty: "ሙሉ ዋስትና",
-    delivery: "አዲስ አበባ ማድረሻ",
-    contactStudio: "ከዲዛይን ቡድኑ",
-    contactNode: "ጋር ይገናኙ።",
+    telegramInquiry: "ቴሌግራም ይጠይቁ",
+    priceOnRequest: "በጥያቄ የሚገለጽ ዋጋ",
+    
+    // Contact
+    directAccess: "ቀጥታ ግንኙነት",
+    engageStudio: "ስቱዲዮውን ያነጋግሩ።",
+    studioLine: "የስቱዲዮ ስልክ",
+    hqNode: "ዋና መስሪያ ቤት",
+    availability: "የስራ ሰዓት",
     nameLabel: "የደንበኛ ስም",
-    engagementType: "የአገልግሎት አይነት",
-    projectVision: "የፕሮጀክት እቅድ",
-    connectTelegram: "በቴሌግራም ይገናኙ",
+    engagementType: "የስራ አይነት",
+    projectVision: "የፕሮጀክቱ እቅድ",
+    connectStudio: "ከስቱዲዮው ጋር ይገናኙ",
+    
+    // Footer
+    systemsOnline: "ሲስተም ክፍት ነው",
+    allRights: "መብቱ በህግ የተጠበቀ ነው",
+    designedBy: "በአዲስ ኖድ የተገነባ",
   }
 };

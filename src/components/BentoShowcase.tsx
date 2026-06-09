@@ -1,16 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import { 
-  ArrowUpRight, 
-  Rotate3d, 
-  ShieldCheck, 
-  Truck, 
-  Settings2, 
-  MessageSquare,
-  Box
-} from "lucide-react";
+import { Zap, ShieldCheck, Box, Send, ChevronRight } from "lucide-react";
 import { translations } from "@/utils/translations";
 
 export default function BentoShowcase() {
@@ -27,91 +18,72 @@ export default function BentoShowcase() {
   const t = translations[lang];
 
   return (
-    <section id="system" className="section-padding bg-ivory overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="section-padding bg-ivory">
+      <div className="max-w-7xl mx-auto px-5 md:px-12">
         
-        <div className="mb-20">
-           <span className="text-gold text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block">Ecosystem Nodes</span>
-           <h2 className="text-4xl md:text-7xl font-display font-black text-emerald leading-tight">
-              {t.heritage} & <span className="text-gradient">Computation.</span>
-           </h2>
+        <div className="mb-12 md:mb-16">
+           <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">{t.internalSystems}</span>
+           <h2 className="text-3xl md:text-6xl font-display font-black text-emerald tracking-tight">The <span className="text-gradient leading-tight">Architecture.</span></h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[300px]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-8">
            
-           {/* Focus Card */}
-           <div className="lg:col-span-2 lg:row-span-2 bento-card border-none bg-emerald group">
-              <Image src="/images/hero.png" alt="Process" fill className="object-cover opacity-50 transition-all duration-1000 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald to-transparent" />
-              <div className="relative h-full p-10 flex flex-col justify-between">
-                 <div className="flex justify-between items-start">
-                    <div className="w-14 h-14 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center text-white border border-white/20">
-                       <Rotate3d size={28} className="animate-spin-slow" />
-                    </div>
-                    <span className="bg-black/20 backdrop-blur-md px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest text-white">4K Render Node</span>
+           {/* Precision Node */}
+           <div className="md:col-span-8 bg-sand p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] border border-emerald/5 relative overflow-hidden group">
+              <div className="relative z-10">
+                 <div className="w-14 h-14 bg-emerald text-white rounded-2xl flex items-center justify-center mb-10 shadow-2xl shadow-emerald/20">
+                    <Zap size={24} fill="currentColor" />
                  </div>
-                 <div>
-                    <h3 className="text-3xl font-display font-black text-white mb-4 leading-tight">{lang === "en" ? "Precision-Guided" : "በትክክለኛ የተመራ"} <br /> {lang === "en" ? "Artistry" : "ጥበብ"}</h3>
-                    <p className="text-white/60 text-sm max-w-xs mb-8">{t.masteryDesc}</p>
-                    <button className="px-8 py-4 bg-white text-emerald rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-gold hover:text-white transition-all shadow-xl">Start Process</button>
+                 <h3 className="text-2xl md:text-4xl font-display font-black text-emerald mb-4">{t.precision}</h3>
+                 <p className="text-emerald-soft text-base md:text-lg max-w-md font-medium leading-relaxed">{t.precisionDesc}</p>
+                 
+                 <div className="mt-12 flex gap-4">
+                    {[1,2,3,4].map(i => <div key={i} className="h-1 w-12 bg-gold/20 rounded-full" />)}
                  </div>
+              </div>
+              <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:scale-110 transition-transform duration-1000">
+                 <Zap size={300} />
               </div>
            </div>
 
-           {/* Heritage Card */}
-           <div className="lg:col-span-2 lg:row-span-1 bento-card group">
-              <div className="relative h-full p-10 flex gap-8 items-center">
-                 <div className="hidden sm:block relative w-32 aspect-square rounded-[2rem] overflow-hidden">
-                    <Image src="/images/bedroom.png" alt="Heritage" fill className="object-cover transition-transform group-hover:scale-110" />
-                 </div>
-                 <div>
-                    <div className="text-gold text-[10px] font-bold uppercase tracking-widest mb-2">{t.heritage}</div>
-                    <h3 className="text-2xl font-display font-black text-emerald mb-2">{t.bespokeMastery}</h3>
-                    <p className="text-emerald/30 text-xs leading-relaxed max-w-sm">{t.masteryDesc}</p>
-                 </div>
-                 <button className="ml-auto w-12 h-12 rounded-full border border-emerald/5 flex items-center justify-center text-emerald hover:bg-emerald hover:text-white transition-colors">
-                    <ArrowUpRight size={20} />
-                 </button>
+           {/* Concierge Node */}
+           <div className="md:col-span-4 bg-emerald p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] text-white flex flex-col justify-between relative overflow-hidden">
+              <div className="relative z-10">
+                 <div className="inline-flex px-3 py-1 bg-white/10 rounded-full border border-white/10 text-[8px] font-black uppercase tracking-widest mb-10">24/7 Access</div>
+                 <h3 className="text-2xl md:text-3xl font-display font-black mb-4 leading-tight">{t.concierge}</h3>
+                 <p className="text-white/60 text-sm leading-relaxed">{t.conciergeDesc}</p>
               </div>
+              <button className="mt-12 w-full py-4 bg-white text-emerald rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-gold hover:text-white transition-all shadow-xl">
+                 Inquire <ChevronRight size={14} />
+              </button>
            </div>
 
-           {/* Stat Cards */}
-           <div className="lg:col-span-1 lg:row-span-1 bento-card p-10 flex flex-col justify-between group">
-              <div className="w-12 h-12 rounded-2xl bg-gold/10 flex items-center justify-center text-gold group-hover:scale-110 transition-transform">
-                 <ShieldCheck size={24} />
-              </div>
+           {/* Logistics Node - Fixed Layout / No Clipping */}
+           <div className="md:col-span-4 bg-white p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] border border-emerald/10 flex flex-col justify-between relative min-h-[320px]">
               <div>
-                 <div className="text-3xl font-display font-black text-emerald mb-1">10Y</div>
-                 <div className="text-[10px] font-bold text-emerald/20 uppercase tracking-widest">{t.warranty}</div>
+                 <Box size={32} className="text-gold mb-8" />
+                 <h3 className="text-2xl font-display font-black text-emerald mb-3">{t.logistics}</h3>
+                 <p className="text-emerald/60 text-xs font-bold leading-relaxed">{t.logisticsDesc}</p>
+              </div>
+              <div className="mt-8 flex items-center gap-3">
+                 <div className="w-2 h-2 bg-emerald rounded-full animate-pulse" />
+                 <span className="text-[9px] font-black uppercase tracking-widest text-emerald/30">Network Active</span>
               </div>
            </div>
 
-           <div className="lg:col-span-1 lg:row-span-1 bento-card p-10 flex flex-col justify-between group">
-              <div className="w-12 h-12 rounded-2xl bg-sage/10 flex items-center justify-center text-sage group-hover:scale-110 transition-transform">
-                 <Truck size={24} />
-              </div>
-              <div>
-                 <div className="text-3xl font-display font-black text-emerald mb-1">24H</div>
-                 <div className="text-[10px] font-bold text-emerald/20 uppercase tracking-widest">{t.delivery}</div>
-              </div>
-           </div>
-
-           {/* Logistics Grid */}
-           <div className="lg:col-span-2 lg:row-span-1 bento-card overflow-visible">
-              <div className="relative h-full p-10 flex flex-col justify-center">
-                 <h3 className="text-2xl font-display font-black text-emerald mb-6">Internal Systems.</h3>
-                 <div className="flex gap-4">
-                    {[
-                      { icon: Settings2, label: "Precision" },
-                      { icon: MessageSquare, label: "Concierge" },
-                      { icon: Box, label: "Logistics" }
-                    ].map((item, i) => (
-                      <div key={i} className="flex-1 p-4 rounded-2xl bg-white border border-emerald/5 flex flex-col items-center gap-2 shadow-sm hover:shadow-lg transition-all group">
-                         <item.icon size={18} className="text-gold" />
-                         <span className="text-[9px] font-bold uppercase tracking-widest text-emerald/40 group-hover:text-emerald">{item.label}</span>
-                      </div>
-                    ))}
+           {/* Warranty / Integrity Node */}
+           <div className="md:col-span-8 bg-sand p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] border border-emerald/5 flex flex-col md:flex-row gap-10 md:items-center">
+              <div className="flex-1">
+                 <div className="flex items-center gap-3 text-gold mb-6">
+                    <ShieldCheck size={28} />
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">{t.warranty}</span>
                  </div>
+                 <h3 className="text-2xl md:text-4xl font-display font-black text-emerald mb-4">Structural <br />Integrity Hub.</h3>
+                 <p className="text-emerald-soft text-sm font-medium leading-relaxed max-w-sm">{t.warrantyDesc}</p>
+              </div>
+              <div className="p-8 bg-emerald rounded-3xl text-white flex flex-col items-center justify-center gap-4 border-4 border-white shadow-2xl">
+                 <div className="text-4xl font-display font-black leading-none">5Y</div>
+                 <div className="text-[8px] font-black uppercase tracking-widest opacity-60">Full Coverage</div>
               </div>
            </div>
 

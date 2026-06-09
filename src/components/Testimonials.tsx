@@ -1,49 +1,49 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { Star } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Star, Quote } from "lucide-react";
+import { translations } from "@/utils/translations";
 
 const testimonials = [
   {
     id: "t1",
-    name: "Selamawit Tadesse",
+    name: "Selamawit T.",
+    nameAm: "ሰላማዊት ተ.",
     location: "Bole, Addis Ababa",
-    rating: 5,
-    text: "The quality exceeded our expectations. The sofa is stunning and the delivery team was professional and respectful. I've already recommended Addis Furniture to 5 of my friends!",
+    text: "The quality exceeded our expectations. The sofa is stunning and the delivery team was professional.",
+    textAm: "ጥራቱ ከጠበቅነው በላይ ነው። ሶፋው በጣም የሚያምር ነው፤ ማጓጓዣ ቡድኑም በጣም ሙያዊ ነበር።",
     initials: "ST",
   },
   {
     id: "t2",
-    name: "Dawit Bekele",
-    location: "CMC Road, Addis Ababa",
-    rating: 5,
-    text: "We furnished our entire apartment from Addis Furniture. The bedroom set is absolutely beautiful. The craftsmanship is on par with imported furniture but at a fraction of the cost.",
+    name: "Dawit B.",
+    nameAm: "ዳዊት በ.",
+    location: "CMC, Addis Ababa",
+    text: "We furnished our entire apartment. The bedroom set is beautiful. Craftsmanship is on par with imports.",
+    textAm: "ቤታችንን በሙሉ እዚህ ነው ያስገጠምነው። የመኝታ ክፍሉ እቃ በጣም ያምራል፤ ስራው ከውጭ ከሚገባ እቃ አይለይም።",
     initials: "DB",
   },
   {
     id: "t3",
-    name: "Meron Alemu",
+    name: "Meron A.",
+    nameAm: "ሜሮን አ.",
     location: "Sarbet, Addis Ababa",
-    rating: 5,
-    text: "Ordered a custom dining set and they delivered exactly what we imagined. The team was responsive on WhatsApp and the installation was flawless. Highly recommended!",
+    text: "Ordered a custom dining set. Flawless installation. Highly recommended!",
+    textAm: "ልዩ የራት ጠረጴዛ አዝዤ ነበር። አገጣጠሙ እና ስራው ፍጹም ነው። በጣም እመክራለሁ!",
     initials: "MA",
   },
 ];
 
-function StarRow({ count }: { count: number }) {
-  return (
-    <div className="flex gap-0.5">
-      {Array.from({ length: 5 }).map((_, _i) => (
-        <Star key={_i} size={14} fill="#C9A227" color="#C9A227" />
-      ))}
-    </div>
-  );
-}
-
 export default function Testimonials() {
+  const [lang, setLang] = useState<"en" | "am">("en");
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const stored = localStorage.getItem("lang") as "en" | "am";
+    if (stored) setLang(stored);
+    const h = (e: any) => setLang(e.detail);
+    window.addEventListener("langChange", h);
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -61,78 +61,76 @@ export default function Testimonials() {
       { threshold: 0.2 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
+    
+    return () => {
+      window.removeEventListener("langChange", h);
+      observer.disconnect();
+    };
   }, []);
 
+  const t = translations[lang];
+
   return (
-    <section id="testimonials" className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-14">
-          <span className="text-[#C9A227] text-xs font-semibold uppercase tracking-[0.2em] mb-3 block">
-            Customer Stories
+    <section id="testimonials" className="section-padding bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-5 md:px-12">
+        
+        <div className="text-center mb-16 md:mb-20">
+          <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">
+             Verified Stories
           </span>
-          <h2
-            className="text-3xl md:text-5xl font-bold text-[#1A1A1A]"
-            style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}
-          >
-            Loved by Thousands
+          <h2 className="text-4xl md:text-7xl font-display font-black text-emerald tracking-tight">
+             Loved by <br /><span className="text-gradient">Thousands.</span>
           </h2>
         </div>
 
-        {/* Cards */}
-        <div ref={sectionRef} className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
+        <div ref={sectionRef} className="grid md:grid-cols-3 gap-6 md:gap-8">
+          {testimonials.map((testi) => (
             <div
-              key={t.id}
-              id={`testimonial-${t.id}`}
-              className="testi-card card-hover bg-[#FAF7F2] rounded-2xl p-8 border border-[#f0ebe3] relative"
+              key={testi.id}
+              className="testi-card bg-sand p-8 md:p-10 rounded-[2.5rem] border border-emerald/5 relative shadow-lg"
               style={{
                 opacity: 0,
                 transform: "translateY(30px)",
-                transition: "opacity 0.6s ease, transform 0.6s ease",
+                transition: "opacity 0.8s ease, transform 0.8s ease",
               }}
             >
-              {/* Quote mark */}
-              <div
-                className="absolute top-6 right-8 text-6xl text-[#C9A227]/15 font-serif leading-none select-none"
-                aria-hidden="true"
-              >
-                &ldquo;
+              <Quote className="absolute top-10 right-10 text-gold/10" size={40} />
+
+              <div className="flex gap-0.5 mb-6">
+                {[1,2,3,4,5].map((s) => <Star key={s} size={14} fill="#C5A039" color="#C5A039" />)}
               </div>
 
-              <StarRow count={t.rating} />
-              <p className="text-[#4A4540] text-sm leading-relaxed mt-4 mb-6 relative z-10">
-                &ldquo;{t.text}&rdquo;
+              <p className="text-emerald-soft text-base font-medium leading-relaxed mb-10 italic">
+                &ldquo;{lang === "en" ? testi.text : testi.textAm}&rdquo;
               </p>
 
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#C9A227] to-[#8B5A2B] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-bold text-sm">{t.initials}</span>
+              <div className="flex items-center gap-4 border-t border-emerald/5 pt-8">
+                <div className="w-12 h-12 rounded-2xl bg-emerald text-white flex items-center justify-center font-black text-sm shadow-xl shadow-emerald/20">
+                  {testi.initials}
                 </div>
                 <div>
-                  <div className="text-[#1A1A1A] font-semibold text-sm">{t.name}</div>
-                  <div className="text-[#8B5A2B] text-xs">{t.location}</div>
+                  <div className="text-emerald font-black text-base leading-none mb-1">
+                     {lang === "en" ? testi.name : testi.nameAm}
+                  </div>
+                  <div className="text-gold text-[10px] font-black uppercase tracking-widest leading-none">
+                     {testi.location}
+                  </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Trust badge */}
-        <div className="flex items-center justify-center gap-3 mt-10">
-          <div className="flex">
-            {["DB", "ST", "MA"].map((initials, i) => (
-              <div
-                key={i}
-                className="w-8 h-8 rounded-full bg-gradient-to-br from-[#C9A227] to-[#8B5A2B] border-2 border-white flex items-center justify-center -ml-2 first:ml-0"
-              >
-                <span className="text-white text-xs font-bold">{initials[0]}</span>
+        <div className="flex flex-col items-center justify-center gap-4 mt-16 md:mt-20">
+          <div className="flex -space-x-3">
+            {["DB", "ST", "MA", "JB"].map((initials, i) => (
+              <div key={i} className="w-10 h-10 rounded-full bg-emerald border-2 border-white flex items-center justify-center text-white text-[10px] font-black">
+                {initials[0]}
               </div>
             ))}
           </div>
-          <p className="text-[#6B6560] text-sm">
-            <strong className="text-[#1A1A1A]">5,000+ customers</strong> trust Addis Furniture
+          <p className="text-emerald-soft text-[10px] font-black uppercase tracking-[0.2em] text-center">
+             <span className="text-emerald">5,000+ Customers</span> Trust our Vision
           </p>
         </div>
       </div>
