@@ -1,8 +1,11 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import InteractiveHub from "@/components/InteractiveHub";
+import RoomVisualizer from "@/components/RoomVisualizer";
 import ProductMatrix from "@/components/ProductMatrix";
 import BentoShowcase from "@/components/BentoShowcase";
+import Collections from "@/components/Collections";
+import Testimonials from "@/components/Testimonials";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import FloatingTelegram from "@/components/FloatingTelegram";
@@ -12,14 +15,14 @@ export default function Home() {
     <main className="min-h-screen bg-ivory text-emerald">
       <Navbar />
       
-      {/* Editorial Content Flow (Light Mode Default) */}
-      <div className="space-y-0">
-        <HeroSection />
-        <InteractiveHub />
-        <ProductMatrix />
-        <BentoShowcase />
-        <ContactSection />
-      </div>
+      <HeroSection />
+      <InteractiveHub />
+      <RoomVisualizer />
+      <ProductMatrix />
+      <Collections />
+      <BentoShowcase />
+      <Testimonials />
+      <ContactSection />
       
       <Footer />
       <FloatingTelegram />
