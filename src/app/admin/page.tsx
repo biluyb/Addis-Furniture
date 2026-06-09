@@ -1,172 +1,131 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import { 
+  Shield, 
   Users, 
+  MessageSquare, 
   TrendingUp, 
-  Send, 
-  Calendar, 
-  ArrowUpRight, 
-  Package, 
-  Zap,
-  LayoutDashboard,
-  LogOut,
+  ChevronRight,
   Settings,
-  Bell,
-  Sparkles
+  Edit3,
+  Globe,
+  Save
 } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 export default function AdminDashboard() {
-  const [visitorCount, setVisitorCount] = useState(7240);
+  const [brandName, setBrandName] = useState("ADDIS FURNITURE");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setVisitorCount(prev => prev + Math.floor(Math.random() * 2));
-    }, 5000);
-    return () => clearInterval(interval);
+    const stored = localStorage.getItem("brandName");
+    if (stored) setBrandName(stored);
   }, []);
 
+  const saveBranding = () => {
+    setIsSaving(true);
+    localStorage.setItem("brandName", brandName);
+    window.dispatchEvent(new CustomEvent("brandChange", { detail: brandName }));
+    setTimeout(() => setIsSaving(false), 1000);
+  };
+
+  const stats = [
+    { label: "Studio Inquiries", val: "124", grow: "+12%", color: "text-emerald" },
+    { label: "Conversion Rate", val: "8.4%", grow: "+2.1%", color: "text-gold" },
+    { label: "AI Briefs", val: "450", grow: "+24%", color: "text-blue-500" },
+  ];
+
   return (
-    <div className="min-h-screen bg-ivory flex text-emerald">
+    <main className="min-h-screen bg-ivory">
+      <Navbar />
       
-      {/* Tech Sidebar */}
-      <aside className="w-64 bg-sand border-r border-emerald/5 hidden lg:flex flex-col p-6 fixed h-full">
-        <div className="flex items-center gap-3 mb-10 px-2">
-           <div className="w-8 h-8 bg-emerald rounded-lg flex items-center justify-center font-black text-white">A</div>
-           <span className="font-display font-black text-lg tracking-tight">ADDIS<span className="text-gold underline decoration-2 underline-offset-4 ml-1">OS</span></span>
-        </div>
-
-        <nav className="flex-1 space-y-1">
-           <Link href="/admin" className="flex items-center gap-3 p-3 rounded-xl bg-emerald text-white font-bold text-sm shadow-lg shadow-emerald/10">
-              <LayoutDashboard size={18} /> Dashboard
-           </Link>
-           {["Inventory", "Studio Labs", "Concierge", "Node Analytics"].map((item, i) => (
-             <a key={i} href="#" className="flex items-center gap-3 p-3 rounded-xl text-emerald/30 hover:bg-emerald/5 hover:text-emerald transition-all text-sm font-bold border border-transparent hover:border-emerald/5">
-                {[Package, Sparkles, Send, TrendingUp][i] && <div className="text-emerald/20 hover:text-emerald"><Zap size={14} /></div>} {item}
-             </a>
-           ))}
-        </nav>
-
-        <div className="pt-6 border-t border-emerald/5 space-y-1">
-           <a href="#" className="flex items-center gap-3 p-3 rounded-xl text-emerald/30 hover:text-emerald transition-all text-sm font-bold">
-              <Settings size={18} /> OS Config
-           </a>
-           <Link href="/" className="flex items-center gap-3 p-3 rounded-xl text-red-500/60 hover:text-red-500 transition-all text-sm font-bold">
-              <LogOut size={18} /> Shutdown
-           </Link>
-        </div>
-      </aside>
-
-      {/* Main Terminal */}
-      <main className="flex-1 lg:ml-64 p-8 md:p-12">
+      <div className="pt-32 pb-20 max-w-7xl mx-auto px-5 md:px-12">
         
-        {/* Header */}
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16">
            <div>
-              <h1 className="text-3xl md:text-4xl font-display font-black mb-2 text-emerald">Systems <span className="text-gradient">Operational.</span></h1>
-              <p className="text-sm text-emerald/20 font-bold uppercase tracking-[0.3em]">Horizon Studio v4.0.2 // Addis Node</p>
-           </div>
-           <div className="flex items-center gap-4">
-              <div className="px-4 py-2 rounded-xl bg-emerald/5 border border-emerald/10 text-emerald text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                 <div className="w-2 h-2 bg-emerald rounded-full animate-pulse" />
-                 Active Traffic
+              <div className="flex items-center gap-3 text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4">
+                 <Shield size={14} /> Global Control Node
               </div>
-              <button className="p-3 bg-white border border-emerald/5 rounded-xl text-emerald relative shadow-sm">
-                 <Bell size={20} />
+              <h1 className="text-4xl md:text-6xl font-display font-black text-emerald">
+                 Project <span className="text-gradient">Telemetry.</span>
+              </h1>
+           </div>
+           
+           {/* BRANDING NODE - The Whitelabel Feature */}
+           <div className="w-full md:w-auto p-6 bg-white rounded-[2rem] border-2 border-gold/20 shadow-2xl flex flex-col sm:flex-row items-center gap-4">
+              <div className="flex flex-col">
+                 <span className="text-[8px] font-black uppercase text-gold tracking-widest mb-1">Proposal Whitelabel Mode</span>
+                 <input 
+                   type="text" 
+                   value={brandName}
+                   onChange={(e) => setBrandName(e.target.value.toUpperCase())}
+                   className="bg-transparent text-emerald font-black text-xs uppercase tracking-widest outline-none border-b border-emerald/10 focus:border-gold pb-1"
+                 />
+              </div>
+              <button 
+                onClick={saveBranding}
+                className={`w-full sm:w-12 h-12 flex items-center justify-center rounded-xl transition-all ${isSaving ? 'bg-gold text-white' : 'bg-emerald text-white'}`}
+              >
+                 {isSaving ? <Save size={18} className="animate-pulse" /> : <Edit3 size={18} />}
               </button>
            </div>
         </header>
 
-        {/* Real-time Telemetry */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-           {[
-             { icon: Users, label: "Live Nodes", val: visitorCount.toLocaleString(), color: "bg-emerald text-white" },
-             { icon: Send, label: "Active Comms", val: "124", color: "bg-gold/10 text-gold" },
-             { icon: Calendar, label: "Sync Tasks", val: "18", color: "bg-emerald/5 text-emerald" },
-             { icon: Zap, label: "System Load", val: "15%", color: "bg-emerald/5 text-emerald" },
-           ].map((stat, i) => (
-             <div key={i} className="bg-sand p-8 rounded-[2.5rem] border border-emerald/5 shadow-sm">
-                <div className="flex justify-between items-start mb-6">
-                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${stat.color}`}>
-                      <stat.icon size={22} />
-                   </div>
-                   <div className="text-emerald/40 text-[10px] font-bold">+4%</div>
+        {/* Stats Grid */}
+        <div className="grid md:grid-cols-3 gap-6 mb-12">
+           {stats.map((s, i) => (
+             <div key={i} className="p-10 bg-white rounded-[2.5rem] border border-emerald/5 shadow-xl">
+                <div className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-6">{s.label}</div>
+                <div className="flex items-end justify-between">
+                   <div className={`text-5xl font-display font-black ${s.color}`}>{s.val}</div>
+                   <div className="text-[10px] font-black text-emerald tracking-widest bg-emerald/5 px-2 py-1 rounded-lg">{s.grow}</div>
                 </div>
-                <div className="text-emerald/20 text-[10px] font-bold uppercase tracking-widest mb-1">{stat.label}</div>
-                <div className="text-3xl font-display font-black text-emerald">{stat.val}</div>
              </div>
            ))}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-           
-           <div className="lg:col-span-2 bg-white rounded-[3rem] border border-emerald/5 shadow-2xl shadow-emerald/5 overflow-hidden">
-              <div className="p-8 border-b border-sand flex justify-between items-center bg-sand/20">
-                 <h3 className="font-display font-black text-xl text-emerald">Telegram Comms Log</h3>
-                 <button className="text-[10px] font-black text-gold uppercase tracking-[0.2em] hover:underline">Full Trace</button>
-              </div>
-              <div className="divide-y divide-sand">
-                 {[
-                   { name: "Abebe Bikila", flow: "Visualizer → Contact", time: "2m", status: "Active" },
-                   { name: "Sara Tadesse", flow: "Configurator → Sync", time: "15m", status: "Pending" },
-                   { name: "Dawit Bekele", flow: "Portfolio → Archive", time: "45m", status: "Closed" },
-                 ].map((item, i) => (
-                   <div key={i} className="p-6 flex items-center justify-between hover:bg-sand/30 transition-colors">
-                      <div className="flex items-center gap-5">
-                         <div className="w-10 h-10 rounded-xl bg-sand flex items-center justify-center text-[10px] font-bold">
-                           {item.name[0]}
+        <div className="grid lg:grid-cols-2 gap-8">
+           {/* Lead Node */}
+           <div className="bg-emerald p-10 md:p-14 rounded-[3.5rem] text-white shadow-2xl relative overflow-hidden">
+              <div className="relative z-10">
+                 <h2 className="text-3xl font-display font-black mb-10">Latest Feed</h2>
+                 <div className="space-y-6">
+                    {[1,2,3].map(i => (
+                      <div key={i} className="flex gap-6 pb-6 border-b border-white/5 last:border-0 hover:translate-x-2 transition-transform cursor-pointer group">
+                         <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-gold transition-colors">
+                            <MessageSquare size={18} />
                          </div>
                          <div>
-                            <div className="text-sm font-black text-emerald">{item.name}</div>
-                            <div className="text-[10px] font-bold text-emerald/20 uppercase tracking-widest">{item.flow}</div>
-                         </div>
-                      </div>
-                      <div className="text-right">
-                         <div className="text-[10px] font-bold text-gold">{item.time} ago</div>
-                         <div className="text-[9px] font-black text-emerald/20 uppercase tracking-widest mt-1">{item.status}</div>
-                      </div>
-                   </div>
-                 ))}
-              </div>
-           </div>
-
-           <div className="bg-sand rounded-[3rem] border border-emerald/5 p-8 flex flex-col justify-between shadow-sm">
-              <div>
-                 <h3 className="font-display font-black text-xl mb-8 text-emerald">Studio Analytics</h3>
-                 <div className="space-y-8">
-                    {[
-                      { label: "Visualizer Usage", val: 88, color: "bg-emerald" },
-                      { label: "360 Studio", val: 74, color: "bg-gold" },
-                      { label: "AR Engagement", val: 42, color: "bg-emerald/20" },
-                    ].map((bar, i) => (
-                      <div key={i} className="space-y-3">
-                         <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-emerald/30">
-                            <span>{bar.label}</span>
-                            <span>{bar.val}%</span>
-                         </div>
-                         <div className="h-1 w-full bg-emerald/5 rounded-full overflow-hidden">
-                            <div className={`h-full ${bar.color} rounded-full`} style={{ width: `${bar.val}%` }} />
+                            <div className="text-[10px] font-black uppercase tracking-widest text-gold mb-1">Telegram Inquiry</div>
+                            <p className="text-sm font-medium opacity-60">Customer requested pricing for Oslo Sectional...</p>
                          </div>
                       </div>
                     ))}
                  </div>
               </div>
-
-              <div className="mt-12 p-6 rounded-2xl bg-emerald/5 border border-emerald/10">
-                 <div className="flex items-center gap-3 mb-2">
-                    <Sparkles size={14} className="text-gold" />
-                    <span className="text-[9px] font-black text-gold uppercase tracking-widest">Horizon AI Insight</span>
-                 </div>
-                 <p className="text-[11px] text-emerald/40 leading-relaxed italic">
-                    &ldquo;Users are spending 4.2x more time in the Visualizer on mobile devices.&rdquo;
-                 </p>
-              </div>
            </div>
 
+           {/* System Logs */}
+           <div className="bg-sand p-10 md:p-14 rounded-[3.5rem] border border-emerald/5">
+              <h2 className="text-3xl font-display font-black text-emerald mb-10">System Logs</h2>
+              <div className="space-y-4">
+                 {[
+                   { t: "10:45:12", m: "Amharic Node Sync Successful", c: "text-emerald" },
+                   { t: "09:30:44", m: "Visualizer Cache Cleared", c: "text-emerald" },
+                   { t: "08:12:05", m: `Active Brand: ${brandName}`, c: "text-gold" },
+                   { t: "23:59:59", m: "Daily Security Sweep Done", c: "text-emerald" },
+                 ].map((log, i) => (
+                   <div key={i} className="flex gap-4 font-mono text-[10px] border-b border-emerald/5 pb-3">
+                      <span className="opacity-30">{log.t}</span>
+                      <span className={`${log.c} font-bold`}>{log.m}</span>
+                   </div>
+                 ))}
+              </div>
+           </div>
         </div>
 
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

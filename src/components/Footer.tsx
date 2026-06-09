@@ -6,14 +6,26 @@ import { translations } from "@/utils/translations";
 
 export default function Footer() {
   const [lang, setLang] = useState<"en" | "am">("en");
+  const [brand, setBrand] = useState("ADDIS FURNITURE");
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
-    const stored = localStorage.getItem("lang") as "en" | "am";
-    if (stored) setLang(stored);
-    const h = (e: any) => setLang(e.detail);
-    window.addEventListener("langChange", h);
-    return () => window.removeEventListener("langChange", h);
+    const storedLang = localStorage.getItem("lang") as "en" | "am";
+    if (storedLang) setLang(storedLang);
+
+    const storedBrand = localStorage.getItem("brandName");
+    if (storedBrand) setBrand(storedBrand);
+
+    const hLang = (e: any) => setLang(e.detail);
+    const hBrand = (e: any) => setBrand(e.detail);
+    
+    window.addEventListener("langChange", hLang);
+    window.addEventListener("brandChange", hBrand);
+    
+    return () => {
+      window.removeEventListener("langChange", hLang);
+      window.removeEventListener("brandChange", hBrand);
+    };
   }, []);
 
   const t = translations[lang];
@@ -28,23 +40,16 @@ export default function Footer() {
            <div className="space-y-8">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 bg-emerald rounded-xl flex items-center justify-center font-black text-xl text-white">
-                    {lang === "en" ? "A" : "አ"}
+                    {brand.charAt(0)}
                  </div>
                  <div className="flex flex-col">
-                    <span className="font-display font-black text-xl tracking-tight text-emerald uppercase">Addis Furniture</span>
-                    <span className="text-[9px] font-black text-gold uppercase tracking-[0.4em] leading-none mt-1">Luxury Studio</span>
+                    <span className="font-display font-black text-xl tracking-tight text-emerald uppercase">{brand}</span>
+                    <span className="text-[9px] font-black text-gold uppercase tracking-[0.4em] leading-none mt-1">Luxury Studio Node</span>
                  </div>
               </div>
               <p className="text-emerald-soft text-sm leading-relaxed font-medium max-w-xs">
-                 {lang === "en" ? "Redefining Ethiopian luxury through the lens of digital precision and master craftsmanship." : "የኢትዮጵያን የቅንጦት ጥበብ በዘመናዊ ቴክኖሎጂ እና በባለሙያ እጅ ስራ እንደገና መግለፅ።"}
+                 {lang === "en" ? `Redefining Ethiopian luxury with ${brand} master craftsmanship.` : `${brand} ለኢትዮጵያ የቅንጦት ጥበብ አዲስ ገጽታ።`}
               </p>
-              <div className="flex gap-4">
-                 {[Share2, Globe, MessageSquare].map((Icon, i) => (
-                   <a key={i} href="#" className="w-11 h-11 rounded-xl bg-white border border-emerald/5 flex items-center justify-center hover:bg-emerald hover:text-white transition-all text-emerald/30">
-                      <Icon size={18} />
-                   </a>
-                 ))}
-              </div>
            </div>
 
            {/* Studio */}
@@ -93,7 +98,7 @@ export default function Footer() {
 
         <div className="pt-12 border-t border-emerald/5 flex flex-col md:flex-row justify-between items-center gap-8">
            <p className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.4em] text-center md:text-left">
-              © {currentYear} Addis Furniture {t.allRights}.
+              © {currentYear} {brand} {t.allRights}.
            </p>
            <div className="flex gap-10 text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em]">
               <span className="flex items-center gap-2">

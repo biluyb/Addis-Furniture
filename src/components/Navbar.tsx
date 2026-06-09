@@ -9,14 +9,25 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [lang, setLang] = useState<"en" | "am">("en");
+  const [brand, setBrand] = useState("ADDIS FURNITURE");
 
   useEffect(() => {
-    const stored = localStorage.getItem("lang") as "en" | "am";
-    if (stored) setLang(stored);
+    const storedLang = localStorage.getItem("lang") as "en" | "am";
+    if (storedLang) setLang(storedLang);
+
+    const storedBrand = localStorage.getItem("brandName");
+    if (storedBrand) setBrand(storedBrand);
     
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleBrand = (e: any) => setBrand(e.detail);
+    
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("brandChange", handleBrand);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("brandChange", handleBrand);
+    };
   }, []);
 
   const toggleLang = () => {
@@ -27,6 +38,7 @@ export default function Navbar() {
   };
 
   const t = translations[lang];
+  const [mainBrand, subBrand] = brand.split(" ");
 
   const navLinks = [
     { name: t.home, href: "/" },
@@ -39,31 +51,28 @@ export default function Navbar() {
     <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? "bg-white/80 backdrop-blur-xl border-b border-emerald/5 py-3" : "bg-transparent py-5 md:py-8"}`}>
       <div className="max-w-7xl mx-auto px-5 md:px-12 flex justify-between items-center">
         
-        {/* Brand */}
+        {/* Brand - Now Dynamic */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-8 h-8 md:w-10 md:h-10 bg-emerald rounded-lg flex items-center justify-center font-black text-white text-sm md:text-base shadow-lg shadow-emerald/20">A</div>
-          <span className="font-display font-black text-lg md:text-xl tracking-tight text-emerald">ADDIS<span className="text-gold ml-1">FURNITURE</span></span>
+          <div className="w-8 h-8 md:w-10 md:h-10 bg-emerald rounded-lg flex items-center justify-center font-black text-white text-sm md:text-base shadow-lg shadow-emerald/20">
+            {brand.charAt(0)}
+          </div>
+          <span className="font-display font-black text-lg md:text-xl tracking-tight text-emerald uppercase">
+            {mainBrand}<span className="text-gold ml-1">{subBrand || ""}</span>
+          </span>
         </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-10">
           <div className="flex gap-8">
             {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href} 
-                className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald/60 hover:text-emerald transition-colors"
-              >
+              <Link key={link.name} href={link.href} className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald/60 hover:text-emerald transition-colors">
                 {link.name}
               </Link>
             ))}
           </div>
 
           <div className="flex items-center gap-4">
-            <button 
-              onClick={toggleLang}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald/[0.04] border border-emerald/10 text-[10px] font-black text-emerald uppercase tracking-widest hover:bg-emerald/5 transition-all"
-            >
+            <button onClick={toggleLang} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald/[0.04] border border-emerald/10 text-[10px] font-black text-emerald uppercase tracking-widest hover:bg-emerald/5 transition-all">
               <Globe size={14} className="text-gold" />
               {lang === "en" ? "EN" : "አማ"}
             </button>
@@ -75,53 +84,25 @@ export default function Navbar() {
 
         {/* Mobile Toggle */}
         <div className="md:hidden flex items-center gap-3">
-           <button 
-            onClick={toggleLang}
-            className="w-10 h-10 rounded-xl bg-emerald/[0.04] border border-emerald/10 flex items-center justify-center text-emerald"
-          >
+           <button onClick={toggleLang} className="w-10 h-10 rounded-xl bg-emerald/[0.04] border border-emerald/10 flex items-center justify-center text-emerald">
             <span className="text-[10px] font-black">{lang === "en" ? "EN" : "አማ"}</span>
           </button>
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className="w-10 h-10 rounded-xl bg-emerald text-white flex items-center justify-center shadow-lg shadow-emerald/20"
-          >
+          <button onClick={() => setIsOpen(!isOpen)} className="w-10 h-10 rounded-xl bg-emerald text-white flex items-center justify-center shadow-lg shadow-emerald/20">
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu - Redesigned with Style */}
+      {/* Mobile Menu */}
       <div className={`fixed inset-0 bg-white z-40 transition-transform duration-700 md:hidden ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
          <div className="h-full flex flex-col p-8 pt-24">
-            <div className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-12">Navigation Node</div>
-            
+            <div className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-12">{brand} Node</div>
             <div className="flex flex-col gap-8">
                {navLinks.map((link) => (
-                 <Link 
-                   key={link.name} 
-                   href={link.href} 
-                   onClick={() => setIsOpen(false)}
-                   className="text-4xl font-display font-black text-emerald tracking-tight hover:text-gold transition-colors"
-                 >
+                 <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)} className="text-4xl font-display font-black text-emerald tracking-tight hover:text-gold transition-colors">
                    {link.name}
                  </Link>
                ))}
-            </div>
-
-            <div className="mt-auto pt-10 border-t border-emerald/5 flex flex-col gap-6">
-               <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-emerald flex items-center justify-center text-white">
-                     <LayoutDashboard size={20} />
-                  </div>
-                  <div>
-                     <div className="text-[9px] font-black uppercase tracking-widest text-emerald/20">System Access</div>
-                     <Link href="/admin" onClick={() => setIsOpen(false)} className="text-sm font-bold text-emerald">Admin Dashboard</Link>
-                  </div>
-               </div>
-               <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-widest text-emerald/20">
-                  <span>Addis OS v4.0.2</span>
-                  <span>{lang === "en" ? "English Node" : "Amharic Node"}</span>
-               </div>
             </div>
          </div>
       </div>
