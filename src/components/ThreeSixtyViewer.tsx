@@ -36,6 +36,11 @@ export default function ThreeSixtyViewer() {
     lastX.current = clientX;
   }, [isDragging]);
 
+  const cycleFrame = useCallback((e: any) => {
+    e.stopPropagation();
+    setFrameIndex(prev => (prev + 1) % frames.length);
+  }, []);
+
   useEffect(() => {
     const mm = (e: MouseEvent) => handleMove(e.clientX);
     const tm = (e: TouchEvent) => {
@@ -98,8 +103,13 @@ export default function ThreeSixtyViewer() {
 
                   {/* INTEGRATED PRECISION CONTROLS - FLOATING OVER THE IMAGE */}
                   <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-[40]">
-                      <div className="px-4 py-2 bg-white/95 backdrop-blur-xl border border-emerald/5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-2 shadow-xl text-emerald">
-                        <MoveHorizontal size={14} className="text-gold" /> Swipe
+                      <div 
+                        onClick={cycleFrame}
+                        onTouchEnd={cycleFrame}
+                        className="px-6 py-3 bg-white/95 backdrop-blur-xl border border-emerald/5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 shadow-2xl text-emerald cursor-pointer hover:bg-emerald hover:text-white transition-all group active:scale-95"
+                      >
+                        <MoveHorizontal size={14} className="text-gold group-hover:text-white animate-bounce" /> 
+                        Click to Cycle View
                       </div>
 
                       <div className="flex gap-2">

@@ -16,12 +16,10 @@ import ProductConfigurator from "./ProductConfigurator";
 import AIDesignLabs from "./AIDesignLabs";
 
 export default function InteractiveHub() {
-  const [mounted, setMounted] = useState(false);
   const [lang, setLang] = useState<"en" | "am">("en");
   const [activeTab, setActiveTab] = useState("360");
 
   useEffect(() => {
-    setMounted(true);
     const stored = localStorage.getItem("lang") as "en" | "am";
     if (stored) setLang(stored);
     const h = (e: any) => setLang(e.detail);
@@ -46,12 +44,6 @@ export default function InteractiveHub() {
     { id: "designer", name: t.aiTools, icon: Sparkles, desc: "Labs" }
   ];
 
-  if (!mounted) return (
-     <section className="bg-ivory min-h-[600px] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin" />
-     </section>
-  );
-
   return (
     <section id="studio" className="bg-ivory relative z-10 py-12 md:py-24">
       
@@ -65,19 +57,17 @@ export default function InteractiveHub() {
               </h2>
            </div>
 
-           {/* Mobile-friendly Hub Switcher - RADICAL: Use Anchor tags with dual listeners */}
+           {/* Mobile-friendly Hub Switcher - USING TAB BRIDGE FOR STABILITY */}
            <div className="grid grid-cols-2 md:flex md:flex-row gap-4 p-3 bg-sand rounded-[2.5rem] border-2 border-emerald/5 w-full md:w-auto relative z-30">
               {tools.map((tool) => (
-                <a
+                <div
                   key={tool.id}
-                  href="#"
                   onClick={(e) => handleTabSwitch(tool.id, e)}
-                  onTouchEnd={(e) => handleTabSwitch(tool.id, e)}
-                  className={`flex items-center justify-center gap-3 px-6 py-5 rounded-[1.8rem] transition-all whitespace-nowrap border-2 cursor-pointer touch-manipulation select-none shadow-sm ${activeTab === tool.id ? 'bg-emerald text-white border-gold shadow-2xl' : 'bg-white/50 text-emerald/60 border-transparent hover:bg-white'}`}
+                  className={`flex items-center justify-center gap-3 px-6 py-5 rounded-[1.8rem] transition-all whitespace-nowrap border-2 cursor-pointer touch-manipulation select-none shadow-sm active:scale-95 ${activeTab === tool.id ? 'bg-emerald text-white border-gold shadow-2xl' : 'bg-white/50 text-emerald/60 border-transparent hover:bg-white'}`}
                 >
                    <tool.icon size={20} className={activeTab === tool.id ? 'text-gold' : 'opacity-30'} />
                    <span className="text-[11px] font-black uppercase tracking-widest">{tool.name}</span>
-                </a>
+                </div>
               ))}
            </div>
         </div>
