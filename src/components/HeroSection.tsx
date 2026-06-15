@@ -12,7 +12,6 @@ export default function HeroSection() {
   useEffect(() => {
     const storedLang = localStorage.getItem("lang") as "en" | "am";
     if (storedLang) setLang(storedLang);
-    
     const storedBrand = localStorage.getItem("brandName");
     if (storedBrand) setBrand(storedBrand.split(" ")[0]);
     
@@ -30,54 +29,54 @@ export default function HeroSection() {
   const t = translations[lang];
 
   return (
-    <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center pt-20 md:pt-24 overflow-hidden bg-ivory">
-      <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-gold/5 rounded-full blur-[60px] md:blur-[100px] -translate-y-1/3 translate-x-1/3" />
+    <section className="relative min-h-[90vh] flex items-center pt-24 md:pt-32 pb-12 overflow-hidden bg-ivory">
+      <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-gold/5 rounded-full blur-[80px] md:blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-5 md:px-12 w-full">
-        <div className="grid lg:grid-cols-12 gap-10 md:gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-12 xl:col-span-7 flex flex-col items-center xl:items-start text-center xl:text-left">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-emerald/[0.04] border border-emerald/10 text-emerald font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-6 md:mb-8">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-emerald/[0.04] border border-emerald/10 text-emerald font-black text-[9px] uppercase tracking-[0.3em] mb-8">
               <Sparkles size={14} className="text-gold" />
-              {t.heritage} & Design Node
+              {t.heritage} Node v5.0
             </div>
             
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-black leading-[1.1] mb-6 md:mb-8 text-emerald tracking-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black leading-[1.05] mb-8 text-emerald tracking-tighter uppercase">
                {t.heroTitle} <br />
                <span className="text-gradient leading-tight">{brand} {lang === "en" ? "HORIZON." : "ስቱዲዮ።"}</span>
             </h1>
 
-            <p className="text-emerald-soft text-base md:text-xl max-w-2xl mb-10 md:mb-12 leading-relaxed font-medium">
-               {lang === "en" ? `Experience the pinnacle of craftsmanship. Modern furniture engineered for the elite homes of ${brand} residents.` : `ልዩ የእጅ ጥበብ ውጤቶች። ለእርስዎ የተገነቡ ዘመናዊ የቤት እቃዎች።`}
+            <p className="text-emerald-soft text-base md:text-xl max-w-xl mb-12 leading-relaxed font-medium">
+               {lang === "en" ? `Premium architecture for modern Addis residents. Experience high-end engineering at the speed of thought.` : `ለዘመናዊ አዲስ አበባ ነዋሪዎች የተዘጋጀ የቅንጦት ጥበብ። በቴክኖሎጂ የተደገፈ የቤት እቃዎች ስቱዲዮ።`}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto">
-              <button className="btn-modern flex items-center justify-center gap-3 group">
-                {t.enterStudio} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-16 underline-offset-8">
+              <button className="px-10 py-5 bg-emerald text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-gold transition-all shadow-2xl active:scale-95">
+                {t.enterStudio} <ArrowRight size={18} />
               </button>
-              <button className="px-8 py-4 border border-emerald/20 text-emerald font-bold text-xs uppercase tracking-widest rounded-2xl transition-all duration-500 hover:bg-emerald/5">
+              <button className="px-10 py-5 border-2 border-emerald/10 text-emerald font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald/5 transition-all">
                 {t.viewGallery}
               </button>
             </div>
 
-            <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-2xl">
                {[
                  { icon: Box, label: t.visualizer, id: "#visualizer" },
                  { icon: Dna, label: t.configure, id: "#configurator" },
                  { icon: Compass, label: t.threeSixty, id: "#360" },
                  { icon: Sparkles, label: t.aiTools, id: "#ai" },
                ].map((item, i) => (
-                 <a key={i} href={item.id} className="p-4 md:p-5 rounded-2xl md:rounded-3xl bg-white border border-emerald/10 flex flex-col items-center gap-3 hover:border-gold transition-all group shadow-sm">
-                    <item.icon size={20} className="text-emerald/40 group-hover:text-gold" />
-                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-emerald/60 group-hover:text-emerald">{item.label}</span>
+                 <a key={i} href={item.id} className="p-5 rounded-3xl bg-white border border-emerald/5 flex flex-col items-center gap-3 hover:border-gold transition-all group shadow-sm">
+                    <item.icon size={22} className="text-emerald/20 group-hover:text-gold transition-colors" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-emerald/40 group-hover:text-emerald">{item.label}</span>
                  </a>
                ))}
             </div>
           </div>
 
-          <div className="hidden xl:flex lg:col-span-12 xl:col-span-5 relative h-[500px] md:h-[700px] w-full items-center justify-center">
-             <div className="relative w-full aspect-square rounded-full border border-emerald/5 animate-spin-slow flex items-center justify-center">
-                <div className="w-[85%] aspect-square rounded-[3rem] md:rounded-[4rem] overflow-hidden rotate-[15deg] shadow-2xl border-4 border-white bg-sand">
+          <div className="hidden xl:flex lg:col-span-12 xl:col-span-5 relative h-[600px] w-full items-center justify-center">
+             <div className="relative w-full aspect-square rounded-full border border-emerald/5 flex items-center justify-center">
+                <div className="w-[85%] aspect-square rounded-[4rem] overflow-hidden rotate-[12deg] shadow-3xl border-8 border-white bg-sand relative transform transition-transform hover:rotate-0 duration-700">
                    <Image src="/images/hero_node.png" alt="Hero" fill className="object-cover" priority />
                 </div>
              </div>
