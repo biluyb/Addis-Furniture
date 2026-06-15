@@ -9,13 +9,13 @@ const collections = [
     id: "living-room",
     title: "Living Room",
     subtitle: "Sofas · TV Units",
-    image: "/images/hero.png",
+    image: "/images/hero_node.png",
   },
   {
     id: "bedroom",
     title: "Bedroom",
     subtitle: "Beds · Wardrobes",
-    image: "/images/bedroom.png",
+    image: "/images/bedroom_suite.png",
   },
   {
     id: "office",
@@ -27,7 +27,7 @@ const collections = [
     id: "dining",
     title: "Dining",
     subtitle: "Dining Sets",
-    image: "/images/dining.png",
+    image: "/images/visualizer_base.png",
   },
 ];
 
@@ -42,9 +42,8 @@ export default function Collections() {
             const cards = entry.target.querySelectorAll(".coll-card");
             cards.forEach((card, i) => {
               setTimeout(() => {
-                (card as HTMLElement).style.opacity = "1";
-                (card as HTMLElement).style.transform = "translateY(0)";
-              }, i * 100);
+                (card as HTMLElement).classList.add("appear");
+              }, i * 150);
             });
           }
         });
@@ -56,38 +55,36 @@ export default function Collections() {
   }, []);
 
   return (
-    <section id="collections" className="section-padding bg-ivory">
-      <div className="max-w-7xl mx-auto px-5 md:px-12">
+    <section id="collections" className="section-padding bg-ivory pt-20">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16 md:mb-20">
           <div>
             <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">
-              Curated Series
+               Global Architecture
             </span>
             <h2 className="text-4xl md:text-7xl font-display font-black text-emerald leading-tight">
-              Spaces for<br /><span className="text-gradient">Inspired Living.</span>
+               Spaces for<br /><span className="text-gradient">Inspired Living.</span>
             </h2>
           </div>
           <a
-            href="#contact"
-            className="inline-flex items-center gap-3 text-emerald font-black text-[10px] uppercase tracking-widest hover:text-gold transition-colors py-4 px-8 border border-emerald/10 rounded-xl"
+            href="https://t.me/taologos"
+            target="_blank"
+            className="inline-flex items-center gap-4 text-emerald font-black text-[10px] uppercase tracking-widest hover:bg-emerald hover:text-white transition-all py-5 px-10 border-2 border-emerald/10 rounded-2xl w-fit"
           >
-            Explore Master Library
-            <ArrowRight size={14} />
+            Digital Library
+            <ArrowRight size={18} />
           </a>
         </div>
 
-        {/* Grid - Standardized Mobile Aspect Ratios */}
-        <div ref={sectionRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        {/* Grid - NO INLINE OPACITY 0 FOR STABILITY */}
+        <div ref={sectionRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {collections.map((col) => (
             <div
               key={col.id}
-              className="coll-card relative rounded-[2rem] md:rounded-[3rem] overflow-hidden cursor-pointer group shadow-xl bg-sand"
+              className="coll-card relative rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden cursor-pointer group shadow-2xl bg-sand opacity-0 translate-y-12 transition-all duration-1000 ease-out"
               style={{
-                opacity: 0,
-                transform: "translateY(20px)",
-                transition: "opacity 0.8s ease, transform 0.8s ease",
                 aspectRatio: "4/5",
               }}
             >
@@ -96,26 +93,32 @@ export default function Collections() {
                 alt={col.title}
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                priority
               />
               
-              {/* Higher contrast overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald via-emerald/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald/90 via-emerald/20 to-transparent opacity-70 group-hover:opacity-85 transition-opacity" />
               
-              {/* Content - High Contrast Text */}
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <h3 className="text-white text-2xl font-display font-black mb-1">
+              <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
+                <h3 className="text-white text-2xl md:text-3xl font-display font-black mb-1 group-hover:-translate-y-2 transition-transform duration-500">
                   {col.title}
                 </h3>
-                <p className="text-white/80 text-[10px] font-black uppercase tracking-widest mb-6">{col.subtitle}</p>
+                <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-8">{col.subtitle}</p>
                 
-                <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-gold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
-                  Browse Node <ArrowRight size={10} />
+                <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-gold opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                   Discover <ArrowRight size={14} />
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+      
+      <style jsx>{`
+        .coll-card.appear {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+      `}</style>
     </section>
   );
 }

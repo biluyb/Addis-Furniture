@@ -51,14 +51,13 @@ export default function Testimonials() {
             const cards = entry.target.querySelectorAll(".testi-card");
             cards.forEach((card, i) => {
               setTimeout(() => {
-                (card as HTMLElement).style.opacity = "1";
-                (card as HTMLElement).style.transform = "translateY(0)";
-              }, i * 140);
+                (card as HTMLElement).classList.add("appear");
+              }, i * 150);
             });
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     
@@ -68,51 +67,44 @@ export default function Testimonials() {
     };
   }, []);
 
-  const t = translations[lang];
-
   return (
-    <section id="testimonials" className="section-padding bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-5 md:px-12">
+    <section id="testimonials" className="section-padding bg-white pt-24 pb-32">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
         
-        <div className="text-center mb-16 md:mb-20">
-          <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">
-             Verified Stories
+        <div className="text-center mb-20 md:mb-24">
+          <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block underline underline-offset-8 decoration-gold/20">
+             Institutional Trust
           </span>
-          <h2 className="text-4xl md:text-7xl font-display font-black text-emerald tracking-tight">
-             Loved by <br /><span className="text-gradient">Thousands.</span>
+          <h2 className="text-5xl md:text-8xl font-display font-black text-emerald tracking-tighter">
+             Loved by <br /><span className="text-gradient leading-tight">Thousands.</span>
           </h2>
         </div>
 
-        <div ref={sectionRef} className="grid md:grid-cols-3 gap-6 md:gap-8">
+        <div ref={sectionRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
           {testimonials.map((testi) => (
             <div
               key={testi.id}
-              className="testi-card bg-sand p-8 md:p-10 rounded-[2.5rem] border border-emerald/5 relative shadow-lg"
-              style={{
-                opacity: 0,
-                transform: "translateY(30px)",
-                transition: "opacity 0.8s ease, transform 0.8s ease",
-              }}
+              className="testi-card bg-sand p-10 md:p-14 rounded-[3rem] border border-emerald/5 relative shadow-xl opacity-0 translate-y-12 transition-all duration-1000 ease-out"
             >
-              <Quote className="absolute top-10 right-10 text-gold/10" size={40} />
+              <Quote className="absolute top-12 right-12 text-gold/10" size={50} />
 
-              <div className="flex gap-0.5 mb-6">
-                {[1,2,3,4,5].map((s) => <Star key={s} size={14} fill="#C5A039" color="#C5A039" />)}
+              <div className="flex gap-1 mb-8">
+                {[1,2,3,4,5].map((s) => <Star key={s} size={16} fill="#C5A039" color="#C5A039" />)}
               </div>
 
-              <p className="text-emerald-soft text-base font-medium leading-relaxed mb-10 italic">
+              <p className="text-emerald text-lg md:text-xl font-medium leading-relaxed mb-12 italic border-l-4 border-gold/30 pl-6">
                 &ldquo;{lang === "en" ? testi.text : testi.textAm}&rdquo;
               </p>
 
-              <div className="flex items-center gap-4 border-t border-emerald/5 pt-8">
-                <div className="w-12 h-12 rounded-2xl bg-emerald text-white flex items-center justify-center font-black text-sm shadow-xl shadow-emerald/20">
+              <div className="flex items-center gap-5 border-t border-emerald/5 pt-10">
+                <div className="w-14 h-14 rounded-2xl bg-emerald text-white flex items-center justify-center font-black text-base shadow-2xl">
                   {testi.initials}
                 </div>
                 <div>
-                  <div className="text-emerald font-black text-base leading-none mb-1">
+                  <div className="text-emerald font-black text-lg leading-none mb-1.5">
                      {lang === "en" ? testi.name : testi.nameAm}
                   </div>
-                  <div className="text-gold text-[10px] font-black uppercase tracking-widest leading-none">
+                  <div className="text-gold text-[10px] font-black uppercase tracking-[0.3em] leading-none">
                      {testi.location}
                   </div>
                 </div>
@@ -121,19 +113,26 @@ export default function Testimonials() {
           ))}
         </div>
 
-        <div className="flex flex-col items-center justify-center gap-4 mt-16 md:mt-20">
-          <div className="flex -space-x-3">
-            {["DB", "ST", "MA", "JB"].map((initials, i) => (
-              <div key={i} className="w-10 h-10 rounded-full bg-emerald border-2 border-white flex items-center justify-center text-white text-[10px] font-black">
+        <div className="flex flex-col items-center justify-center gap-6 mt-24">
+          <div className="flex -space-x-4">
+            {["DB", "ST", "MA", "JB", "RK"].map((initials, i) => (
+              <div key={i} className="w-12 h-12 rounded-full bg-emerald border-4 border-white flex items-center justify-center text-white text-[11px] font-black shadow-lg">
                 {initials[0]}
               </div>
             ))}
           </div>
-          <p className="text-emerald-soft text-[10px] font-black uppercase tracking-[0.2em] text-center">
-             <span className="text-emerald">5,000+ Customers</span> Trust our Vision
+          <p className="text-emerald-soft text-[11px] font-black uppercase tracking-[0.3em] text-center bg-sand px-8 py-4 rounded-full border border-emerald/5">
+             <span className="text-emerald">5,000+ Studios</span> Architecture verified
           </p>
         </div>
       </div>
+
+      <style jsx>{`
+        .testi-card.appear {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+      `}</style>
     </section>
   );
 }
