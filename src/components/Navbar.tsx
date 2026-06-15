@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Menu, X, Globe, LayoutDashboard, ArrowRight, Share2, Phone } from "lucide-react";
 import { translations } from "@/utils/translations";
@@ -30,7 +30,18 @@ export default function Navbar() {
     };
   }, []);
 
-  // Prevent scrolling when mobile menu is open
+  // Use useCallback for event handlers to maintain stable references
+  const handleToggleLang = useCallback(() => {
+    const newLang = lang === "en" ? "am" : "en";
+    setLang(newLang);
+    localStorage.setItem("lang", newLang);
+    window.dispatchEvent(new CustomEvent("langChange", { detail: newLang }));
+  }, [lang]);
+
+  const handleToggleMenu = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -38,14 +49,6 @@ export default function Navbar() {
       document.body.style.overflow = "unset";
     }
   }, [isOpen]);
-
-  const toggleLang = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const newLang = lang === "en" ? "am" : "en";
-    setLang(newLang);
-    localStorage.setItem("lang", newLang);
-    window.dispatchEvent(new CustomEvent("langChange", { detail: newLang }));
-  };
 
   const t = translations[lang];
   const [mainBrand, subBrand] = brand.split(" ");
@@ -59,21 +62,25 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed w-full z-[100] transition-all duration-500 ${isScrolled ? "bg-white/90 backdrop-blur-2xl border-b border-emerald/5 py-3 md:py-4 shadow-sm" : "bg-transparent py-6 md:py-8"}`}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+      <nav className={`fixed w-full z-[100] transition-all duration-500 pointer-events-auto ${isScrolled ? "bg-white/95 backdrop-blur-3xl border-b border-emerald/5 py-3 shadow-md" : "bg-transparent py-7"}`}>
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center pointer-events-auto">
           
           {/* Brand */}
-          <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-3 relative z-[110]">
-            <div className="w-10 h-10 bg-emerald rounded-2xl flex items-center justify-center font-black text-white text-base shadow-xl shadow-emerald/20 transition-transform active:scale-90">
+          <Link 
+            href="/" 
+            onClick={() => setIsOpen(false)} 
+            className="flex items-center gap-3 relative z-[120] cursor-pointer"
+          >
+            <div className="w-10 h-10 bg-emerald rounded-2xl flex items-center justify-center font-black text-white text-base shadow-xl">
               {brand.charAt(0)}
             </div>
-            <span className="font-display font-black text-xl md:text-2xl tracking-tighter text-emerald uppercase flex items-baseline">
+            <span className="font-display font-black text-xl md:text-2xl tracking-tighter text-emerald uppercase flex items-baseline select-none">
               {mainBrand}<span className="text-gold ml-1">{subBrand || ""}</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-12">
+          <div className="hidden lg:flex items-center gap-12 relative z-[120]">
             <div className="flex gap-10">
               {navLinks.map((link) => (
                 <Link key={link.name} href={link.href} className="text-[11px] font-black uppercase tracking-[0.3em] text-emerald/40 hover:text-emerald transition-all relative group">
@@ -85,76 +92,66 @@ export default function Navbar() {
 
             <div className="flex items-center gap-6">
               <button 
-                onClick={toggleLang} 
-                className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-emerald/[0.04] border border-emerald/10 text-[11px] font-black text-emerald uppercase tracking-widest hover:bg-emerald/10 transition-all active:scale-95 cursor-pointer"
+                onClick={handleToggleLang} 
+                className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-emerald/[0.04] border border-emerald/10 text-[11px] font-black text-emerald uppercase tracking-widest hover:bg-emerald/10 transition-all cursor-pointer relative z-[130]"
               >
                 <Globe size={14} className="text-gold" />
                 {lang === "en" ? "English" : "አማርኛ"}
               </button>
-              <Link href="/admin" className="p-3 rounded-2xl bg-emerald text-white shadow-xl shadow-emerald/20 hover:bg-gold hover:text-white transition-all transform hover:-rotate-12">
+              <Link href="/admin" className="p-3 rounded-2xl bg-emerald text-white shadow-xl hover:bg-gold transition-all">
                  <LayoutDashboard size={20} />
               </Link>
             </div>
           </div>
 
-          {/* Mobile Toggle & Mini Actions */}
-          <div className="lg:hidden flex items-center gap-3 relative z-[110]">
+          {/* Mobile Toggle & Actions */}
+          <div className="lg:hidden flex items-center gap-3 relative z-[120]">
              <button 
-               onClick={(e) => { toggleLang(e); }} 
-               className="w-11 h-11 rounded-[15px] bg-emerald/[0.04] border border-emerald/10 flex items-center justify-center text-emerald active:bg-emerald/10 transition-colors pointer-events-auto cursor-pointer"
+               type="button"
+               onClick={handleToggleLang} 
+               className="w-12 h-12 rounded-[18px] bg-emerald/[0.04] border-2 border-emerald/5 flex items-center justify-center text-emerald cursor-pointer active:bg-emerald/10 transition-all touch-manipulation relative z-[130]"
              >
-              <span className="text-[10px] font-black pointer-events-none">{lang === "en" ? "EN" : "አማ"}</span>
+                <span className="text-[10px] font-black pointer-events-none">{lang === "en" ? "EN" : "አማ"}</span>
             </button>
             <button 
-              onClick={() => setIsOpen(!isOpen)} 
-              className="w-11 h-11 rounded-[15px] bg-emerald text-white flex items-center justify-center shadow-xl shadow-emerald/20 active:scale-90 transition-transform pointer-events-auto cursor-pointer"
+              type="button"
+              onClick={handleToggleMenu} 
+              className="w-12 h-12 rounded-[18px] bg-emerald text-white flex items-center justify-center shadow-2xl cursor-pointer active:scale-90 transition-all touch-manipulation relative z-[130]"
             >
-              {isOpen ? <X size={22} /> : <Menu size={22} />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* LUXURY MOBILE MENU OVERLAY - ONLY RENDERED WHEN OPEN OR ANIMATING */}
+      {/* MOBILE MENU */}
       {isOpen && (
-        <div className="fixed inset-0 bg-white z-[120] lg:hidden animate-in fade-in slide-in-from-top duration-500 overflow-y-auto">
-           <div className="h-full flex flex-col pt-32 pb-12 px-8">
-              
-              <div className="mb-12">
-                 <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-2 block border-l-2 border-gold pl-4">{brand} STUDIO</span>
-                 <p className="text-emerald/40 text-[11px] font-medium leading-relaxed max-w-[240px]">Architecting the future of Ethiopian luxury furniture.</p>
-              </div>
-
-              <div className="flex flex-col gap-6 mb-auto">
-                 {navLinks.map((link, i) => (
+        <div className="fixed inset-0 bg-white z-[150] lg:hidden flex flex-col p-8 pt-32 overflow-y-auto animate-in fade-in slide-in-from-top duration-500">
+           <div className="mb-14">
+              <span className="text-gold text-[11px] font-black uppercase tracking-[0.5em] mb-4 block underline decoration-gold/20">Studio Directory</span>
+              <div className="flex flex-col gap-6">
+                 {navLinks.map((link) => (
                    <Link 
                      key={link.name} 
                      href={link.href} 
                      onClick={() => setIsOpen(false)} 
-                     className="flex items-center justify-between group"
+                     className="text-5xl font-display font-black text-emerald tracking-tighter uppercase"
                    >
-                      <span className="text-4xl xs:text-5xl font-display font-black text-emerald tracking-tighter hover:translate-x-3 transition-transform duration-500">
-                        {link.name}
-                      </span>
-                      <div className="w-10 h-10 rounded-full border border-emerald/10 flex items-center justify-center">
-                         <ArrowRight size={20} className="text-gold" />
-                      </div>
+                     {link.name}
                    </Link>
                  ))}
               </div>
-
-              <div className="mt-16 pt-12 border-t border-emerald/5">
-                 <div className="grid grid-cols-2 gap-4">
-                    <a href="tel:+251911000000" className="flex items-center gap-3 p-5 bg-sand rounded-3xl group">
-                       <Phone size={18} className="text-gold" />
-                       <span className="text-[10px] font-black uppercase tracking-widest text-emerald">{t.contact}</span>
-                    </a>
-                    <a href="#" className="flex items-center gap-3 p-5 bg-sand rounded-3xl">
-                       <Share2 size={18} className="text-emerald/20" />
-                       <span className="text-[10px] font-black uppercase tracking-widest text-emerald">Social</span>
-                    </a>
-                 </div>
-              </div>
+           </div>
+           
+           <div className="mt-auto grid grid-cols-2 gap-4">
+              <a href="tel:+251911000000" className="p-6 bg-sand rounded-3xl flex items-center gap-4">
+                 <Phone size={20} className="text-gold" />
+                 <span className="text-[11px] font-black uppercase tracking-widest text-emerald">Call</span>
+              </a>
+              <a href="#" className="p-6 bg-sand rounded-3xl flex items-center gap-4">
+                 <Share2 size={20} className="text-emerald/20" />
+                 <span className="text-[11px] font-black uppercase tracking-widest text-emerald">Social</span>
+              </a>
            </div>
         </div>
       )}
