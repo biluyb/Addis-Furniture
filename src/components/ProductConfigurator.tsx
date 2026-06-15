@@ -76,7 +76,7 @@ export default function ProductConfigurator() {
               />
               <div className="relative w-full aspect-video transition-all duration-700 hover:scale-105 active:scale-110">
                  <Image 
-                    src="/home/bililign/.gemini/antigravity/brain/cdd2826e-151c-48eb-95f8-1a8e508c83ac/luxury_sofa_product_transparent_1781506709272.png" 
+                    src="/images/sofa_master.png" 
                     alt="Bespoke Sofa" 
                     fill 
                     className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.2)]" 

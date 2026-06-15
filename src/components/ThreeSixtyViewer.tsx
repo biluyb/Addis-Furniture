@@ -9,7 +9,7 @@ const products = [
     id: "oslo",
     name: "Oslo Sectional Elite",
     price: "ETB 145,000",
-    image: "/home/bililign/.gemini/antigravity/brain/cdd2826e-151c-48eb-95f8-1a8e508c83ac/luxury_sofa_product_transparent_1781506709272.png",
+    image: "/images/sofa_master.png",
     description: "Premium velvet sectional with deep-seated ergonomic architecture.",
     features: ["Zero Gravity Build", "Anti-Stain Silk", "Adaptive Foam"]
   }

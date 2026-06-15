@@ -17,7 +17,7 @@ const rooms = [
   {
     id: "living",
     name: "Grand Living Node",
-    image: "/home/bililign/.gemini/antigravity/brain/cdd2826e-151c-48eb-95f8-1a8e508c83ac/luxury_living_visualizer_base_1781506691956.png",
+    image: "/images/visualizer_base.png",
     hotspots: [
       { id: "h1", x: "40%", y: "65%", label: "Oslo Sectional", price: "145k" },
       { id: "h2", x: "70%", y: "55%", label: "Prime Cabinet", price: "45k" }
@@ -26,7 +26,7 @@ const rooms = [
   {
     id: "bedroom",
     name: "Heritage Suite",
-    image: "/home/bililign/.gemini/antigravity/brain/cdd2826e-151c-48eb-95f8-1a8e508c83ac/bedroom_setup_1780585759734.png",
+    image: "/images/bedroom_suite.png",
     hotspots: [
       { id: "h3", x: "50%", y: "50%", label: "King Heritage Bed", price: "98k" }
     ]

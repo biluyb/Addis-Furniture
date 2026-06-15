@@ -78,7 +78,7 @@ export default function HeroSection() {
           <div className="hidden xl:flex lg:col-span-12 xl:col-span-5 relative h-[500px] md:h-[700px] w-full items-center justify-center">
              <div className="relative w-full aspect-square rounded-full border border-emerald/5 animate-spin-slow flex items-center justify-center">
                 <div className="w-[85%] aspect-square rounded-[3rem] md:rounded-[4rem] overflow-hidden rotate-[15deg] shadow-2xl border-4 border-white bg-sand">
-                   <Image src="/images/hero.png" alt="Hero" fill className="object-cover" priority />
+                   <Image src="/images/hero_node.png" alt="Hero" fill className="object-cover" priority />
                 </div>
              </div>
           </div>
