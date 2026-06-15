@@ -111,7 +111,7 @@ export default function Navbar() {
       </div>
 
       {/* LUXURY MOBILE MENU OVERLAY */}
-      <div className={`fixed inset-0 bg-white z-[105] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] lg:hidden ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none invisible"}`}>
+      <div className={`fixed inset-0 bg-white z-[105] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] lg:hidden ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none invisible hidden"}`}>
          
          <div className="h-full flex flex-col pt-32 pb-12 px-8 overflow-y-auto">
             

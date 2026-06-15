@@ -29,7 +29,6 @@ export default function Home() {
       </div>
       
       <Footer />
-      <FloatingTelegram />
     </main>
   );
 }
