@@ -9,7 +9,7 @@ import {
   Box,
   Check,
   Zap,
-  Monitor
+  Layout
 } from "lucide-react";
 import { translations } from "@/utils/translations";
 
@@ -52,49 +52,40 @@ export default function ProductConfigurator() {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         
         <div className="mb-12 text-center md:text-left">
-           <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block underline underline-offset-8 decoration-gold/30">Studio Node v5.0</span>
+           <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block underline underline-offset-8 decoration-gold/30">Studio Node v6.0</span>
            <h2 className="text-4xl md:text-7xl font-display font-black text-emerald leading-tight">
-              Bespoke <span className="text-gradient">Config.</span>
+              Bespoke <span className="text-gradient">Studio.</span>
            </h2>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
            
-           {/* THE STUDIO: FIXED ROOM, CHANGING SOFA ONLY */}
-           <div className="lg:col-span-8 relative aspect-[16/9] w-full rounded-[3rem] overflow-hidden shadow-3xl border border-emerald/5 bg-sand">
+           {/* THE VIRTUAL STUDIO: CLEAN, MINIMALIST, ONE SOFA ONLY */}
+           <div className="lg:col-span-8 relative aspect-[16/9] w-full rounded-[3.5rem] overflow-hidden shadow-3xl border border-emerald/5 flex flex-col">
               
-              {/* 1. ROOM LAYER (Static Background) */}
-              <Image 
-                src="/images/office.png" 
-                alt="Studio Background" 
-                fill 
-                className="object-cover transition-opacity duration-1000"
-                priority
-              />
-
-              {/* 2. SOFA SYSTEM (Positioned in the room) */}
-              <div className="absolute inset-x-0 bottom-[15%] flex justify-center items-center h-1/2 group">
+              {/* 1. VIRTUAL BACKDROP (Wall) */}
+              <div className="h-[75%] w-full bg-[#f8f6f2] relative flex items-center justify-center">
+                 {/* Subtle Light Leak */}
+                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/40 to-transparent" />
                  
-                 {/* Shadow Logic */}
-                 <div className="absolute bottom-[-5%] w-[60%] h-4 bg-black/20 rounded-[100%] blur-xl" />
-
-                 <div className="relative w-[70%] h-full transition-transform duration-700 group-hover:scale-105">
+                 {/* 2. THE SOFA (The Only Sofa in the Room) */}
+                 <div className="relative w-[75%] h-[80%] transition-transform duration-700 hover:scale-105 z-20">
                     
-                    {/* BASE SOFA TEXTURE (The real sofa geometry) */}
+                    {/* Sofa Base Texture */}
                     <Image 
                       src="/images/sofa_canvas.png" 
-                      alt="Furniture Base" 
+                      alt="The Bespoke Sectional" 
                       fill 
                       className="object-contain z-10"
+                      priority
                     />
 
-                    {/* DYNAMIC COLOR DYE LAYER (Only applies to sofa) */}
+                    {/* Color Layer (Masked to Sofa ONLY) */}
                     <div 
-                      className="absolute inset-0 z-20 pointer-events-none transition-all duration-700 w-full h-full"
+                      className="absolute inset-0 z-20 pointer-events-none transition-all duration-700"
                       style={{ 
                         backgroundColor: activeColor.hex,
                         mixBlendMode: 'multiply',
-                        // High-performance mask logic
                         WebkitMaskImage: 'url(/images/sofa_canvas.png)',
                         WebkitMaskSize: 'contain',
                         WebkitMaskPosition: 'center',
@@ -103,11 +94,11 @@ export default function ProductConfigurator() {
                         maskSize: 'contain',
                         maskPosition: 'center',
                         maskRepeat: 'no-repeat',
-                        opacity: 0.9
+                        opacity: 0.95
                       }}
                     />
 
-                    {/* AMBIENT HIGHLIGHTS (Brings back professional lighting) */}
+                    {/* Lighting/Gloss Overlay */}
                     <div 
                       className="absolute inset-0 z-30 pointer-events-none mix-blend-overlay opacity-30"
                       style={{ 
@@ -115,36 +106,42 @@ export default function ProductConfigurator() {
                         WebkitMaskSize: 'contain',
                         WebkitMaskPosition: 'center',
                         WebkitMaskRepeat: 'no-repeat',
-                        background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%)'
+                        background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0.3) 100%)'
                       }} 
                     />
                  </div>
               </div>
 
+              {/* 3. VIRTUAL FLOOR */}
+              <div className="h-[25%] w-full bg-[#ebe8e2] border-t border-black/5 relative">
+                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-full bg-black/10 rounded-[100%] blur-[40px] -translate-y-1/2" />
+                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/[0.03]" />
+              </div>
+
               {/* Status HUD */}
-              <div className="absolute bottom-8 right-8 flex items-center gap-4 bg-white/90 backdrop-blur-xl px-6 py-4 rounded-2xl shadow-2xl border border-white">
-                 <div className="w-3 h-3 bg-emerald rounded-full animate-pulse" />
-                 <div className="flex flex-col">
-                    <span className="text-[8px] font-black uppercase tracking-widest text-emerald/40 leading-none mb-1">Active Spec</span>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald leading-none">{activeColor.name}</span>
-                 </div>
+              <div className="absolute top-8 left-8 flex items-center gap-4 bg-emerald text-white px-5 py-3 rounded-2xl shadow-2xl scale-90 md:scale-100 origin-top-left">
+                 <Layout size={16} className="text-gold" />
+                 <span className="text-[10px] font-black uppercase tracking-widest leading-none">Studio View: Active</span>
               </div>
            </div>
 
            {/* CONTROLS */}
-           <div className="lg:col-span-4 space-y-12">
+           <div className="lg:col-span-4 space-y-10">
               
               {/* Color Matrix */}
               <div>
-                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-6 block flex items-center gap-2">
-                    <Palette size={14} /> Textile Palette (10 Nodes)
-                 </label>
+                 <div className="flex justify-between items-center mb-6">
+                    <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] flex items-center gap-2">
+                       <Palette size={14} /> Color Architecture
+                    </label>
+                    <span className="text-[10px] font-black text-gold uppercase underline decoration-gold/20">{activeColor.name}</span>
+                 </div>
                  <div className="grid grid-cols-5 gap-3">
                     {colors.map((c) => (
                       <button 
                         key={c.id} 
                         onClick={() => setActiveColor(c)}
-                        className={`aspect-square rounded-full border-4 transition-all relative ${activeColor.id === c.id ? 'border-gold scale-125 z-10 shadow-xl' : 'border-transparent bg-sand'}`}
+                        className={`aspect-square rounded-full border-4 transition-all relative ${activeColor.id === c.id ? 'border-gold scale-125 z-10' : 'border-transparent bg-sand'}`}
                       >
                          <div className="w-full h-full rounded-full border border-emerald/5" style={{ backgroundColor: c.hex }} />
                          {activeColor.id === c.id && <Check size={12} className="absolute inset-0 m-auto text-white" strokeWidth={4} />}
@@ -153,9 +150,9 @@ export default function ProductConfigurator() {
                  </div>
               </div>
 
-              {/* Legs */}
+              {/* Components */}
               <div>
-                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-6 block">Structural Hub</label>
+                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-6 block">Structural Balance</label>
                  <div className="space-y-3">
                     {legOptions.map((leg) => (
                       <button 
@@ -164,8 +161,8 @@ export default function ProductConfigurator() {
                         className={`w-full p-5 rounded-[2rem] border-2 transition-all flex justify-between items-center ${activeLeg.id === leg.id ? 'bg-emerald text-white border-gold shadow-lg' : 'bg-sand border-transparent text-emerald/40 hover:bg-white'}`}
                       >
                          <div className="flex items-center gap-4">
-                            <Box size={18} className={activeLeg.id === leg.id ? 'text-gold' : 'opacity-20'} />
-                            <span className="text-[10px] font-black uppercase tracking-widest leading-none">{leg.name}</span>
+                            <div className={`w-8 h-8 rounded-xl shadow-inner ${activeLeg.id === leg.id ? 'bg-white/20' : 'bg-emerald/5'}`} />
+                            <span className="text-[10px] font-black uppercase tracking-widest">{leg.name}</span>
                          </div>
                          <div className="text-[9px] font-black">ETB {leg.price.toLocaleString()}</div>
                       </button>
@@ -175,20 +172,15 @@ export default function ProductConfigurator() {
 
               {/* Price Relay */}
               <div className="pt-8 border-t border-emerald/5">
-                 <div className="flex items-center justify-between mb-8">
-                    <div className="flex flex-col">
-                       <span className="text-[9px] font-black text-emerald/20 uppercase tracking-widest">Pricing Relay</span>
-                       <span className="text-4xl font-display font-black text-emerald">ETB {total.toLocaleString()}</span>
-                    </div>
-                    <div className="w-12 h-12 rounded-2xl bg-gold/10 flex items-center justify-center text-gold">
-                       <Zap size={24} />
-                    </div>
+                 <div className="mb-8">
+                    <span className="text-[9px] font-black text-emerald/20 uppercase tracking-widest block mb-1">Configuration Total Value</span>
+                    <span className="text-5xl font-display font-black text-emerald">ETB {total.toLocaleString()}</span>
                  </div>
                  <button 
                    onClick={() => window.open('https://t.me/taologos', '_blank')}
                    className="w-full py-6 bg-emerald text-white rounded-[2rem] font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-gold transition-all shadow-3xl active:scale-95"
                  >
-                    Relay to Studio <ChevronRight size={18} />
+                    Finalize Studio Design <ChevronRight size={18} />
                  </button>
               </div>
 
