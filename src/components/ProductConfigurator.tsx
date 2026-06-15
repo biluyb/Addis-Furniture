@@ -6,39 +6,35 @@ import {
   Palette, 
   Layers, 
   ChevronRight,
-  Maximize2,
   Box,
   Check,
-  Compass,
   Zap,
-  Info
+  Monitor
 } from "lucide-react";
 import { translations } from "@/utils/translations";
 
-const fabricNodes = [
-  { id: "emerald", name: "Imperial Emerald", type: "Velvet", hex: "#004B49", price: 12000 },
-  { id: "crimson", name: "Addis Crimson", type: "Silk", hex: "#8B0000", price: 15000 },
-  { id: "nile", name: "Midnight Nile", type: "Leather", hex: "#002147", price: 25000 },
-  { id: "ivory", name: "Pearl Ivory", type: "Linen", hex: "#FDFCF8", price: 5000 },
-  { id: "charcoal", name: "Carbon Ash", type: "Canvas", hex: "#36454F", price: 0 },
+const colors = [
+  { id: "emerald", name: "Imperial Emerald", hex: "#004B49", price: 12000 },
+  { id: "crimson", name: "Addis Crimson", hex: "#8B0000", price: 15000 },
+  { id: "nile", name: "Midnight Nile", hex: "#002147", price: 25000 },
+  { id: "gold", name: "Royal Gold", hex: "#D4AF37", price: 30000 },
+  { id: "sand", name: "Desert Sand", hex: "#C2B280", price: 0 },
+  { id: "charcoal", name: "Carbon Ash", hex: "#36454F", price: 5000 },
+  { id: "forest", name: "Highland Forest", hex: "#228B22", price: 10000 },
+  { id: "ocean", name: "Deep Ocean", hex: "#005F6B", price: 11000 },
+  { id: "terra", name: "Rift Clay", hex: "#E2725B", price: 8000 },
+  { id: "ivory", name: "Pearl Ivory", hex: "#FDFCF8", price: 6000 },
 ];
 
-const structuralNodes = [
-  { id: "oak", name: "Sun-Drenched Oak", material: "Wood", hex: "#BFA482", price: 0 },
-  { id: "walnut", name: "Smoked Walnut", material: "Wood", hex: "#2D1B14", price: 15000 },
-  { id: "steel", name: "Matte Titanium", material: "Steel", hex: "#111111", price: 25000 },
-];
-
-const intentNodes = [
-  { id: "firm", name: "Executive Firm", icon: Box },
-  { id: "plush", name: "Adaptive Soft", icon: Compass },
+const legOptions = [
+  { id: "minimal", name: "Aero Steel", price: 0 },
+  { id: "timber", name: "Walnut Block", price: 18000 },
 ];
 
 export default function ProductConfigurator() {
   const [lang, setLang] = useState<"en" | "am">("en");
-  const [fabric, setFabric] = useState(fabricNodes[0]);
-  const [structure, setStructure] = useState(structuralNodes[0]);
-  const [intent, setIntent] = useState(intentNodes[0]);
+  const [activeColor, setActiveColor] = useState(colors[0]);
+  const [activeLeg, setActiveLeg] = useState(legOptions[0]);
   const [total, setTotal] = useState(145000);
 
   useEffect(() => {
@@ -47,45 +43,73 @@ export default function ProductConfigurator() {
     const h = (e: any) => setLang(e.detail);
     window.addEventListener("langChange", h);
     
-    setTotal(145000 + fabric.price + structure.price);
+    setTotal(145000 + activeColor.price + activeLeg.price);
     return () => window.removeEventListener("langChange", h);
-  }, [fabric, structure]);
+  }, [activeColor, activeLeg]);
 
   return (
-    <section id="configurator" className="bg-ivory pt-12 pb-20 overflow-hidden">
+    <section id="configurator" className="bg-ivory pt-12 pb-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         
-        <header className="mb-12 md:mb-16">
-           <div className="flex items-center gap-3 text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4">
-              <Zap size={14} /> Design Module 4.0
-           </div>
-           <h2 className="text-4xl md:text-7xl font-display font-black text-emerald uppercase tracking-tighter">
-              Bespoke <span className="text-gradient leading-tight">Architecture.</span>
+        <div className="mb-12 text-center md:text-left">
+           <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block underline underline-offset-8 decoration-gold/30">Studio Node v5.0</span>
+           <h2 className="text-4xl md:text-7xl font-display font-black text-emerald leading-tight">
+              Bespoke <span className="text-gradient">Config.</span>
            </h2>
-        </header>
+        </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 md:gap-14">
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
            
-           {/* High-Fidelity Rendering Port */}
-           <div className="lg:col-span-12 xl:col-span-7 space-y-6">
-              <div className="bg-white rounded-[3rem] p-6 md:p-12 relative overflow-hidden min-h-[350px] shadow-2xl flex items-center justify-center border border-emerald/5">
+           {/* THE STUDIO: FIXED ROOM, CHANGING SOFA ONLY */}
+           <div className="lg:col-span-8 relative aspect-[16/9] w-full rounded-[3rem] overflow-hidden shadow-3xl border border-emerald/5 bg-sand">
+              
+              {/* 1. ROOM LAYER (Static Background) */}
+              <Image 
+                src="/images/office.png" 
+                alt="Studio Background" 
+                fill 
+                className="object-cover transition-opacity duration-1000"
+                priority
+              />
+
+              {/* 2. SOFA SYSTEM (Positioned in the room) */}
+              <div className="absolute inset-x-0 bottom-[15%] flex justify-center items-center h-1/2 group">
                  
-                 {/* Color Swatch Logic */}
-                 <div className="relative w-full aspect-video z-10 flex items-center justify-center isolate">
-                    <Image src="/images/sofa_canvas.png" alt="Canvas" fill className="object-contain" priority />
+                 {/* Shadow Logic */}
+                 <div className="absolute bottom-[-5%] w-[60%] h-4 bg-black/20 rounded-[100%] blur-xl" />
+
+                 <div className="relative w-[70%] h-full transition-transform duration-700 group-hover:scale-105">
+                    
+                    {/* BASE SOFA TEXTURE (The real sofa geometry) */}
+                    <Image 
+                      src="/images/sofa_canvas.png" 
+                      alt="Furniture Base" 
+                      fill 
+                      className="object-contain z-10"
+                    />
+
+                    {/* DYNAMIC COLOR DYE LAYER (Only applies to sofa) */}
                     <div 
-                      className="absolute inset-0 z-20 pointer-events-none transition-all duration-700"
+                      className="absolute inset-0 z-20 pointer-events-none transition-all duration-700 w-full h-full"
                       style={{ 
-                        backgroundColor: fabric.hex, 
+                        backgroundColor: activeColor.hex,
                         mixBlendMode: 'multiply',
+                        // High-performance mask logic
                         WebkitMaskImage: 'url(/images/sofa_canvas.png)',
                         WebkitMaskSize: 'contain',
                         WebkitMaskPosition: 'center',
                         WebkitMaskRepeat: 'no-repeat',
                         maskImage: 'url(/images/sofa_canvas.png)',
+                        maskSize: 'contain',
+                        maskPosition: 'center',
+                        maskRepeat: 'no-repeat',
+                        opacity: 0.9
                       }}
                     />
-                    <div className="absolute inset-0 z-30 pointer-events-none mix-blend-overlay opacity-30 shadow-inner"
+
+                    {/* AMBIENT HIGHLIGHTS (Brings back professional lighting) */}
+                    <div 
+                      className="absolute inset-0 z-30 pointer-events-none mix-blend-overlay opacity-30"
                       style={{ 
                         WebkitMaskImage: 'url(/images/sofa_canvas.png)',
                         WebkitMaskSize: 'contain',
@@ -95,99 +119,76 @@ export default function ProductConfigurator() {
                       }} 
                     />
                  </div>
-
-                 {/* Rendering Overlay */}
-                 <div className="absolute top-8 left-8 flex flex-col gap-2">
-                    <div className="bg-emerald text-white px-5 py-3 rounded-2xl flex items-center gap-3 shadow-2xl border border-white/10">
-                       <div className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse" />
-                       <span className="text-[10px] font-black uppercase tracking-widest leading-none">Studio Render: {fabric.name}</span>
-                    </div>
-                 </div>
               </div>
 
-              {/* Specification Matrix - NEW FEATURE */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-sand/30 rounded-[2rem] border border-emerald/5">
-                 {[
-                   { label: "Material", val: fabric.type },
-                   { label: "Base Node", val: structure.material },
-                   { label: "Leg Node", val: structure.name.split(" ")[1] },
-                   { label: "Interior", val: intent.name.split(" ")[1] },
-                 ].map((spec, i) => (
-                   <div key={i} className="text-center md:text-left">
-                      <div className="text-[8px] font-black text-emerald/20 uppercase tracking-[0.2em] mb-1">{spec.label}</div>
-                      <div className="text-[10px] font-black text-emerald uppercase tracking-widest">{spec.val}</div>
-                   </div>
-                 ))}
+              {/* Status HUD */}
+              <div className="absolute bottom-8 right-8 flex items-center gap-4 bg-white/90 backdrop-blur-xl px-6 py-4 rounded-2xl shadow-2xl border border-white">
+                 <div className="w-3 h-3 bg-emerald rounded-full animate-pulse" />
+                 <div className="flex flex-col">
+                    <span className="text-[8px] font-black uppercase tracking-widest text-emerald/40 leading-none mb-1">Active Spec</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald leading-none">{activeColor.name}</span>
+                 </div>
               </div>
            </div>
 
-           {/* Precision Controls */}
-           <div className="lg:col-span-12 xl:col-span-5 space-y-12">
+           {/* CONTROLS */}
+           <div className="lg:col-span-4 space-y-12">
               
-              {/* Textile Node */}
+              {/* Color Matrix */}
               <div>
-                 <div className="flex justify-between items-center mb-6">
-                    <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] flex items-center gap-2">
-                       <Palette size={14} /> Textile Selection
-                    </label>
-                    <span className="text-[10px] font-black text-gold uppercase underline underline-offset-4 decoration-gold/20">{fabric.name}</span>
-                 </div>
-                 <div className="flex flex-wrap gap-4">
-                    {fabricNodes.map((f) => (
-                      <button key={f.id} onClick={() => setFabric(f)}
-                        className={`w-14 h-14 rounded-full border-4 transition-all relative group ${fabric.id === f.id ? 'border-gold scale-110 shadow-2xl' : 'border-transparent bg-sand shadow-sm'}`}>
-                         <div className="w-full h-full rounded-full border border-emerald/5" style={{ backgroundColor: f.hex }} />
-                         {fabric.id === f.id && <Check size={14} className="absolute inset-0 m-auto text-white" strokeWidth={4} />}
-                      </button>
-                    ))}
-                 </div>
-              </div>
-
-              {/* Base Component Node */}
-              <div>
-                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
-                    <Layers size={14} /> Structural Components (Base)
+                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-6 block flex items-center gap-2">
+                    <Palette size={14} /> Textile Palette (10 Nodes)
                  </label>
-                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-3">
-                    {structuralNodes.map((s) => (
-                      <button key={s.id} onClick={() => setStructure(s)}
-                        className={`p-5 rounded-[2rem] border-2 transition-all flex justify-between items-center ${structure.id === s.id ? 'bg-emerald text-white border-gold shadow-2xl scale-[1.02]' : 'bg-sand border-transparent text-emerald/40 hover:bg-white'}`}>
-                         <div className="flex items-center gap-4">
-                            <div className="w-8 h-8 rounded-lg shadow-inner" style={{ backgroundColor: s.hex }} />
-                            <div className="text-left leading-none">
-                               <div className="text-[10px] font-black uppercase tracking-widest">{s.name}</div>
-                               <div className="text-[8px] opacity-40 uppercase tracking-widest mt-1">Industrial Grade</div>
-                            </div>
-                         </div>
-                         {structure.id === s.id && <Check size={14} className="text-gold" />}
+                 <div className="grid grid-cols-5 gap-3">
+                    {colors.map((c) => (
+                      <button 
+                        key={c.id} 
+                        onClick={() => setActiveColor(c)}
+                        className={`aspect-square rounded-full border-4 transition-all relative ${activeColor.id === c.id ? 'border-gold scale-125 z-10 shadow-xl' : 'border-transparent bg-sand'}`}
+                      >
+                         <div className="w-full h-full rounded-full border border-emerald/5" style={{ backgroundColor: c.hex }} />
+                         {activeColor.id === c.id && <Check size={12} className="absolute inset-0 m-auto text-white" strokeWidth={4} />}
                       </button>
                     ))}
                  </div>
               </div>
 
-              {/* Design Preference (Seating) */}
+              {/* Legs */}
               <div>
-                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-6 block">Seating Architecture</label>
-                 <div className="flex gap-4">
-                    {intentNodes.map((node) => (
-                      <button key={node.id} onClick={() => setIntent(node)}
-                        className={`flex-1 p-5 rounded-[2rem] border-2 transition-all flex flex-col items-center gap-3 ${intent.id === node.id ? 'bg-white border-gold shadow-xl text-emerald' : 'bg-sand border-transparent text-emerald/30 active:scale-95'}`}>
-                         <node.icon size={20} className={intent.id === node.id ? 'text-gold' : 'opacity-20'} />
-                         <span className="text-[10px] font-black uppercase tracking-widest leading-none">{node.name}</span>
+                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-6 block">Structural Hub</label>
+                 <div className="space-y-3">
+                    {legOptions.map((leg) => (
+                      <button 
+                        key={leg.id} 
+                        onClick={() => setActiveLeg(leg)}
+                        className={`w-full p-5 rounded-[2rem] border-2 transition-all flex justify-between items-center ${activeLeg.id === leg.id ? 'bg-emerald text-white border-gold shadow-lg' : 'bg-sand border-transparent text-emerald/40 hover:bg-white'}`}
+                      >
+                         <div className="flex items-center gap-4">
+                            <Box size={18} className={activeLeg.id === leg.id ? 'text-gold' : 'opacity-20'} />
+                            <span className="text-[10px] font-black uppercase tracking-widest leading-none">{leg.name}</span>
+                         </div>
+                         <div className="text-[9px] font-black">ETB {leg.price.toLocaleString()}</div>
                       </button>
                     ))}
                  </div>
               </div>
 
-              {/* Pricing & CRM Hub */}
-              <div className="pt-12 border-t border-emerald/5 flex flex-col md:flex-row items-center justify-between gap-10">
-                 <div className="w-full text-center md:text-left">
-                    <div className="text-[10px] font-black text-emerald/20 uppercase tracking-widest mb-1">Configuration Total Value</div>
-                    <div className="text-5xl font-display font-black text-emerald leading-none">ETB {total.toLocaleString()}</div>
+              {/* Price Relay */}
+              <div className="pt-8 border-t border-emerald/5">
+                 <div className="flex items-center justify-between mb-8">
+                    <div className="flex flex-col">
+                       <span className="text-[9px] font-black text-emerald/20 uppercase tracking-widest">Pricing Relay</span>
+                       <span className="text-4xl font-display font-black text-emerald">ETB {total.toLocaleString()}</span>
+                    </div>
+                    <div className="w-12 h-12 rounded-2xl bg-gold/10 flex items-center justify-center text-gold">
+                       <Zap size={24} />
+                    </div>
                  </div>
-                 <button onClick={() => window.open('https://t.me/taologos', '_blank')}
-                    className="w-full md:w-auto px-12 py-6 bg-emerald text-white rounded-[2.5rem] font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-gold transition-all shadow-3xl active:scale-95">
-                    Finalize Design <ChevronRight size={18} />
+                 <button 
+                   onClick={() => window.open('https://t.me/taologos', '_blank')}
+                   className="w-full py-6 bg-emerald text-white rounded-[2rem] font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-gold transition-all shadow-3xl active:scale-95"
+                 >
+                    Relay to Studio <ChevronRight size={18} />
                  </button>
               </div>
 
