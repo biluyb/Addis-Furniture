@@ -12,7 +12,6 @@ export default function Navbar() {
   const [brand, setBrand] = useState("ADDIS FURNITURE");
 
   useEffect(() => {
-    // Standard initialization: don't block the render
     const storedLang = localStorage.getItem("lang") as "en" | "am";
     if (storedLang) setLang(storedLang);
 
@@ -25,10 +24,7 @@ export default function Navbar() {
   }, []);
 
   const handleToggleLang = useCallback((e?: any) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+    if (e && e.preventDefault) e.preventDefault();
     setLang(prev => {
       const next = prev === "en" ? "am" : "en";
       localStorage.setItem("lang", next);
@@ -38,10 +34,7 @@ export default function Navbar() {
   }, []);
 
   const handleToggleMenu = useCallback((e?: any) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+    if (e && e.preventDefault) e.preventDefault();
     setIsOpen(v => !v);
   }, []);
 
@@ -65,33 +58,35 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed w-full z-[1000] transition-colors duration-300 ${isScrolled || isOpen ? "bg-white border-b border-emerald/5 py-3 md:py-4 shadow-sm" : "bg-transparent py-6 md:py-8"}`}>
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <nav className={`fixed w-full z-[1005] transition-colors duration-300 ${isScrolled || isOpen ? "bg-white border-b border-emerald/5 py-3 shadow-md" : "bg-transparent py-6 md:py-8"}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center h-12">
           
           {/* Logo Area */}
-          <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-3 relative z-[1100]">
-            <div className="w-10 h-10 bg-emerald rounded-2xl flex items-center justify-center font-black text-white shadow-xl shadow-emerald/10">
+          <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-3 relative z-[1100] cursor-pointer pointer-events-auto">
+            <div className="w-10 h-10 bg-emerald rounded-2xl flex items-center justify-center font-black text-white shadow-xl">
               {brand.charAt(0)}
             </div>
-            <span className="font-display font-black text-xl md:text-2xl tracking-tighter text-emerald uppercase flex items-baseline">
+            <span className="font-display font-black text-xl md:text-2xl tracking-tighter text-emerald uppercase flex items-baseline select-none">
               {mainBrand}<span className="text-gold ml-1">{subBrand || ""}</span>
             </span>
           </Link>
 
-          {/* Controls - Using Anchor tags for better hardware tap support */}
-          <div className="flex items-center gap-4 relative z-[1100]">
+          {/* Controls - Using onPointerDown for hardware-level tap capture */}
+          <div className="flex items-center gap-4 relative z-[1100] pointer-events-auto">
              <div 
-               onClick={handleToggleLang}
-               className="w-11 h-11 rounded-[15px] bg-emerald/[0.04] border border-emerald/10 flex items-center justify-center text-emerald cursor-pointer active:bg-emerald/10 touch-manipulation"
+               onPointerDown={handleToggleLang}
+               onClick={(e) => e.preventDefault()}
+               className="w-12 h-12 rounded-[15px] bg-emerald/[0.04] border border-emerald/10 flex items-center justify-center text-emerald cursor-pointer active:bg-emerald/10 touch-manipulation select-none"
              >
                 <span className="text-[10px] font-black pointer-events-none">{lang === "en" ? "EN" : "አማ"}</span>
             </div>
             
             <div 
-              onClick={handleToggleMenu}
-              className="lg:hidden w-11 h-11 rounded-[15px] bg-emerald text-white flex items-center justify-center shadow-xl shadow-emerald/20 cursor-pointer active:bg-gold transition-colors touch-manipulation"
+              onPointerDown={handleToggleMenu}
+              onClick={(e) => e.preventDefault()}
+              className="lg:hidden w-12 h-12 rounded-[15px] bg-emerald text-white flex items-center justify-center shadow-xl cursor-pointer active:bg-gold transition-colors touch-manipulation select-none"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={26} /> : <Menu size={26} />}
             </div>
 
             {/* Desktop Only */}
@@ -111,7 +106,7 @@ export default function Navbar() {
 
       {/* MOBILE MENU */}
       {isOpen && (
-        <div className="fixed inset-0 bg-white z-[900] lg:hidden flex flex-col p-8 pt-32 overflow-y-auto animate-in fade-in duration-300">
+        <div className="fixed inset-0 bg-white z-[1200] lg:hidden flex flex-col p-8 pt-32 overflow-y-auto animate-in fade-in duration-300">
            <div className="mb-14">
               <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-6 block border-l-4 border-gold pl-4 font-display">Directory</span>
               <div className="flex flex-col gap-6">
