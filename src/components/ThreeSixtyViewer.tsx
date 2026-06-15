@@ -37,7 +37,8 @@ export default function ThreeSixtyViewer() {
   }, [isDragging]);
 
   const cycleFrame = useCallback((e: any) => {
-    e.stopPropagation();
+    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopPropagation) e.stopPropagation();
     setFrameIndex(prev => (prev + 1) % frames.length);
   }, []);
 
@@ -51,7 +52,7 @@ export default function ThreeSixtyViewer() {
     const stop = () => setIsDragging(false);
     
     if (isDragging) {
-      window.addEventListener("mousemove", mm);
+      window.addEventListener("mousemove", mm, { passive: true });
       window.addEventListener("mouseup", stop);
       window.addEventListener("touchmove", tm, { passive: false });
       window.addEventListener("touchend", stop);
@@ -97,31 +98,30 @@ export default function ThreeSixtyViewer() {
                   <div className="absolute top-6 left-6 z-[30] pointer-events-none">
                     <div className="bg-emerald/90 backdrop-blur-md text-white px-4 py-2 rounded-xl shadow-xl flex items-center gap-2 border border-white/20">
                        <Box size={14} className="text-gold" />
-                       <span className="text-[10px] font-black uppercase tracking-widest">3D Study</span>
+                       <span className="text-[9px] font-black uppercase tracking-widest">3D Study v6.2</span>
                     </div>
                   </div>
 
                   {/* INTEGRATED PRECISION CONTROLS - FLOATING OVER THE IMAGE */}
                   <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-[40]">
                       <div 
-                        onClick={cycleFrame}
-                        onTouchEnd={cycleFrame}
-                        className="px-6 py-3 bg-white/95 backdrop-blur-xl border border-emerald/5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 shadow-2xl text-emerald cursor-pointer hover:bg-emerald hover:text-white transition-all group active:scale-95"
+                        onPointerDown={cycleFrame}
+                        className="px-5 py-2.5 bg-emerald/90 backdrop-blur-xl border border-white/20 rounded-full text-[9px] font-black uppercase tracking-[0.3em] flex items-center gap-2 shadow-2xl text-white cursor-pointer active:scale-95 transition-all group pointer-events-auto"
                       >
-                        <MoveHorizontal size={14} className="text-gold group-hover:text-white animate-bounce" /> 
-                        Click to Cycle View
+                        <MoveHorizontal size={14} className="text-gold group-active:translate-x-1 transition-transform" /> 
+                        Cycle View
                       </div>
 
                       <div className="flex gap-2">
                         <button 
                           onClick={(e) => { e.stopPropagation(); setZoom(z => Math.min(z + 0.4, 2.5)); }}
-                          className="w-11 h-11 rounded-xl bg-white/95 backdrop-blur-xl border border-emerald/5 flex justify-center items-center shadow-xl active:scale-90 hover:bg-emerald hover:text-white transition-all pointer-events-auto"
+                          className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-xl border border-emerald/5 flex justify-center items-center shadow-xl active:scale-90 hover:bg-emerald hover:text-white transition-all pointer-events-auto"
                         >
                           <ZoomIn size={18} className="text-gold" />
                         </button>
                         <button 
                           onClick={(e) => { e.stopPropagation(); setZoom(1); setFrameIndex(0); setRotation(0); }}
-                          className="w-11 h-11 rounded-xl bg-white/95 backdrop-blur-xl border border-emerald/5 flex justify-center items-center shadow-xl active:scale-90 hover:bg-gold hover:text-white transition-all pointer-events-auto"
+                          className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-xl border border-emerald/5 flex justify-center items-center shadow-xl active:scale-90 hover:bg-gold hover:text-white transition-all pointer-events-auto"
                         >
                           <RotateCcw size={18} className="text-emerald" />
                         </button>
@@ -142,7 +142,7 @@ export default function ThreeSixtyViewer() {
                     </h3>
                  </div>
                  <button onClick={() => window.open('https://t.me/taologos', '_blank')}
-                   className="w-full md:w-auto px-10 py-5 bg-emerald text-white rounded-[2rem] font-black text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-gold transition-all shadow-xl active:scale-95">
+                   className="w-full md:w-auto px-8 py-4 bg-emerald text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-gold transition-all shadow-xl active:scale-95">
                     Connect Studio <Zap size={18} />
                  </button>
               </div>

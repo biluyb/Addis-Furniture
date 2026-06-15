@@ -47,25 +47,21 @@ export default function ProductConfigurator() {
     return () => window.removeEventListener("langChange", h);
   }, [activeColor, activeLeg]);
 
+  const handleColorSelect = useCallback((c: any) => setActiveColor(c), []);
+  const handleLegSelect = useCallback((leg: any) => setActiveLeg(leg), []);
+
   return (
-    <section id="studio" className="bg-ivory pt-12 pb-24 overflow-hidden relative z-10">
+    <section id="studio" className="bg-ivory pt-8 pb-20 relative z-10">
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20">
         
-        <div className="mb-12 text-center md:text-left">
-           <span className="text-gold text-[11px] font-black uppercase tracking-[0.4em] mb-4 block underline underline-offset-8 decoration-gold/30">Bespoke Production</span>
-           <h2 className="text-4xl md:text-7xl font-display font-black text-emerald leading-tight tracking-tighter uppercase italic">
-              Config <span className="text-gradient">Studio.</span>
-           </h2>
-        </div>
-
-        <div className="grid lg:grid-cols-12 gap-10 items-start">
+        <div className="flex flex-col xl:flex-row gap-10 items-stretch">
            
-           {/* THE VIRTUAL STUDIO */}
-           <div className="lg:col-span-8 relative aspect-[16/9] w-full rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-3xl border border-emerald/5 flex flex-col group touch-none">
+           {/* THE VIRTUAL STUDIO PORT - NO OVERLAP GRID */}
+           <div className="xl:flex-1 relative aspect-video xl:aspect-auto w-full bg-[#f8f6f2] rounded-[2.5rem] md:rounded-[4rem] border border-emerald/5 shadow-2xl flex flex-col justify-center items-center overflow-hidden h-[400px] md:h-auto">
               
-              <div className="h-[75%] w-full bg-[#f8f6f2] relative flex items-center justify-center pointer-events-none">
-                 <div className="relative w-[80%] h-[85%]">
-                    <Image src="/images/sofa_canvas.png" alt="Bespoke Sectional" fill className="object-contain z-10" priority />
+              <div className="relative w-[100%] h-[100%] flex items-center justify-center pointer-events-none">
+                 <div className="relative w-[90%] h-[90%]">
+                    <Image src="/images/sofa_canvas.png" alt="Bespoke Sectional" fill className="object-contain z-10 drop-shadow-2xl" priority />
                     <div 
                       className="absolute inset-0 z-20"
                       style={{ 
@@ -79,78 +75,69 @@ export default function ProductConfigurator() {
                         maskSize: 'contain',
                         maskPosition: 'center',
                         maskRepeat: 'no-repeat',
-                        opacity: 0.95
+                        opacity: 0.9
                       }}
                     />
                  </div>
               </div>
 
-              <div className="h-[25%] w-full bg-[#ebe8e2] border-t border-black/5 relative pointer-events-none">
-                 <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-[9px] font-black text-emerald/10 uppercase tracking-[0.5em]">Realtime Fabric Simulation</span>
-                 </div>
-              </div>
-
               {/* HUD */}
-              <div className="absolute top-8 left-8 flex items-center gap-4 bg-emerald text-white px-5 py-3 rounded-2xl shadow-3xl border border-white/20 pointer-events-none">
-                 <Layout size={18} className="text-gold" />
-                 <span className="text-[10px] font-black uppercase tracking-widest leading-none">Studio v6.0</span>
+              <div className="absolute top-8 left-8 flex items-center gap-3 bg-white/90 backdrop-blur-xl border border-emerald/10 px-6 py-3 rounded-2xl shadow-xl pointer-events-none z-30">
+                 <div className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald leading-none">Studio Engine v6.1</span>
               </div>
            </div>
 
-           {/* CONTROLS - RADICAL: USE DIVS FOR RELIABLE MOBILE TAP */}
-           <div className="lg:col-span-4 space-y-12">
+           {/* CONTROLS CARD - PERFECT COMPACT LAYOUT */}
+           <div className="xl:w-[400px] space-y-8 bg-white/50 backdrop-blur-3xl p-8 md:p-10 rounded-[3rem] border border-emerald/5 shadow-2xl relative z-40">
               
               <div>
                  <div className="flex justify-between items-center mb-6">
-                    <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.4em] flex items-center gap-2">
-                       <Palette size={16} /> Color Node
+                    <label className="text-[10px] font-black text-emerald/30 uppercase tracking-[0.3em] flex items-center gap-2">
+                       <Palette size={16} /> Finish
                     </label>
-                    <span className="text-[10px] font-black text-gold uppercase">{activeColor.name}</span>
+                    <span className="text-[9px] font-black text-gold uppercase tracking-widest">{activeColor.name}</span>
                  </div>
-                 <div className="grid grid-cols-5 gap-4 pointer-events-auto">
+                 <div className="grid grid-cols-5 gap-3">
                     {colors.map((c) => (
                       <div 
                         key={c.id} 
-                        onClick={() => setActiveColor(c)}
-                        className={`aspect-square rounded-full border-4 transition-all relative cursor-pointer touch-manipulation select-none active:scale-125 ${activeColor.id === c.id ? 'border-gold scale-110 z-30 shadow-3xl' : 'border-transparent bg-sand hover:bg-white'}`}
+                        onPointerDown={() => handleColorSelect(c)}
+                        className={`aspect-square rounded-full border-2 transition-all relative cursor-pointer touch-manipulation select-none active:scale-110 ${activeColor.id === c.id ? 'border-gold scale-105 z-30 shadow-xl' : 'border-emerald/5 bg-sand/20 hover:bg-white'}`}
                       >
-                         <div className="w-full h-full rounded-full border border-emerald/5" style={{ backgroundColor: c.hex }} />
-                         {activeColor.id === c.id && <Check size={14} className="absolute inset-0 m-auto text-white" strokeWidth={4} />}
+                         <div className="w-full h-full rounded-full border border-white/20" style={{ backgroundColor: c.hex }} />
+                         {activeColor.id === c.id && <Check size={12} className="absolute inset-0 m-auto text-white" strokeWidth={5} />}
                       </div>
                     ))}
                  </div>
               </div>
 
-              <div className="pointer-events-auto">
-                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.4em] mb-6 block border-l-2 border-gold pl-4">Structural Component</label>
-                 <div className="space-y-4">
+              <div>
+                 <label className="text-[10px] font-black text-emerald/30 uppercase tracking-[0.3em] mb-4 block">Construction</label>
+                 <div className="grid grid-cols-2 gap-3">
                     {legOptions.map((leg) => (
                       <div 
                         key={leg.id} 
-                        onClick={() => setActiveLeg(leg)}
-                        className={`w-full p-6 rounded-[2rem] border-2 transition-all flex justify-between items-center cursor-pointer touch-manipulation select-none active:scale-[0.98] ${activeLeg.id === leg.id ? 'bg-emerald text-white border-gold shadow-2xl z-30' : 'bg-sand border-transparent text-emerald/40 hover:bg-white'}`}
+                        onPointerDown={() => handleLegSelect(leg)}
+                        className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 cursor-pointer touch-manipulation select-none ${activeLeg.id === leg.id ? 'bg-emerald text-white border-gold shadow-xl' : 'bg-sand/30 border-transparent text-emerald/40 hover:bg-white'}`}
                       >
-                         <div className="flex items-center gap-4">
-                            <Box size={22} className={activeLeg.id === leg.id ? "text-gold" : "opacity-20"} />
-                            <span className="text-[11px] font-black uppercase tracking-widest leading-none">{leg.name}</span>
-                         </div>
-                         <div className="text-[10px] font-black opacity-60">ETB {leg.price.toLocaleString()}</div>
+                         <Box size={18} className={activeLeg.id === leg.id ? "text-gold" : "opacity-20"} />
+                         <span className="text-[9px] font-black uppercase tracking-widest leading-none text-center">{leg.name}</span>
                       </div>
                     ))}
                  </div>
               </div>
 
-              <div className="pt-8 border-t border-emerald/5 flex flex-col items-center justify-between gap-8 pointer-events-auto">
-                 <div className="text-center w-full">
-                    <span className="text-[9px] font-black text-emerald/20 uppercase tracking-widest block mb-1">Configuration Total</span>
-                    <span className="text-5xl font-display font-black text-emerald leading-tight">ETB {total.toLocaleString()}</span>
+              <div className="pt-6 border-t border-emerald/5 flex flex-col gap-6">
+                 <div className="text-center w-full px-4 py-3 bg-sand/30 rounded-2xl border border-emerald/5">
+                    <span className="text-[9px] font-black text-emerald/20 uppercase tracking-widest block mb-1">Estimated Total</span>
+                    <span className="text-3xl font-display font-black text-emerald">ETB {total.toLocaleString()}</span>
                  </div>
                  <div 
-                   onClick={() => window.open('https://t.me/taologos', '_blank')}
-                   className="w-full py-6 bg-emerald text-white rounded-[2.5rem] font-black text-[12px] uppercase tracking-[0.3em] flex items-center justify-center gap-4 cursor-pointer hover:bg-gold transition-all shadow-3xl active:bg-gold touch-manipulation overflow-hidden"
+                   onPointerDown={() => window.open('https://t.me/taologos', '_blank')}
+                   className="w-full py-5 bg-emerald text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 cursor-pointer hover:bg-gold transition-all shadow-xl active:bg-gold"
                  >
-                    Relay Design <ChevronRight size={22} />
+                    Relay Design <ChevronRight size={18} />
                  </div>
               </div>
 
