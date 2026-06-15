@@ -1,244 +1,186 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Layout, Palette, Sun, Moon, Maximize2, Info, Send, ChevronLeft, ChevronRight } from "lucide-react";
+import { 
+  Zap, 
+  Maximize2, 
+  Palette, 
+  Lightbulb, 
+  MapPin,
+  ChevronRight,
+  Sparkles
+} from "lucide-react";
+import { translations } from "@/utils/translations";
 
 const rooms = [
   {
     id: "living",
-    name: "Living Room",
-    nameAm: "መኖሪያ ክፍል",
-    image: "/images/hero.png",
+    name: "Grand Living Node",
+    image: "/home/bililign/.gemini/antigravity/brain/cdd2826e-151c-48eb-95f8-1a8e508c83ac/luxury_living_visualizer_base_1781506691956.png",
     hotspots: [
-      { x: 35, y: 55, item: "Oslo Sectional Sofa", price: "ETB 145,000", inStock: true },
-      { x: 65, y: 70, item: "Acacia Coffee Table", price: "ETB 28,000", inStock: true },
-      { x: 80, y: 45, item: "Arc Floor Lamp", price: "ETB 12,000", inStock: false },
-    ],
+      { id: "h1", x: "40%", y: "65%", label: "Oslo Sectional", price: "145k" },
+      { id: "h2", x: "70%", y: "55%", label: "Prime Cabinet", price: "45k" }
+    ]
   },
   {
     id: "bedroom",
-    name: "Bedroom",
-    nameAm: "መኝታ ክፍል",
-    image: "/images/bedroom.png",
+    name: "Heritage Suite",
+    image: "/home/bililign/.gemini/antigravity/brain/cdd2826e-151c-48eb-95f8-1a8e508c83ac/bedroom_setup_1780585759734.png",
     hotspots: [
-      { x: 48, y: 50, item: "Heritage King Bed", price: "ETB 98,000", inStock: true },
-      { x: 20, y: 60, item: "Walnut Nightstand", price: "ETB 18,000", inStock: true },
-      { x: 75, y: 40, item: "Bole Wardrobe", price: "ETB 65,000", inStock: true },
-    ],
-  },
-  {
-    id: "office",
-    name: "Executive Office",
-    nameAm: "ቢሮ",
-    image: "/images/office.png",
-    hotspots: [
-      { x: 50, y: 55, item: "Architect Desk Pro", price: "ETB 55,000", inStock: true },
-      { x: 25, y: 50, item: "Ergonomic Chair", price: "ETB 32,000", inStock: true },
-      { x: 80, y: 35, item: "Modular Bookshelf", price: "ETB 40,000", inStock: false },
-    ],
-  },
-  {
-    id: "dining",
-    name: "Dining Room",
-    nameAm: "ምግብ ክፍል",
-    image: "/images/dining.png",
-    hotspots: [
-      { x: 50, y: 60, item: "Zen Dining Table", price: "ETB 82,000", inStock: true },
-      { x: 30, y: 65, item: "Wicker Side Chair ×6", price: "ETB 48,000", inStock: true },
-    ],
-  },
+      { id: "h3", x: "50%", y: "50%", label: "King Heritage Bed", price: "98k" }
+    ]
+  }
 ];
 
-const palettes = [
-  { id: "ivory", name: "Natural Ivory", color: "#F5F0E8", text: "#122620" },
-  { id: "obsidian", name: "Obsidian", color: "#1A1A1A", text: "#FDFCF8" },
-  { id: "sage", name: "Sage Garden", color: "#8FB9A8", text: "#122620" },
-  { id: "gold", name: "Heritage Gold", color: "#C5A039", text: "#fff" },
-  { id: "terracotta", name: "Terracotta", color: "#C17B5A", text: "#fff" },
-  { id: "slate", name: "Steel Slate", color: "#4A5568", text: "#fff" },
+const colorSchemes = [
+  { id: "ivory", name: "Modern Ivory", hex: "#FDFCF8", overlay: "bg-ivory/20" },
+  { id: "emerald", name: "Deep Emerald", hex: "#122620", overlay: "bg-emerald/30" },
+  { id: "sand", name: "Aegean Sand", hex: "#EBE3D5", overlay: "bg-sand/40" },
+  { id: "terracotta", name: "Addis Red", hex: "#8B4513", overlay: "bg-amber-900/10" }
 ];
-
-const lightingModes = ["Natural", "Evening", "Studio"];
 
 export default function RoomVisualizer() {
-  const [room, setRoom] = useState(rooms[0]);
-  const [palette, setPalette] = useState(palettes[0]);
-  const [lighting, setLighting] = useState(0);
-  const [activeHotspot, setActiveHotspot] = useState<number | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [lang, setLang] = useState<"en" | "am">("en");
+  const [activeRoom, setActiveRoom] = useState(rooms[0]);
+  const [scheme, setScheme] = useState(colorSchemes[0]);
+  const [lighting, setLighting] = useState("ambient");
 
-  const lightingStyles = [
-    { filter: "brightness(1)", overlay: "transparent" },
-    { filter: "brightness(0.7) sepia(0.2)", overlay: "rgba(255,180,80,0.08)" },
-    { filter: "brightness(1.1) contrast(1.05)", overlay: "transparent" },
-  ];
+  useEffect(() => {
+    const stored = localStorage.getItem("lang") as "en" | "am";
+    if (stored) setLang(stored);
+    const h = (e: any) => setLang(e.detail);
+    window.addEventListener("langChange", h);
+    return () => window.removeEventListener("langChange", h);
+  }, []);
 
-  const changeRoom = (r: typeof rooms[0]) => {
-    setIsTransitioning(true);
-    setActiveHotspot(null);
-    setTimeout(() => { setRoom(r); setIsTransitioning(false); }, 400);
-  };
+  const t = translations[lang];
 
   return (
-    <section id="visualizer" className="section-padding bg-sand">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <div className="bg-ivory pt-8 pb-16">
+      <div className="max-w-7xl mx-auto px-5 md:px-12">
+        
+        <div className="flex flex-col lg:flex-row gap-10">
+           
+           {/* Visualizer Stage */}
+           <div className="lg:w-3/4">
+              <div className="relative aspect-video rounded-[3rem] md:rounded-[4rem] overflow-hidden border border-emerald/10 shadow-2xl group">
+                 {/* Base Image */}
+                 <Image 
+                   src={activeRoom.image} 
+                   alt={activeRoom.name} 
+                   fill 
+                   className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                 />
 
-        <div className="mb-14">
-          <span className="text-gold text-[10px] font-bold uppercase tracking-[0.4em] mb-3 block">Interactive Design</span>
-          <h2 className="text-4xl md:text-6xl font-display font-black text-emerald">
-            Room <span className="text-gradient">Visualizer</span>
-          </h2>
-          <p className="text-emerald/40 mt-4 max-w-lg">Click any glowing hotspot to discover the furniture in the scene. Adjust lighting and color palette in real-time.</p>
-        </div>
+                 {/* Color/Atmosphere Overlay Node */}
+                 <div className={`absolute inset-0 transition-all duration-700 mix-blend-overlay ${scheme.overlay}`} />
+                 
+                 {/* Lighting Simulation */}
+                 <div className={`absolute inset-0 transition-opacity duration-1000 ${lighting === 'dusk' ? 'bg-black/30' : 'opacity-0'}`} />
+                 <div className={`absolute inset-0 transition-opacity duration-1000 ${lighting === 'morning' ? 'bg-gold/10' : 'opacity-0'}`} />
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
+                 {/* Dynamic Hotspots */}
+                 {activeRoom.hotspots.map((h) => (
+                   <div 
+                     key={h.id}
+                     className="absolute"
+                     style={{ left: h.x, top: h.y }}
+                   >
+                      <button className="relative w-8 h-8 md:w-10 md:h-10 bg-white/40 backdrop-blur-md rounded-full border border-white flex items-center justify-center group/spot animate-pulse hover:animate-none transition-all">
+                         <div className="w-2 h-2 md:w-3 md:h-3 bg-gold rounded-full" />
+                         
+                         {/* Card Popover - ERP Ready Data */}
+                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-40 opacity-0 group-hover/spot:opacity-100 transition-all scale-95 group-hover/spot:scale-100 pointer-events-none">
+                            <div className="bg-emerald p-4 rounded-2xl shadow-2xl border border-white/20">
+                               <div className="text-[8px] font-black uppercase text-gold tracking-widest mb-1">In Stock</div>
+                               <div className="text-[10px] font-black text-white uppercase">{h.label}</div>
+                               <div className="text-sm font-black text-white mt-1">ETB {h.price}</div>
+                            </div>
+                            <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-emerald mx-auto" />
+                         </div>
+                      </button>
+                   </div>
+                 ))}
 
-          {/* Left Controls */}
-          <div className="lg:col-span-3 space-y-6">
-
-            {/* Room Selector */}
-            <div>
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-emerald/30 mb-3 flex items-center gap-2"><Layout size={12} /> Room</p>
-              <div className="grid grid-cols-2 gap-2">
-                {rooms.map((r) => (
-                  <button
-                    key={r.id}
-                    onClick={() => changeRoom(r)}
-                    className={`relative aspect-video rounded-2xl overflow-hidden border-2 transition-all ${room.id === r.id ? "border-gold shadow-lg shadow-gold/10 scale-[1.03]" : "border-transparent opacity-60 hover:opacity-100"}`}
-                  >
-                    <Image src={r.image} alt={r.name} fill className="object-cover" />
-                    <div className="absolute inset-0 bg-emerald/40 flex items-end p-2">
-                      <span className="text-[8px] font-black text-white uppercase tracking-widest">{r.name}</span>
+                 {/* Controls Overlay */}
+                 <div className="absolute top-8 left-8 flex gap-3">
+                    <div className="px-5 py-3 bg-white/90 backdrop-blur-xl border border-emerald/10 rounded-2xl flex items-center gap-3">
+                       <Sparkles size={16} className="text-gold" />
+                       <span className="text-[10px] font-black uppercase tracking-widest text-emerald">{activeRoom.name}</span>
                     </div>
-                  </button>
-                ))}
+                 </div>
               </div>
-            </div>
+           </div>
 
-            {/* Palette */}
-            <div>
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-emerald/30 mb-3 flex items-center gap-2"><Palette size={12} /> Palette</p>
-              <div className="grid grid-cols-3 gap-2">
-                {palettes.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => setPalette(p)}
-                    title={p.name}
-                    style={{ backgroundColor: p.color }}
-                    className={`h-10 rounded-xl border-2 transition-all ${palette.id === p.id ? "border-emerald scale-110 shadow-md" : "border-transparent"}`}
-                  />
-                ))}
-              </div>
-              <p className="text-[10px] font-bold text-emerald/40 mt-2">{palette.name}</p>
-            </div>
-
-            {/* Lighting */}
-            <div>
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-emerald/30 mb-3 flex items-center gap-2">
-                {lighting === 1 ? <Moon size={12} /> : <Sun size={12} />} Lighting
-              </p>
-              <div className="flex gap-2">
-                {lightingModes.map((mode, i) => (
-                  <button key={mode} onClick={() => setLighting(i)}
-                    className={`flex-1 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${lighting === i ? "bg-emerald text-white" : "bg-white text-emerald/40 hover:bg-emerald/5"}`}>
-                    {mode}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-          {/* Main Viewer */}
-          <div className="lg:col-span-9">
-            <div className="relative aspect-[16/9] rounded-[2.5rem] overflow-hidden bg-sand shadow-2xl border border-emerald/5">
-
-              {/* Image */}
-              <div
-                className={`absolute inset-0 transition-all duration-500 ${isTransitioning ? "opacity-0 scale-105" : "opacity-100 scale-100"}`}
-                style={{ filter: lightingStyles[lighting].filter }}
-              >
-                <Image src={room.image} alt={room.name} fill className="object-cover" priority />
-              </div>
-
-              {/* Palette tint overlay */}
-              <div
-                className="absolute inset-0 mix-blend-color transition-all duration-700 pointer-events-none"
-                style={{ backgroundColor: palette.color, opacity: 0.15 }}
-              />
-              {/* Lighting overlay */}
-              <div
-                className="absolute inset-0 pointer-events-none transition-all duration-500"
-                style={{ backgroundColor: lightingStyles[lighting].overlay }}
-              />
-
-              {/* Hotspots */}
-              {room.hotspots.map((hs, i) => (
-                <div key={i} className="absolute" style={{ left: `${hs.x}%`, top: `${hs.y}%` }}>
-                  <button
-                    onClick={() => setActiveHotspot(activeHotspot === i ? null : i)}
-                    className="relative group"
-                  >
-                    <span className="absolute inset-0 w-5 h-5 bg-white/40 rounded-full animate-ping" />
-                    <span className="relative flex w-5 h-5 items-center justify-center bg-white rounded-full shadow-lg border-2 border-gold">
-                      <span className="w-2 h-2 bg-gold rounded-full" />
-                    </span>
-                  </button>
-
-                  {/* Hotspot tooltip */}
-                  {activeHotspot === i && (
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-52 bg-white rounded-2xl shadow-2xl border border-emerald/5 p-4 z-20">
-                      <div className="text-[9px] font-black text-gold uppercase tracking-widest mb-1">Featured Item</div>
-                      <div className="font-display font-bold text-emerald text-sm mb-2">{hs.item}</div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs font-black text-emerald">{hs.price}</span>
-                        <span className={`text-[9px] font-bold px-2 py-1 rounded-full ${hs.inStock ? "bg-emerald/10 text-emerald" : "bg-red-50 text-red-500"}`}>
-                          {hs.inStock ? "In Stock" : "Order Only"}
-                        </span>
-                      </div>
-                      <a
-                        href={`https://t.me/taologos?text=I'm interested in: ${encodeURIComponent(hs.item)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 w-full py-2 bg-emerald text-white rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-gold transition-all"
+           {/* Precision Controls */}
+           <div className="lg:w-1/4 space-y-8">
+              
+              {/* Scene Selector */}
+              <div>
+                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-4 block">Spatial Node</label>
+                 <div className="grid grid-cols-2 gap-3">
+                    {rooms.map((r) => (
+                      <button 
+                        key={r.id}
+                        onClick={() => setActiveRoom(r)}
+                        className={`p-3 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${activeRoom.id === r.id ? 'bg-emerald text-white border-gold' : 'bg-sand border-transparent text-emerald/40'}`}
                       >
-                        <Send size={10} /> Inquire on Telegram
-                      </a>
-                    </div>
-                  )}
-                </div>
-              ))}
-
-              {/* Status bar */}
-              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-white/80 backdrop-blur-xl px-5 py-2 rounded-full border border-emerald/5 shadow-lg">
-                <div className="w-2 h-2 bg-emerald rounded-full animate-pulse" />
-                <span className="text-[9px] font-black text-emerald uppercase tracking-widest">{room.name} · {palette.name} · {lightingModes[lighting]}</span>
-                <Info size={12} className="text-emerald/30" />
+                         <MapPin size={16} />
+                         <span className="text-[8px] font-black uppercase tracking-widest leading-none">{r.id}</span>
+                      </button>
+                    ))}
+                 </div>
               </div>
 
-              {/* Room navigation arrows */}
-              <button onClick={() => changeRoom(rooms[(rooms.indexOf(room) - 1 + rooms.length) % rooms.length])}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-xl rounded-xl flex items-center justify-center text-emerald hover:bg-gold hover:text-white transition-all shadow-lg border border-emerald/5">
-                <ChevronLeft size={20} />
-              </button>
-              <button onClick={() => changeRoom(rooms[(rooms.indexOf(room) + 1) % rooms.length])}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-xl rounded-xl flex items-center justify-center text-emerald hover:bg-gold hover:text-white transition-all shadow-lg border border-emerald/5">
-                <ChevronRight size={20} />
-              </button>
-            </div>
+              {/* Palette Engine */}
+              <div>
+                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-4 block">Material Palettes</label>
+                 <div className="grid grid-cols-2 gap-3">
+                    {colorSchemes.map((c) => (
+                      <button 
+                        key={c.id}
+                        onClick={() => setScheme(c)}
+                        className={`p-4 rounded-2xl border-2 transition-all flex items-center gap-3 group ${scheme.id === c.id ? 'bg-white border-gold shadow-xl' : 'bg-sand border-transparent'}`}
+                      >
+                         <div className="w-5 h-5 rounded-full border border-emerald/5" style={{ backgroundColor: c.hex }} />
+                         <span className={`text-[8px] font-black uppercase tracking-widest transition-colors ${scheme.id === c.id ? 'text-emerald' : 'text-emerald/40'}`}>{c.id}</span>
+                      </button>
+                    ))}
+                 </div>
+              </div>
 
-            {/* Feature tags */}
-            <div className="mt-5 flex flex-wrap gap-3">
-              {["4 Room Types", "6 Color Palettes", "3 Lighting Modes", "Clickable Hotspots", "Live Overlay"].map((tag) => (
-                <span key={tag} className="px-4 py-2 bg-white border border-emerald/5 rounded-xl text-[9px] font-black uppercase tracking-widest text-emerald/40 shadow-sm">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
+              {/* Atmospheric Lighting */}
+              <div>
+                 <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.3em] mb-4 block">Atmosphere</label>
+                 <div className="flex gap-3">
+                    {['ambient', 'morning', 'dusk'].map((l) => (
+                      <button 
+                        key={l}
+                        onClick={() => setLighting(l)}
+                        className={`flex-1 p-4 rounded-2xl border-2 transition-all flex items-center justify-center gap-2 ${lighting === l ? 'bg-emerald text-white border-gold' : 'bg-sand border-transparent text-emerald/40'}`}
+                      >
+                         <Lightbulb size={14} />
+                         <span className="text-[8px] font-black uppercase tracking-widest">{l}</span>
+                      </button>
+                    ))}
+                 </div>
+              </div>
+
+              {/* Inquiry Relay */}
+              <div className="pt-6">
+                 <button 
+                    onClick={() => window.open('https://t.me/taologos', '_blank')}
+                    className="w-full py-5 bg-gold text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-emerald transition-all shadow-2xl"
+                 >
+                    Consult Studio <ChevronRight size={16} />
+                 </button>
+              </div>
+
+           </div>
         </div>
+
       </div>
-    </section>
+    </div>
   );
 }
