@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 
 const collections = [
@@ -32,28 +31,6 @@ const collections = [
 ];
 
 export default function Collections() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const cards = entry.target.querySelectorAll(".coll-card");
-            cards.forEach((card, i) => {
-              setTimeout(() => {
-                (card as HTMLElement).classList.add("appear");
-              }, i * 150);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section id="collections" className="section-padding bg-ivory pt-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -78,12 +55,12 @@ export default function Collections() {
           </a>
         </div>
 
-        {/* Grid - NO INLINE OPACITY 0 FOR STABILITY */}
-        <div ref={sectionRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Grid - STATIC VISIBILITY TO ENSURE DISPLAY */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {collections.map((col) => (
             <div
               key={col.id}
-              className="coll-card relative rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden cursor-pointer group shadow-2xl bg-sand opacity-0 translate-y-12 transition-all duration-1000 ease-out"
+              className="coll-card relative rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden cursor-pointer group shadow-2xl bg-sand transition-all duration-700 ease-out"
               style={{
                 aspectRatio: "4/5",
               }}
@@ -112,13 +89,6 @@ export default function Collections() {
           ))}
         </div>
       </div>
-      
-      <style jsx>{`
-        .coll-card.appear {
-          opacity: 1 !important;
-          transform: translateY(0) !important;
-        }
-      `}</style>
     </section>
   );
 }

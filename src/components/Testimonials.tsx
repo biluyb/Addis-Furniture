@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Star, Quote } from "lucide-react";
 import { translations } from "@/utils/translations";
 
@@ -36,35 +36,13 @@ const testimonials = [
 
 export default function Testimonials() {
   const [lang, setLang] = useState<"en" | "am">("en");
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem("lang") as "en" | "am";
     if (stored) setLang(stored);
     const h = (e: any) => setLang(e.detail);
     window.addEventListener("langChange", h);
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const cards = entry.target.querySelectorAll(".testi-card");
-            cards.forEach((card, i) => {
-              setTimeout(() => {
-                (card as HTMLElement).classList.add("appear");
-              }, i * 150);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    
-    return () => {
-      window.removeEventListener("langChange", h);
-      observer.disconnect();
-    };
+    return () => window.removeEventListener("langChange", h);
   }, []);
 
   return (
@@ -75,16 +53,17 @@ export default function Testimonials() {
           <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] mb-4 block underline underline-offset-8 decoration-gold/20">
              Institutional Trust
           </span>
-          <h2 className="text-5xl md:text-8xl font-display font-black text-emerald tracking-tighter">
+          <h2 className="text-4xl md:text-8xl font-display font-black text-emerald tracking-tighter">
              Loved by <br /><span className="text-gradient leading-tight">Thousands.</span>
           </h2>
         </div>
 
-        <div ref={sectionRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        {/* STATIC VISIBILITY FOR STABILITY */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
           {testimonials.map((testi) => (
             <div
               key={testi.id}
-              className="testi-card bg-sand p-10 md:p-14 rounded-[3rem] border border-emerald/5 relative shadow-xl opacity-0 translate-y-12 transition-all duration-1000 ease-out"
+              className="testi-card bg-sand p-10 md:p-14 rounded-[3rem] border border-emerald/5 relative shadow-xl transition-all duration-700"
             >
               <Quote className="absolute top-12 right-12 text-gold/10" size={50} />
 
@@ -126,13 +105,6 @@ export default function Testimonials() {
           </p>
         </div>
       </div>
-
-      <style jsx>{`
-        .testi-card.appear {
-          opacity: 1 !important;
-          transform: translateY(0) !important;
-        }
-      `}</style>
     </section>
   );
 }
