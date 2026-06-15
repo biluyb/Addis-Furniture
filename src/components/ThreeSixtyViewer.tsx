@@ -76,7 +76,7 @@ export default function ThreeSixtyViewer() {
            >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,1)_0%,rgba(250,247,242,1)_100%)] opacity-40" />
               
-              <div className="relative w-[85%] aspect-video z-10 transition-transform duration-300 pointer-events-none"
+              <div className="relative w-[100%] md:w-[85%] aspect-video z-10 transition-transform duration-300 pointer-events-none"
                    style={{ transform: `scale(${zoom})`, perspective: '1200px' }}>
                  <Image 
                     src={frames[frameIndex].src} 
@@ -88,7 +88,7 @@ export default function ThreeSixtyViewer() {
               </div>
 
               {/* HUD */}
-              <div className="absolute top-8 left-8 p-4 bg-emerald text-white rounded-2xl shadow-2xl flex flex-col gap-1 border border-white/20 scale-90 md:scale-100 origin-top-left">
+              <div className="absolute top-8 left-8 p-4 bg-emerald text-white rounded-2xl shadow-2xl flex flex-col gap-1 border border-white/20 scale-90 md:scale-100 origin-top-left z-[20]">
                  <div className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
                     <Box size={14} className="text-gold" /> Real 3D Studio
                  </div>
