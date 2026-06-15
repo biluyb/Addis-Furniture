@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Globe, LayoutDashboard, ArrowRight, Instagram, Phone } from "lucide-react";
+import { Menu, X, Globe, LayoutDashboard, ArrowRight, Share2, Phone } from "lucide-react";
 import { translations } from "@/utils/translations";
 
 export default function Navbar() {
@@ -151,7 +151,7 @@ export default function Navbar() {
                      <span className="text-[10px] font-black uppercase tracking-widest text-emerald">{t.contact}</span>
                   </a>
                   <a href="#" className="flex items-center gap-3 p-5 bg-sand rounded-3xl">
-                     <Instagram size={18} className="text-emerald/20" />
+                     <Share2 size={18} className="text-emerald/20" />
                      <span className="text-[10px] font-black uppercase tracking-widest text-emerald">Social</span>
                   </a>
                </div>
