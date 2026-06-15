@@ -41,10 +41,10 @@ export default function InteractiveHub() {
   ];
 
   return (
-    <section id="studio" className="bg-ivory relative overflow-hidden z-30">
+    <section id="studio" className="bg-ivory relative overflow-hidden z-[50]">
       
       {/* Universal Hub Navigation */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-12 relative z-40">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-12 relative z-[60]">
         <div className="flex flex-col lg:flex-row justify-between items-center gap-12 mb-14">
            <div className="text-center lg:text-left">
               <span className="text-gold text-[11px] font-black uppercase tracking-[0.5em] mb-4 block underline underline-offset-8 decoration-gold/20">Design Control Unit</span>
@@ -53,25 +53,26 @@ export default function InteractiveHub() {
               </h2>
            </div>
 
-           {/* Precision Tab Switcher - MOBILE OPTIMIZED */}
-           <div className="grid grid-cols-2 md:flex md:flex-row gap-4 p-3 bg-sand rounded-[2.5rem] border-2 border-emerald/5 w-full md:w-auto relative z-50 pointer-events-auto">
+           {/* Mobile-friendly Hub Switcher - RADICAL: Use DIVs instead of buttons for touch-priority */}
+           <div className="grid grid-cols-2 md:flex md:flex-row gap-4 p-3 bg-sand rounded-[2.5rem] border-2 border-emerald/5 w-full md:w-auto relative z-[70]">
               {tools.map((tool) => (
-                <button
+                <div
                   key={tool.id}
-                  type="button"
                   onClick={() => handleTabSwitch(tool.id)}
-                  className={`flex items-center justify-center gap-3 px-6 py-5 rounded-[1.8rem] transition-all whitespace-nowrap border-2 cursor-pointer active:scale-95 touch-manipulation relative z-[60] pointer-events-auto shadow-sm ${activeTab === tool.id ? 'bg-emerald text-white border-gold shadow-2xl' : 'bg-white/50 text-emerald/60 border-transparent hover:bg-white'}`}
+                  className={`flex items-center justify-center gap-3 px-6 py-5 rounded-[1.8rem] transition-all whitespace-nowrap border-2 cursor-pointer active:scale-95 touch-manipulation select-none shadow-sm ${activeTab === tool.id ? 'bg-emerald text-white border-gold shadow-2xl z-[80]' : 'bg-white/50 text-emerald/60 border-transparent hover:bg-white'}`}
+                  role="button"
+                  tabIndex={0}
                 >
                    <tool.icon size={20} className={activeTab === tool.id ? 'text-gold' : 'opacity-30'} />
                    <span className="text-[11px] font-black uppercase tracking-widest">{tool.name}</span>
-                </button>
+                </div>
               ))}
            </div>
         </div>
       </div>
 
       {/* Feature Rendering Engine */}
-      <div className="relative border-t border-emerald/5 min-h-[400px] z-30">
+      <div className="relative border-t border-emerald/5 min-h-[400px] z-[50]">
          <div className="transition-all duration-700">
             {activeTab === "360" && <ThreeSixtyViewer />}
             {activeTab === "visualizer" && <RoomVisualizer />}

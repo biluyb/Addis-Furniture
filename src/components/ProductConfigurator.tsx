@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { 
   Palette, 
@@ -48,8 +48,8 @@ export default function ProductConfigurator() {
   }, [activeColor, activeLeg]);
 
   return (
-    <section id="studio" className="bg-ivory pt-24 pb-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section id="studio" className="bg-ivory pt-12 pb-24 overflow-hidden relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20">
         
         <div className="mb-12 text-center md:text-left">
            <span className="text-gold text-[11px] font-black uppercase tracking-[0.4em] mb-4 block underline underline-offset-8 decoration-gold/30">Bespoke Production</span>
@@ -60,22 +60,14 @@ export default function ProductConfigurator() {
 
         <div className="grid lg:grid-cols-12 gap-10 items-start">
            
-           {/* THE VIRTUAL STUDIO: MOBILE TOUCH OPTIMIZED */}
-           <div className="lg:col-span-8 relative aspect-[16/9] w-full rounded-[3.5rem] md:rounded-[5rem] overflow-hidden shadow-3xl border border-emerald/5 flex flex-col group touch-pan-x">
+           {/* THE VIRTUAL STUDIO */}
+           <div className="lg:col-span-8 relative aspect-[16/9] w-full rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-3xl border border-emerald/5 flex flex-col group touch-none">
               
               <div className="h-[75%] w-full bg-[#f8f6f2] relative flex items-center justify-center pointer-events-none">
-                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/40 to-transparent" />
-                 
-                 <div className="relative w-[80%] h-[85%] transition-transform duration-1000 group-hover:scale-105">
-                    <Image 
-                      src="/images/sofa_canvas.png" 
-                      alt="Bespoke Sectional" 
-                      fill 
-                      className="object-contain z-10"
-                      priority
-                    />
+                 <div className="relative w-[80%] h-[85%]">
+                    <Image src="/images/sofa_canvas.png" alt="Bespoke Sectional" fill className="object-contain z-10" priority />
                     <div 
-                      className="absolute inset-0 z-20 transition-all duration-700"
+                      className="absolute inset-0 z-20"
                       style={{ 
                         backgroundColor: activeColor.hex,
                         mixBlendMode: 'multiply',
@@ -90,34 +82,23 @@ export default function ProductConfigurator() {
                         opacity: 0.95
                       }}
                     />
-                    <div 
-                      className="absolute inset-0 z-30 opacity-30 mix-blend-overlay"
-                      style={{ 
-                        WebkitMaskImage: 'url(/images/sofa_canvas.png)',
-                        WebkitMaskSize: 'contain',
-                        WebkitMaskPosition: 'center',
-                        WebkitMaskRepeat: 'no-repeat',
-                        background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0.3) 100%)'
-                      }} 
-                    />
                  </div>
               </div>
 
-              <div className="h-[25%] w-full bg-[#ebe8e2] border-t border-black/5 relative">
-                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-full bg-black/10 rounded-[100%] blur-[40px] -translate-y-1/2" />
-                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/[0.04]" />
+              <div className="h-[25%] w-full bg-[#ebe8e2] border-t border-black/5 relative pointer-events-none">
                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-[9px] font-black text-emerald/10 uppercase tracking-[0.5em] animate-pulse">Industrial Grade Rendering</span>
+                    <span className="text-[9px] font-black text-emerald/10 uppercase tracking-[0.5em]">Realtime Fabric Simulation</span>
                  </div>
               </div>
 
-              <div className="absolute top-8 left-8 flex items-center gap-4 bg-emerald text-white px-5 py-3 rounded-2xl shadow-3xl scale-90 md:scale-100 origin-top-left border border-white/20">
+              {/* HUD */}
+              <div className="absolute top-8 left-8 flex items-center gap-4 bg-emerald text-white px-5 py-3 rounded-2xl shadow-3xl border border-white/20 pointer-events-none">
                  <Layout size={18} className="text-gold" />
                  <span className="text-[10px] font-black uppercase tracking-widest leading-none">Studio v6.0</span>
               </div>
            </div>
 
-           {/* CONTROLS */}
+           {/* CONTROLS - RADICAL: USE DIVS FOR RELIABLE MOBILE TAP */}
            <div className="lg:col-span-4 space-y-12">
               
               <div>
@@ -127,50 +108,50 @@ export default function ProductConfigurator() {
                     </label>
                     <span className="text-[10px] font-black text-gold uppercase">{activeColor.name}</span>
                  </div>
-                 <div className="grid grid-cols-5 gap-3">
+                 <div className="grid grid-cols-5 gap-4 pointer-events-auto">
                     {colors.map((c) => (
-                      <button 
+                      <div 
                         key={c.id} 
                         onClick={() => setActiveColor(c)}
-                        className={`aspect-square rounded-full border-4 transition-all relative active:scale-125 ${activeColor.id === c.id ? 'border-gold scale-110 z-10 shadow-3xl' : 'border-transparent bg-sand'}`}
+                        className={`aspect-square rounded-full border-4 transition-all relative cursor-pointer touch-manipulation select-none active:scale-125 ${activeColor.id === c.id ? 'border-gold scale-110 z-30 shadow-3xl' : 'border-transparent bg-sand hover:bg-white'}`}
                       >
                          <div className="w-full h-full rounded-full border border-emerald/5" style={{ backgroundColor: c.hex }} />
                          {activeColor.id === c.id && <Check size={14} className="absolute inset-0 m-auto text-white" strokeWidth={4} />}
-                      </button>
+                      </div>
                     ))}
                  </div>
               </div>
 
-              <div>
+              <div className="pointer-events-auto">
                  <label className="text-[10px] font-black text-emerald/20 uppercase tracking-[0.4em] mb-6 block border-l-2 border-gold pl-4">Structural Component</label>
                  <div className="space-y-4">
                     {legOptions.map((leg) => (
-                      <button 
+                      <div 
                         key={leg.id} 
                         onClick={() => setActiveLeg(leg)}
-                        className={`w-full p-6 rounded-[2rem] border-2 transition-all flex justify-between items-center active:scale-95 ${activeLeg.id === leg.id ? 'bg-emerald text-white border-gold shadow-2xl' : 'bg-sand border-transparent text-emerald/40 hover:bg-white'}`}
+                        className={`w-full p-6 rounded-[2rem] border-2 transition-all flex justify-between items-center cursor-pointer touch-manipulation select-none active:scale-[0.98] ${activeLeg.id === leg.id ? 'bg-emerald text-white border-gold shadow-2xl z-30' : 'bg-sand border-transparent text-emerald/40 hover:bg-white'}`}
                       >
                          <div className="flex items-center gap-4">
                             <Box size={22} className={activeLeg.id === leg.id ? "text-gold" : "opacity-20"} />
                             <span className="text-[11px] font-black uppercase tracking-widest leading-none">{leg.name}</span>
                          </div>
                          <div className="text-[10px] font-black opacity-60">ETB {leg.price.toLocaleString()}</div>
-                      </button>
+                      </div>
                     ))}
                  </div>
               </div>
 
-              <div className="pt-8 border-t border-emerald/5 flex flex-col md:flex-row items-center justify-between gap-8">
-                 <div className="text-center md:text-left">
+              <div className="pt-8 border-t border-emerald/5 flex flex-col items-center justify-between gap-8 pointer-events-auto">
+                 <div className="text-center w-full">
                     <span className="text-[9px] font-black text-emerald/20 uppercase tracking-widest block mb-1">Configuration Total</span>
                     <span className="text-5xl font-display font-black text-emerald leading-tight">ETB {total.toLocaleString()}</span>
                  </div>
-                 <button 
+                 <div 
                    onClick={() => window.open('https://t.me/taologos', '_blank')}
-                   className="w-full md:w-auto px-12 py-6 bg-emerald text-white rounded-[2.5rem] font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-gold transition-all shadow-3xl active:scale-95"
+                   className="w-full py-6 bg-emerald text-white rounded-[2.5rem] font-black text-[12px] uppercase tracking-[0.3em] flex items-center justify-center gap-4 cursor-pointer hover:bg-gold transition-all shadow-3xl active:bg-gold touch-manipulation overflow-hidden"
                  >
-                    Relay Design <ChevronRight size={20} />
-                 </button>
+                    Relay Design <ChevronRight size={22} />
+                 </div>
               </div>
 
            </div>
