@@ -16,10 +16,12 @@ import ProductConfigurator from "./ProductConfigurator";
 import AIDesignLabs from "./AIDesignLabs";
 
 export default function InteractiveHub() {
+  const [mounted, setMounted] = useState(false);
   const [lang, setLang] = useState<"en" | "am">("en");
   const [activeTab, setActiveTab] = useState("360");
 
   useEffect(() => {
+    setMounted(true);
     const stored = localStorage.getItem("lang") as "en" | "am";
     if (stored) setLang(stored);
     const h = (e: any) => setLang(e.detail);
@@ -27,7 +29,11 @@ export default function InteractiveHub() {
     return () => window.removeEventListener("langChange", h);
   }, []);
 
-  const handleTabSwitch = useCallback((id: string) => {
+  const handleTabSwitch = useCallback((id: string, e?: any) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setActiveTab(id);
   }, []);
 
@@ -40,12 +46,18 @@ export default function InteractiveHub() {
     { id: "designer", name: t.aiTools, icon: Sparkles, desc: "Labs" }
   ];
 
+  if (!mounted) return (
+     <section className="bg-ivory min-h-[600px] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin" />
+     </section>
+  );
+
   return (
-    <section id="studio" className="bg-ivory relative overflow-hidden z-[50]">
+    <section id="studio" className="bg-ivory relative z-10 py-12 md:py-24">
       
       {/* Universal Hub Navigation */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-12 relative z-[60]">
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-12 mb-14">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-10 mb-16">
            <div className="text-center lg:text-left">
               <span className="text-gold text-[11px] font-black uppercase tracking-[0.5em] mb-4 block underline underline-offset-8 decoration-gold/20">Design Control Unit</span>
               <h2 className="text-4xl md:text-7xl font-display font-black text-emerald leading-tight tracking-tighter uppercase italic">
@@ -53,26 +65,26 @@ export default function InteractiveHub() {
               </h2>
            </div>
 
-           {/* Mobile-friendly Hub Switcher - RADICAL: Use DIVs instead of buttons for touch-priority */}
-           <div className="grid grid-cols-2 md:flex md:flex-row gap-4 p-3 bg-sand rounded-[2.5rem] border-2 border-emerald/5 w-full md:w-auto relative z-[70]">
+           {/* Mobile-friendly Hub Switcher - RADICAL: Use Anchor tags with dual listeners */}
+           <div className="grid grid-cols-2 md:flex md:flex-row gap-4 p-3 bg-sand rounded-[2.5rem] border-2 border-emerald/5 w-full md:w-auto relative z-30">
               {tools.map((tool) => (
-                <div
+                <a
                   key={tool.id}
-                  onClick={() => handleTabSwitch(tool.id)}
-                  className={`flex items-center justify-center gap-3 px-6 py-5 rounded-[1.8rem] transition-all whitespace-nowrap border-2 cursor-pointer active:scale-95 touch-manipulation select-none shadow-sm ${activeTab === tool.id ? 'bg-emerald text-white border-gold shadow-2xl z-[80]' : 'bg-white/50 text-emerald/60 border-transparent hover:bg-white'}`}
-                  role="button"
-                  tabIndex={0}
+                  href="#"
+                  onClick={(e) => handleTabSwitch(tool.id, e)}
+                  onTouchEnd={(e) => handleTabSwitch(tool.id, e)}
+                  className={`flex items-center justify-center gap-3 px-6 py-5 rounded-[1.8rem] transition-all whitespace-nowrap border-2 cursor-pointer touch-manipulation select-none shadow-sm ${activeTab === tool.id ? 'bg-emerald text-white border-gold shadow-2xl' : 'bg-white/50 text-emerald/60 border-transparent hover:bg-white'}`}
                 >
                    <tool.icon size={20} className={activeTab === tool.id ? 'text-gold' : 'opacity-30'} />
                    <span className="text-[11px] font-black uppercase tracking-widest">{tool.name}</span>
-                </div>
+                </a>
               ))}
            </div>
         </div>
       </div>
 
       {/* Feature Rendering Engine */}
-      <div className="relative border-t border-emerald/5 min-h-[400px] z-[50]">
+      <div className="relative border-t border-emerald/5 min-h-[400px] z-10">
          <div className="transition-all duration-700">
             {activeTab === "360" && <ThreeSixtyViewer />}
             {activeTab === "visualizer" && <RoomVisualizer />}
